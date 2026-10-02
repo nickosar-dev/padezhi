@@ -1,0 +1,34 @@
+#separator:tab
+#html:true
+#notetype:Cloze
+#deck:Polish::Norwid::Moja piosnka II
+#tags column:3
+{{c1::Mianownik}} — именительный (kto? co?)<br>{{c2::Dopełniacz}} — родительный (kogo? czego?)<br>{{c3::Celownik}} — дательный (komu? czemu?)<br>{{c4::Biernik}} — винительный (kogo? co?)<br>{{c5::Narzędnik}} — творительный (kim? czym?)<br>{{c6::Miejscownik}} — предложный (o kim? o czym?)<br>{{c7::Wołacz}} — звательный (обращение)	Wołacz в польском в ходу постоянно, при любом обращении к человеку.	norwid cases
+Do {{c1::kraju::kraj}} tego, gdzie kruszynę chleba<br><i>в ту страну, где крошку хлеба</i>	do + Dopełniacz (родительный): kraj → kraju.	norwid str1 gen prep
+Do kraju {{c1::tego::ten}}, gdzie kruszynę chleba<br><i>в ту страну</i>	Указательное «ten» тоже идёт в родительный: ten kraj → do tego kraju.	norwid str1 gen prep
+Do kraju tego, gdzie {{c1::kruszynę::kruszyna}} chleba<br><i>крошку (поднимают ЧТО?)</i>	Biernik (винительный): прямое дополнение. Ж.р. на -a → -ę.	norwid str1 acc
+Do kraju tego, gdzie kruszynę {{c1::chleba::chleb}}<br><i>крошку хлеба</i>	Dopełniacz: часть от целого, как в русском «крошка хлеба».	norwid str1 gen
+{{c1::Podnoszą::podnosić, они}} z ziemi przez uszanowanie<br><i>поднимают с земли из уважения</i>	podnoszę – podnosisz – podnosi – podnosimy – podnosicie – podnoszą. Подлежащего нет: обобщённо-личная конструкция («так принято»).	norwid str1 verb
+Podnoszą z {{c1::ziemi::ziemia}} przez uszanowanie<br><i>с земли</i>	z в значении «из, с» + Dopełniacz: ziemia → ziemi.	norwid str1 gen prep
+Podnoszą z ziemi przez {{c1::uszanowanie::uszanowanie, biernik}}<br><i>из уважения (букв. «через уважение»)</i>	przez всегда требует Biernik. У существительных ср.р. на -anie вин. = им., поэтому форма не меняется.	norwid str1 acc prep
+Dla {{c1::darów::dar, мн.ч.}} nieba<br><i>к дарам небес</i>	dla + Dopełniacz. Род. мн.ч.: dar → darów.	norwid str1 gen prep
+Dla darów {{c1::nieba::niebo}}<br><i>(дары) неба</i>	Dopełniacz ед.ч.: niebo → nieba. Несогласованное определение, как в русском «дары неба».	norwid str1 gen
+Tęskno {{c1::mi::ja}}, Panie<br><i>мне тоскливо, Господи</i>	Celownik (дательный) от «ja»: краткая форма mi, полная mnie. «Tęskno» безличное, как русское «грустно мне».	norwid str1 dat
+Tęskno mi, {{c1::Panie::Pan}}<br><i>Господи</i>	Wołacz (звательный). Параллель: русское «Господи» — застывший звательный от «Господь».	norwid str1 voc
+Предлог <b>do</b> требует падежа: {{c1::Dopełniacz}} (родительный)	do kraju tego	norwid gov gen prep
+Предлог <b>dla</b> требует падежа: {{c1::Dopełniacz}} (родительный)	dla darów nieba	norwid gov gen prep
+Предлог <b>z</b> в значении «из, с» требует: {{c1::Dopełniacz}}; в значении «вместе с»: {{c2::Narzędnik}}	z ziemi (с земли) — родительный.	norwid gov gen instr prep
+Предлог <b>przez</b> требует падежа: {{c1::Biernik}} (винительный), без исключений	przez uszanowanie	norwid gov acc prep
+Предлог <b>na</b> без движения («на груше») требует: {{c1::Miejscownik}}; с движением: {{c2::Biernik}}	na gruszy (без движения)	norwid gov loc acc prep
+Глагол <b>służyć</b> (кому?) требует: {{c1::Celownik}} (дательный)	wszystkim służą	norwid gov dat
+После <b>być</b> существительное («jestem kim? czym?») стоит в: {{c1::Narzędnik}} (творительный)	jestem lekarzem; gdzie winą jest dużą. Но одиночное прилагательное остаётся в Mianownik: dom jest duży.	norwid gov instr
+<b>Tęskno</b> + тот, кто испытывает: {{c1::Celownik}} (дательный)	tęskno mi	norwid gov dat
+<b>tęsknić</b> do + {{c1::Dopełniacz}} («тосковать по чему-то»)	tęsknić do kraju	norwid gov gen
+Miejscownik (предложный) бывает только с предлогами: {{c1::w, na, o, przy, po}}	Без предлога этого падежа нет.	norwid gov loc prep
+Именительный → после do: ten kraj → do {{c1::tego kraju}}	Оба слова в Dopełniacz: ten → tego, kraj → kraju.	norwid gov gen
+podnosić (поднимать):<br>ja {{c1::podnoszę}}, ty {{c2::podnosisz}}, on {{c3::podnosi}}, my {{c4::podnosimy}}, wy {{c5::podnosicie}}, oni {{c6::podnoszą}}	Чередование s → sz только в формах «ja» и «oni».	norwid verb paradigm
+Do kraju tego, gdzie {{c1::winą::wina}} jest {{c1::dużą::duży}}<br><i>где большой виной является…</i>	После «jest» — Narzędnik: wina → winą, duży (ж.р.) → dużą.	norwid str2 instr
+Popsować gniazdo na {{c1::gruszy::grusza}}<br><i>испортить гнездо на груше</i>	na без движения → Miejscownik: grusza → gruszy.	norwid str2 loc prep
+Bo {{c1::wszystkim::wszyscy}} służą<br><i>потому что всем служат</i>	służyć + Celownik: wszyscy → wszystkim.	norwid str2 dat
+Bo wszystkim {{c1::służą::służyć, они}}<br><i>потому что всем служат</i>	3 л. мн.ч.: służę – służysz – służy – służymy – służycie – służą.	norwid str2 verb
+Popsować gniazdo: «gniazdo» — Biernik, но форма совпадает с Mianownik, потому что это существительное {{c1::среднего рода}} (как русское «окно»)	Для ср. рода вин. = им.	norwid str2 acc neuter

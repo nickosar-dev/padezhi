@@ -1,0 +1,12 @@
+{
+  "built": "2026-10-02T20:40:42+00:00",
+  "packs": [
+    {
+      "id": "norwid-moja-piosnka",
+      "file": "packs/norwid-moja-piosnka.txt",
+      "title": "Norwid · Moja piosnka II",
+      "notes": 29,
+      "hash": "a69810c933"
+    }
+  ]
+}
