@@ -29,5 +29,8 @@
 9. `python3 build_packs.py` должен пройти без ошибок, предупреждения нужно прочитать.
 10. Опубликовать: `./publish.sh`.
 
+## Хостинг
+GitHub Pages из ветки `main` публичного репозитория https://github.com/nickosar-dev/padezhi, адрес приложения https://nickosar-dev.github.io/padezhi/. После `./publish.sh` сайт обновляется примерно за минуту.
+
 ## Проверка локально
 Сервер описан в `/Users/nikolsar/scripts/.claude/launch.json` (имя `padezhi`, порт 8765).
