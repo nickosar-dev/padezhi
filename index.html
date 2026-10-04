@@ -47,9 +47,10 @@ p{margin:0 0 10px}
 button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 
-.tabs{display:flex;gap:20px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs{display:flex;gap:20px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
 .tabs button{background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;
-  padding:8px 0;color:var(--muted);cursor:pointer;white-space:nowrap}
+  padding:8px 0;color:var(--muted);cursor:pointer;white-space:nowrap;display:flex;align-items:center}
 .tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink);font-weight:500}
 
 .banner{margin:16px 0 0;padding:10px 14px;background:var(--surface);border-left:3px solid var(--good);font-size:15px}
@@ -62,8 +63,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .q{margin:26px 0 8px;padding:2px 0 2px 16px;border-left:4px solid var(--cc,var(--c-none))}
 .src{font-size:13px;color:var(--muted);margin-bottom:4px}
 .sent{font:400 clamp(22px,5.6vw,30px)/1.5 var(--serif);overflow-wrap:anywhere}
-.sent i{display:inline-block;margin-top:6px;font-size:.62em;line-height:1.4;color:var(--muted)}
+.sent.small{font-size:clamp(19px,4.8vw,24px)}
+.sent i{color:var(--muted)}
 .sent b{font-weight:600}
+.tr{margin-top:8px;font:italic 400 17px/1.45 var(--serif);color:var(--muted)}
+.trbtn{margin-top:12px}
 .blank-input{font:inherit;color:inherit;background:transparent;border:0;border-bottom:2px solid var(--cc,var(--c-none));
   border-radius:0;padding:0 2px;margin:0 1px;text-align:center;max-width:100%;min-width:3ch}
 .blank-input:focus{outline:none;background:color-mix(in srgb,var(--cc,var(--c-none)) 14%,transparent)}
@@ -71,9 +75,27 @@ button,input,select,textarea{font:inherit;color:inherit}
 .gap{border-bottom:2px solid var(--cc,var(--c-none));padding:0 6px;color:var(--muted);font-style:italic;font-size:.85em}
 .ans{color:var(--cc,var(--c-none));font-weight:600}
 .ans.accent{text-decoration:underline dotted;text-underline-offset:4px}
-.sent del{color:var(--bad);opacity:.85}
+.sent del,.tcell del{color:var(--bad);opacity:.85}
 .extra{margin:18px 0 6px;padding:10px 14px;background:var(--surface);border-left:3px solid var(--cc,var(--c-none));font-size:15px}
 .note{font-size:14px;color:var(--muted);margin:10px 0 0}
+.reflinks{display:flex;flex-wrap:wrap;gap:4px 16px;margin:10px 0 0;font-size:14px;color:var(--muted)}
+
+.opts{display:grid;gap:8px;margin:20px 0 6px}
+.btn.opt{display:flex;gap:12px;align-items:baseline;text-align:left;font:400 18px/1.35 var(--serif);padding:12px 14px}
+.opt .num{font:500 13px/1 system-ui,sans-serif;color:var(--muted)}
+.opt.ok{border-color:var(--good);box-shadow:inset 0 0 0 1px var(--good)}
+.opt.bad{border-color:var(--bad);box-shadow:inset 0 0 0 1px var(--bad)}
+.opt:disabled{cursor:default}
+.opt:disabled:not(.ok):not(.bad){opacity:.5}
+
+.tbl{margin-top:14px}
+.trow{padding:8px 0;border-top:1px solid var(--line)}
+.trow:first-child{border-top:0}
+.tlab{font-size:13px;color:var(--muted)}
+.tlab b{color:var(--ink);font-weight:600}
+.tcell{font:400 22px/1.4 var(--serif);overflow-wrap:anywhere}
+.tcell .pre,.tcell .given{color:var(--muted)}
+.tcell .blank-input{text-align:left}
 
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 10px}
 .btn{display:inline-block;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 16px;cursor:pointer;transition:background .12s}
@@ -104,7 +126,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .fc em{font-style:normal;color:var(--ink);font-size:12px;margin-bottom:2px}
 .acc{margin:12px 0}
 .acc .top{display:flex;justify-content:space-between;gap:10px;font-size:15px}
-.acc .top span:last-child{color:var(--muted);font-size:14px}
+.acc .top span:last-child{color:var(--muted);font-size:14px;white-space:nowrap}
 .bar{height:10px;border-radius:5px;background:var(--line);overflow:hidden;margin-top:4px}
 .bar i{display:block;height:100%;background:var(--cc,var(--c-none))}
 
@@ -126,10 +148,28 @@ textarea{resize:vertical;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
 .row small{display:block;color:var(--muted);font-size:13px;line-height:1.35}
 .row input,.row select{width:130px;flex:none}
 .row input[type=checkbox]{width:20px;height:20px}
+.lvls{display:flex;gap:14px;flex:none}
+.lvls label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.lvls input{width:20px;height:20px;margin:0}
 .flash{color:var(--good);font-size:14px;min-height:1.4em;margin-top:8px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.tabs{scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
+
+.ref{font-size:15px}
+.ref h2{margin-top:34px}
+.ref section,.ref tr{scroll-margin-top:70px}
+.backbar{position:sticky;top:0;z-index:2;background:var(--bg);padding:10px 0;margin:8px 0 -8px;border-bottom:1px solid var(--line)}
+.ref .toc ol{margin:8px 0 0;padding-left:22px}
+.ref .toc li{margin:3px 0}
+.ref a{color:inherit;text-underline-offset:3px}
+.ref ul{padding-left:20px;margin:8px 0}
+.ref li{margin:4px 0}
+.tw{overflow-x:auto;margin:10px 0}
+.ref table{border-collapse:collapse;width:100%;font-size:14px}
+.ref th,.ref td{border-bottom:1px solid var(--line);padding:6px 8px 6px 0;text-align:left;vertical-align:top}
+.ref th{color:var(--muted);font-weight:500}
+.ref th small{font-weight:400}
+.ref .hl,.ref .hl td{background:color-mix(in srgb,var(--focus) 16%,transparent);transition:background .4s}
+@media (min-width:560px){.ref .toc ol{columns:2;column-gap:28px}}
 @media (max-width:420px){.grades{grid-template-columns:repeat(2,1fr)}.tabs{gap:14px;font-size:15px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -140,9 +180,10 @@ textarea{resize:vertical;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
     <h1>Падежи</h1>
     <nav class="tabs" aria-label="Разделы">
       <button data-tab="study" aria-selected="true">Занятие</button>
+      <button data-tab="ref" aria-selected="false">Справка</button>
       <button data-tab="stats" aria-selected="false">Статистика</button>
       <button data-tab="deck" aria-selected="false">Колода</button>
-      <button data-tab="settings" aria-selected="false">Настройки</button>
+      <button data-tab="settings" aria-selected="false" aria-label="Настройки" title="Настройки"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     </nav>
   </header>
   <main id="view"></main>
@@ -155,26 +196,46 @@ textarea{resize:vertical;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
 /* ---------- constants ---------- */
 var MIN=60000, DAY=86400000, KEY='pl-trainer-v2', CKEY='pl-trainer-content-v1', LOG_MAX=2000;
 var DEF={newPerDay:7,steps:[1,10],relearnSteps:[10],gradIvl:1,easyIvl:4,startEase:2.3,
-         ivlMod:0.8,maxIvl:90,mode:'type',lenient:false};
-var CASES={
-  gen:{ru:'Родительный',pl:'Dopełniacz'},
-  acc:{ru:'Винительный',pl:'Biernik'},
-  dat:{ru:'Дательный',pl:'Celownik'},
-  instr:{ru:'Творительный',pl:'Narzędnik'},
-  loc:{ru:'Предложный',pl:'Miejscownik'},
-  voc:{ru:'Звательный',pl:'Wołacz'},
-  verb:{ru:'Глагольные формы',pl:'czasownik'}
+         ivlMod:0.8,maxIvl:90,mode:'type',lenient:false,levels:[1,2,3]};
+/* Грамматические темы карточек: цвет, строка в статистике и раздел справки. */
+var TOPICS={
+  nom:{ru:'Именительный',pl:'Mianownik',g:'case',ref:'ref-nom'},
+  gen:{ru:'Родительный',pl:'Dopełniacz',g:'case',ref:'ref-gen'},
+  dat:{ru:'Дательный',pl:'Celownik',g:'case',ref:'ref-dat'},
+  acc:{ru:'Винительный',pl:'Biernik',g:'case',ref:'ref-acc'},
+  instr:{ru:'Творительный',pl:'Narzędnik',g:'case',ref:'ref-instr'},
+  loc:{ru:'Предложный',pl:'Miejscownik',g:'case',ref:'ref-loc'},
+  voc:{ru:'Звательный',pl:'Wołacz',g:'case',ref:'ref-voc'},
+  decl:{ru:'Склонение целиком',g:'case',ref:'ref-nouns',link:'Окончания'},
+  pres:{ru:'Настоящее время',g:'verb',ref:'ref-pres'},
+  past:{ru:'Прошедшее время',g:'verb',ref:'ref-past'},
+  fut:{ru:'Будущее время',g:'verb',ref:'ref-fut'},
+  imper:{ru:'Повелительное наклонение',g:'verb',ref:'ref-imper'},
+  cond:{ru:'Условное наклонение',g:'verb',ref:'ref-cond'},
+  aspect:{ru:'Вид глагола',g:'verb',ref:'ref-aspect'},
+  verb:{ru:'Глагол: другое',g:'verb',ref:'ref-pres',link:'Глагол'},
+  prep:{ru:'Предлоги',g:'other',ref:'ref-prep'},
+  pron:{ru:'Местоимения',g:'other',ref:'ref-pron'},
+  adj:{ru:'Прилагательные',g:'other',ref:'ref-adj'},
+  mos:{ru:'Мужско-личная форма',g:'other',ref:'ref-mos'}
 };
-var CASE_KEYS=['gen','acc','dat','instr','loc','voc'];
+var COLOR_CASES=['gen','acc','dat','instr','loc','voc'];
+var GROUPS=[['case','Падежи'],['verb','Глагол'],['other','Другое']];
+/* строки таблиц склонения: [название, вопрос, предлог перед ответом] */
+var CASE_ROWS={nom:['Mianownik','kto? co?'],gen:['Dopełniacz','kogo? czego?'],dat:['Celownik','komu? czemu?'],
+  acc:['Biernik','kogo? co?'],instr:['Narzędnik','kim? czym?'],loc:['Miejscownik','o kim? o czym?','o'],voc:['Wołacz','обращение']};
+var LEVELS={1:'узнать форму',2:'вставить форму',3:'таблица целиком'};
+var TYPES={cloze:'пропуск',choice:'выбор',table:'таблица'};
 
 /* ---------- state ----------
    S: прогресс (хранится на устройстве, попадает в резервную копию).
-   C: последняя скачанная колода с сервера (packs/index.json + packs/*.txt).
-   NOTES: активные заметки (включённые пакеты + свои, без скрытых). */
+   C: последняя скачанная колода с сервера (packs/index.json + packs/*).
+   NOTES: активные заметки (включённые пакеты и уровни + свои, без скрытых). */
 var S=null, C={packs:[],checked:0}, NOTES={}, NOTE_LIST=[];
 var cur=null, tab='study', undoRec=null, lastBlank=null, confirmKey=null;
 var notice='', saveFailed=false, installEvt=null;
 var net={busy:false,status:''};
+var REF=null, refBack=false, refTarget=null;
 
 /* ---------- helpers ---------- */
 function $(s,r){return (r||document).querySelector(s);}
@@ -188,10 +249,13 @@ function fmtWhen(ts){
   var d=new Date(ts), t=d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
   return dayIdx(ts)===todayIdx()?'сегодня в '+t:d.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})+' в '+t;
 }
-function plain(text){return text.replace(/<[^>]*>/g,' ').replace(/\{\{c\d+::([\s\S]*?)(?:::[\s\S]*?)?\}\}/g,'[$1]').replace(/\s+/g,' ').trim();}
+function plain(text){return String(text).replace(/<[^>]*>/g,' ').replace(/\{\{c\d+::([\s\S]*?)(?:::[\s\S]*?)?\}\}/g,'[$1]').replace(/\s+/g,' ').trim();}
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
 
-/* id заметки = хеш её текста: одинаковый текст в любом пакете даёт ту же карточку,
-   а исправленный текст считается новой заметкой с чистым прогрессом. */
+/* id заметки = хеш её ключа: одинаковая заметка в любом пакете даёт ту же карточку,
+   а исправленный текст считается новой заметкой с чистым прогрессом.
+   Ключ пропуска собирается как в старом формате Anki (текст<br><i>перевод</i>),
+   поэтому прогресс по карточкам из .txt сохраняется после перехода на .json. */
 function cyrb53(str){
   var h1=0xdeadbeef, h2=0x41c6ce57;
   for(var i=0;i<str.length;i++){ var ch=str.charCodeAt(i); h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677); }
@@ -199,18 +263,68 @@ function cyrb53(str){
   h2=Math.imul(h2^(h2>>>16),2246822507); h2^=Math.imul(h1^(h1>>>13),3266489909);
   return 4294967296*(2097151&h2)+(h1>>>0);
 }
+function keyOf(it){
+  if(it.key) return it.key;
+  if(it.type==='cloze') return it.text+(it.tr?'<br><i>'+it.tr+'</i>':'');
+  if(it.type==='choice') return 'choice|'+it.q+'|'+it.answer;
+  return 'table|'+it.q+'|'+it.rows.map(function(r){return r[1];}).join('|');
+}
 var idCache={};
-function noteId(text){
-  if(idCache[text]) return idCache[text];
-  return (idCache[text]='n'+cyrb53(String(text).normalize('NFC').replace(/\s+/g,' ').trim()).toString(36));
+function noteId(it){
+  var s=keyOf(it);
+  if(idCache[s]) return idCache[s];
+  return (idCache[s]='n'+cyrb53(String(s).normalize('NFC').replace(/\s+/g,' ').trim()).toString(36));
 }
 
-/* ---------- cloze ---------- */
+/* ---------- items ---------- */
 function clozeNums(text){
   var re=/\{\{c(\d+)::/g, set={}, m, out=[];
   while((m=re.exec(text))){ if(!set[m[1]]){set[m[1]]=1;out.push(+m[1]);} }
   return out.sort(function(a,b){return a-b;});
 }
+function cardNums(it){ return it.type==='cloze'?clozeNums(it.text):[1]; }
+function topicsOf(it,k){ return (it.per&&it.per[k])||it.topics||[]; }
+function allTopics(it){
+  var o={}; (it.topics||[]).forEach(function(t){o[t]=1;});
+  if(it.per) Object.keys(it.per).forEach(function(k){ it.per[k].forEach(function(t){o[t]=1;}); });
+  return Object.keys(o);
+}
+function colorKey(tps){
+  for(var i=0;i<tps.length;i++) if(COLOR_CASES.indexOf(tps[i])>=0) return tps[i];
+  for(var j=0;j<tps.length;j++) if(TOPICS[tps[j]]&&TOPICS[tps[j]].g==='verb') return 'verb';
+  return 'none';
+}
+function topicName(k){ var T=TOPICS[k]; return T.pl?T.ru+' ('+T.pl+')':T.ru; }
+function normItem(r){
+  if(!r||typeof r!=='object') return null;
+  var lv=+r.level;
+  var it={type:r.type||'cloze',level:(lv===1||lv===2||lv===3)?lv:2,tr:r.tr||'',note:r.note||'',
+          topics:(r.topics||[]).filter(function(t){return TOPICS[t];}),tags:r.tags||[]};
+  if(r.key) it.key=r.key;
+  if(r.per) it.per=r.per;
+  if(it.type==='cloze'){ if(!r.text||!/\{\{c\d+::/.test(r.text)) return null; it.text=r.text; }
+  else if(it.type==='choice'){ if(!r.q||!r.options||r.options.indexOf(r.answer)<0) return null; it.q=r.q; it.options=r.options.slice(); it.answer=r.answer; }
+  else if(it.type==='table'){ if(!r.q||!r.rows||!r.rows.length) return null; it.q=r.q; it.rows=r.rows.map(function(x){return [String(x[0]),String(x[1]),!!x[2]];}); }
+  else return null;
+  return it;
+}
+/* строка старого формата Anki: текст<br><i>перевод</i> | пояснение | теги */
+function legacyItem(raw,extra,tags){
+  raw=String(raw).trim();
+  var it={type:'cloze',level:2,key:raw,text:raw,tr:'',note:extra||'',topics:[],tags:[]};
+  var m=raw.match(/^([\s\S]*?)<br>\s*<i>([\s\S]*?)<\/i>\s*$/i);
+  if(m&&/\{\{c\d+::/.test(m[1])){ it.text=m[1].trim(); it.tr=m[2].trim(); }
+  var tg=String(tags||'').split(/\s+/).filter(Boolean);
+  var cases=tg.filter(function(t){return COLOR_CASES.indexOf(t)>=0;});
+  var rest=tg.filter(function(t){return TOPICS[t]&&COLOR_CASES.indexOf(t)<0;});
+  it.topics=cases.slice(0,1).concat(rest);
+  if(cases.length>1){ it.per={}; clozeNums(it.text).forEach(function(k){ it.per[k]=[cases[Math.min(k-1,cases.length-1)]].concat(rest); }); }
+  it.tags=tg.filter(function(t){return !TOPICS[t];});
+  return it;
+}
+function itemPlain(it){ return plain(it.type==='cloze'?it.text:it.q); }
+
+/* ---------- cloze ---------- */
 function extractAnswers(text,k){
   var re=/\{\{c(\d+)::([\s\S]*?)(?:::([\s\S]*?))?\}\}/g, m, out=[];
   while((m=re.exec(text))){ if(+m[1]===k) out.push(m[2]); }
@@ -238,17 +352,55 @@ function buildFront(text,k,o){
   }
   return out+sanitize(text.slice(last));
 }
+function tableHTML(n,o){
+  var bi=0;
+  return '<div class="tbl">'+n.rows.map(function(r){
+    var cr=CASE_ROWS[r[0]];
+    var lab=cr?'<b>'+cr[0]+'</b> · '+cr[1]:sanitize(r[0]);
+    var pre=cr&&cr[2]?'<span class="pre">'+cr[2]+'</span> ':'';
+    if(!r[2]&&pre&&o.vals&&o.vals[bi]){ var v=o.vals[bi].trim(); if(v.toLowerCase().indexOf(cr[2]+' ')===0) o.vals[bi]=v.slice(cr[2].length+1); }
+    var cell=r[2]?'<span class="given">'+esc(r[1])+'</span>':blankHTML(bi++,r[1],'',o);
+    return '<div class="trow"><div class="tlab">'+lab+'</div><div class="tcell">'+pre+cell+'</div></div>';
+  }).join('')+'</div>';
+}
+function choiceHTML(n){
+  if(!cur.order) cur.order=shuffle(n.options.map(function(_,i){return i;}));
+  var done=cur.phase==='answer';
+  return '<div class="opts">'+cur.order.map(function(i,j){
+    var o=n.options[i], cls='btn opt';
+    if(done){ if(o===n.answer) cls+=' ok'; else if(i===cur.pick) cls+=' bad'; }
+    return '<button class="'+cls+'" data-act="pick" data-i="'+i+'"'+(done?' disabled':'')+'><span class="num">'+(j+1)+'</span><span>'+sanitize(o)+'</span></button>';
+  }).join('')+'</div>';
+}
+/* что нужно ввести: [{a: ответ, pre: предлог перед полем, row: падеж строки}] */
+function expected(n,k){
+  if(n.type==='cloze') return extractAnswers(n.text,k).map(function(a){return {a:a,pre:'',row:null};});
+  if(n.type==='table') return n.rows.filter(function(r){return !r[2];}).map(function(r){
+    var cr=CASE_ROWS[r[0]]; return {a:r[1],pre:(cr&&cr[2])||'',row:cr?r[0]:null};
+  });
+  return [];
+}
 
 /* ---------- answer checking ---------- */
 function norm(s){return String(s).normalize('NFC').toLowerCase().replace(/ё/g,'е').replace(/[«»"'.!?;:]/g,'').replace(/\s+/g,' ').trim();}
 function strip(s){return norm(s).normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/ł/g,'l').normalize('NFC');}
 function toks(s){return norm(s).split(/[,\s]+/).filter(Boolean).sort().join(' ');}
-function cmp(u,a){
+function cmp1(u,a){
   var list=a.indexOf(',')>=0;
   var f=list?toks:norm, g=list?function(x){return toks(strip(x));}:strip;
   if(f(u)===f(a)) return 'ok';
   if(g(u)===g(a)) return S.cfg.lenient?'ok':'accent';
   return 'bad';
+}
+/* «mi / mnie» в ответе — подходит любой вариант; предлог перед полем можно не писать */
+function cmp(u,a,pre){
+  u=String(u);
+  if(pre&&norm(u).indexOf(pre+' ')===0) u=norm(u).slice(pre.length+1);
+  var best='bad';
+  a.split('/').map(function(x){return x.trim();}).filter(Boolean).forEach(function(x){
+    var r=cmp1(u,x); if(r==='ok') best='ok'; else if(r==='accent'&&best!=='ok') best='accent';
+  });
+  return best;
 }
 
 /* ---------- parsing (формат импорта Anki: текст<TAB>пояснение<TAB>теги) ---------- */
@@ -260,9 +412,16 @@ function parseNotes(text){
     var f=line.split('\t'); if(f.length<2) f=line.split(' | ');
     var t=unq(f[0]);
     if(!t||!/\{\{c\d+::/.test(t)) return;
-    out.push({text:t,extra:unq(f[1]),tags:unq(f[2])});
+    out.push(legacyItem(t,unq(f[1]),unq(f[2])));
   });
   return out;
+}
+function parsePack(file,text){
+  if(/\.json$/i.test(file)){
+    var o=JSON.parse(text);
+    return {title:o.title,items:(o.items||[]).map(normItem).filter(Boolean)};
+  }
+  return {items:parseNotes(text)};
 }
 
 /* ---------- state: create / load / save ---------- */
@@ -274,7 +433,8 @@ function migrate(){
   S.cfg=Object.assign({},DEF,S.cfg||{});
   S.daily=S.daily||{day:-1,newDone:0,extra:0};
   S.buried=S.buried||{}; S.log=S.log||[]; S.cards=S.cards||{}; S.seq=S.seq||0;
-  S.packs=S.packs||{}; S.hidden=S.hidden||{}; S.local=S.local||[];
+  S.packs=S.packs||{}; S.hidden=S.hidden||{};
+  S.local=(S.local||[]).map(function(n){ return n.type?n:legacyItem(n.text,n.extra,n.tags); });
 }
 function loadJSON(k){ try{ var raw=localStorage.getItem(k); return raw?JSON.parse(raw):null; }catch(e){ return null; } }
 function saveLocal(){
@@ -282,43 +442,38 @@ function saveLocal(){
 }
 function saveContent(){ try{ localStorage.setItem(CKEY,JSON.stringify(C)); }catch(e){} }
 function persist(){ S.updated=Date.now(); saveLocal(); }
-function noteById(id){ return NOTES[id]||null; }
 function packTitle(id){
   if(id==='local') return 'Мои заметки';
   for(var i=0;i<C.packs.length;i++) if(C.packs[i].id===id) return C.packs[i].title;
   return id;
 }
 function packOn(id){ return !(S.packs[id]&&S.packs[id].off); }
-function caseOf(note,k){
-  var tg=(note.tags||'').split(/\s+/), cs=tg.filter(function(t){return CASE_KEYS.indexOf(t)>=0;});
-  if(cs.length) return cs[Math.min(k-1,cs.length-1)];
-  if(tg.indexOf('verb')>=0) return 'verb';
-  return null;
-}
 
 /* ---------- content → active notes → cards ---------- */
 function buildNotes(){
   NOTES={}; NOTE_LIST=[];
-  var add=function(n,src){
-    var id=noteId(n.text); if(NOTES[id]||S.hidden[id]) return;
-    var o={id:id,text:n.text,extra:n.extra||'',tags:n.tags||'',src:src};
+  var lv=S.cfg.levels;
+  var add=function(it,src,pi,ii){
+    if(!it||lv.indexOf(it.level)<0) return;
+    var id=noteId(it); if(NOTES[id]||S.hidden[id]) return;
+    var o=Object.assign({},it,{id:id,src:src,pi:pi,ii:ii});
     NOTES[id]=o; NOTE_LIST.push(o);
   };
-  C.packs.forEach(function(p){ if(packOn(p.id)) p.notes.forEach(function(n){add(n,p.id);}); });
-  S.local.forEach(function(n){add(n,'local');});
+  C.packs.forEach(function(p,pi){ if(packOn(p.id)) p.items.forEach(function(it,ii){add(it,p.id,pi,ii);}); });
+  S.local.forEach(function(it,ii){add(normItem(it),'local',999,ii);});
 }
 function knownIds(){
   var o={};
-  C.packs.forEach(function(p){ p.notes.forEach(function(n){o[noteId(n.text)]=1;}); });
-  S.local.forEach(function(n){o[noteId(n.text)]=1;});
+  C.packs.forEach(function(p){ p.items.forEach(function(it){o[noteId(it)]=1;}); });
+  S.local.forEach(function(it){o[noteId(it)]=1;});
   return o;
 }
 /* Создаёт карточки для новых заметок. Прогресс по заметкам, которых сейчас нет
-   (пакет выключен или удалён), не трогается: вернётся пакет — вернётся и прогресс. */
+   (пакет или уровень выключен, пакет удалён), не трогается: вернётся заметка — вернётся и прогресс. */
 function ensureCards(){
   var added=[];
   NOTE_LIST.forEach(function(n){
-    clozeNums(n.text).forEach(function(k){
+    cardNums(n).forEach(function(k){
       var id=n.id+'-'+k;
       if(!S.cards[id]){
         S.cards[id]={n:n.id,k:k,st:'new',step:0,due:0,dueDay:0,ivl:0,ease:S.cfg.startEase,lapses:0,reps:0,ord:S.seq++};
@@ -355,7 +510,8 @@ function refreshPacks(manual){
       return fetch(p.file+'?v='+encodeURIComponent(p.hash||Date.now())).then(function(r){
         if(!r.ok) throw new Error('HTTP '+r.status); return r.text();
       }).then(function(t){
-        return {id:p.id,title:p.title||p.id,hash:p.hash||'',notes:parseNotes(t)};
+        var pk=parsePack(p.file,t);
+        return {id:p.id,title:p.title||pk.title||p.id,hash:p.hash||'',items:pk.items};
       }).catch(function(){ return old||null; });
     }));
   }).then(function(packs){
@@ -424,6 +580,11 @@ function allCards(){
   return Object.keys(S.cards).filter(function(id){return NOTES[S.cards[id].n];}).map(function(id){return {id:id,c:S.cards[id]};});
 }
 function isLearn(c){ return c.st==='learn'||c.st==='relearn'; }
+/* новые карточки идут от лёгких к сложным: уровень, затем пакет, затем порядок в пакете */
+function newOrder(a,b){
+  var A=NOTES[a.c.n], B=NOTES[b.c.n];
+  return (A.level-B.level)||(A.pi-B.pi)||(A.ii-B.ii)||(a.c.k-b.c.k);
+}
 function queueCounts(){
   ensureDaily();
   var td=todayIdx(), nwTotal=0, lrn=0, rev=0;
@@ -442,7 +603,7 @@ function pickNext(){
   if(dl2.length) return dl2[0].id;
   var rev=list.filter(function(x){return x.c.st==='review'&&x.c.dueDay<=td&&S.buried[x.c.n]!==td;});
   var nl=newLimit()-S.daily.newDone;
-  var nw=nl>0?list.filter(function(x){return x.c.st==='new'&&S.buried[x.c.n]!==td;}).sort(function(a,b){return a.c.ord-b.c.ord;}):[];
+  var nw=nl>0?list.filter(function(x){return x.c.st==='new'&&S.buried[x.c.n]!==td;}).sort(newOrder):[];
   if(rev.length&&nw.length){
     var pn=Math.min(nw.length,nl);
     return Math.random()<rev.length/(rev.length+pn)?rev[Math.floor(Math.random()*rev.length)].id:nw[0].id;
@@ -451,12 +612,12 @@ function pickNext(){
   if(nw.length) return nw[0].id;
   return null;
 }
-function startCard(id){ cur={id:id,phase:'ask',t0:Date.now(),vals:[],results:null,sug:null}; }
+function startCard(id){ if(confirmKey==='hide') confirmKey=null; cur={id:id,phase:'ask',t0:Date.now(),vals:[],results:null,sug:null,tr:false,order:null,pick:null,x:null}; }
 
 /* ---------- study screen ---------- */
 function bannersHTML(){
   var h='';
-  if(saveFailed) h+='<div class="banner warn">Не получается сохранить прогресс в памяти браузера. Сохрани резервную копию в «Настройках».</div>';
+  if(saveFailed) h+='<div class="banner warn">Не получается сохранить прогресс в памяти браузера. Сохрани резервную копию в настройках.</div>';
   if(notice) h+='<div class="banner">'+esc(notice)+'</div>';
   if(installEvt) h+='<div class="banner">Можно установить «Падежи» как приложение: иконка на экране, работает без интернета.<br><button class="btn" data-act="install">Установить</button></div>';
   return h;
@@ -481,6 +642,11 @@ function emptyHTML(q){
   }
   return h+'</div>';
 }
+function refLinksHTML(tps){
+  var seen={}, out=[];
+  tps.forEach(function(t){ var T=TOPICS[t]; if(T&&!seen[T.ref]){ seen[T.ref]=1; out.push('<button class="link" data-act="ref" data-a="'+T.ref+'">'+esc(T.link||T.pl||T.ru)+'</button>'); } });
+  return out.length?'<div class="reflinks"><span>Справка:</span>'+out.join('')+'</div>':'';
+}
 function renderStudy(v){
   ensureDaily();
   if(cur&&(!S.cards[cur.id]||!NOTES[S.cards[cur.id].n])) cur=null;
@@ -496,43 +662,60 @@ function renderStudy(v){
     if(undoRec) h+='<div class="undo"><button class="link" data-act="undo">Отменить последнюю оценку</button></div>';
     v.innerHTML=h; return;
   }
-  var c=S.cards[cur.id], note=noteById(c.n), ck=caseOf(note,c.k);
-  var answers=extractAnswers(note.text,c.k);
-  var front=buildFront(note.text,c.k,{phase:cur.phase,mode:S.cfg.mode,vals:cur.vals,results:cur.results});
-  var cc='style="--cc:var(--c-'+(ck||'none')+')"';
-  h+='<section class="q" '+cc+'><div class="src">'+esc(packTitle(note.src))+'</div><div class="sent">'+front+'</div></section>';
-  if(cur.phase==='ask'){
-    if(S.cfg.mode==='type'){
-      h+='<div class="actions"><button class="btn primary" data-act="check">Проверить</button><button class="btn" data-act="giveup">Не помню</button></div>';
-      if(answers.some(function(a){return !/[а-яё]/i.test(a);})){
-        h+='<div class="keys" role="group" aria-label="Польские буквы">'+
-           'ąćęłńóśźż'.split('').map(function(ch){return '<button type="button" class="btn key" tabindex="-1" data-act="key" data-ch="'+ch+'">'+ch+'</button>';}).join('')+'</div>';
+  var c=S.cards[cur.id], n=NOTES[c.n], tps=topicsOf(n,c.k), ck=colorKey(tps), exp=expected(n,c.k);
+  var o={phase:cur.phase,mode:S.cfg.mode,vals:cur.vals,results:cur.results};
+  var cc='style="--cc:var(--c-'+ck+')"', ask=cur.phase==='ask';
+  h+='<section class="q" '+cc+'><div class="src">'+esc(packTitle(n.src))+' · уровень '+n.level+'</div>';
+  if(n.type==='cloze') h+='<div class="sent">'+buildFront(n.text,c.k,o)+'</div>';
+  else if(n.type==='choice') h+='<div class="sent small">'+sanitize(n.q)+'</div>';
+  else h+='<div class="sent small">'+sanitize(n.q)+'</div>'+tableHTML(n,o);
+  if(n.tr) h+='<div class="tr" id="trx"'+(ask&&!cur.tr?' hidden':'')+'>'+sanitize(n.tr)+'</div>';
+  h+='</section>';
+  if(n.tr&&ask) h+='<button class="link trbtn" data-act="tr">'+(cur.tr?'Скрыть перевод':'Показать перевод')+'</button>';
+  if(n.type==='choice') h+=choiceHTML(n);
+  if(ask){
+    if(n.type!=='choice'){
+      if(S.cfg.mode==='type'){
+        h+='<div class="actions"><button class="btn primary" data-act="check">Проверить</button><button class="btn" data-act="giveup">Не помню</button></div>';
+        if(exp.some(function(e){return !/[а-яё]/i.test(e.a);})){
+          h+='<div class="keys" role="group" aria-label="Польские буквы">'+
+             'ąćęłńóśźż'.split('').map(function(ch){return '<button type="button" class="btn key" tabindex="-1" data-act="key" data-ch="'+ch+'">'+ch+'</button>';}).join('')+'</div>';
+        }
+      } else {
+        h+='<div class="actions"><button class="btn primary" data-act="reveal">Показать ответ</button></div>';
       }
-    } else {
-      h+='<div class="actions"><button class="btn primary" data-act="reveal">Показать ответ</button></div>';
     }
   } else {
-    if(note.extra) h+='<div class="extra" '+cc+'>'+sanitize(note.extra)+'</div>';
+    if(n.note) h+='<div class="extra" '+cc+'>'+sanitize(n.note)+'</div>';
     if(cur.results&&cur.results.indexOf('accent')>=0) h+='<p class="note">Буквы совпали без диакритики (ą ę ł…): засчитано как «Трудно». Правильно подчёркнуто точками.</p>';
+    h+=refLinksHTML(n.type==='table'?tps.concat(exp.map(function(e){return e.row;}).filter(Boolean)):tps);
     var names=['Снова','Трудно','Хорошо','Легко'];
     h+='<div class="grades" '+cc+'>'+[1,2,3,4].map(function(g){
       return '<button class="btn'+(cur.sug===g?' sug':'')+'" data-act="grade" data-g="'+g+'"><span>'+names[g-1]+'</span><small>'+previewLabel(c,g)+'</small></button>';
     }).join('')+'</div>';
   }
   h+='<div class="undo">'+(undoRec?'<button class="link" data-act="undo">Отменить последнюю оценку</button>':'')+
-     '<button class="link" data-act="hide">'+(confirmKey==='hide'?'Точно скрыть эту заметку?':'Скрыть эту заметку')+'</button></div>';
+     '<button class="link" data-act="hide">Скрыть эту заметку</button></div>';
   v.innerHTML=h;
-  if(cur.phase==='ask'){ var f=v.querySelector('.blank-input'); if(f){ lastBlank=f; try{f.focus({preventScroll:true});}catch(e){f.focus();} } }
+  if(ask){ var f=v.querySelector('.blank-input'); if(f){ lastBlank=f; try{f.focus({preventScroll:true});}catch(e){f.focus();} } }
 }
 function doCheck(giveUp){
   var c=S.cards[cur.id]; if(!c) return;
-  var note=noteById(c.n), answers=extractAnswers(note.text,c.k);
+  var n=NOTES[c.n], exp=expected(n,c.k);
   var inputs=[].slice.call(document.querySelectorAll('.blank-input'));
   cur.vals=inputs.map(function(i){return i.value;});
-  cur.results=answers.map(function(a,i){return giveUp?'bad':cmp(cur.vals[i]||'',a);});
-  var worst=cur.results.indexOf('bad')>=0?'bad':(cur.results.indexOf('accent')>=0?'accent':'ok');
-  cur.sug=giveUp?1:(worst==='ok'?3:(worst==='accent'?2:1));
+  cur.results=exp.map(function(e,i){return giveUp?'bad':cmp(cur.vals[i]||'',e.a,e.pre);});
+  var bad=cur.results.filter(function(r){return r==='bad';}).length, accent=cur.results.indexOf('accent')>=0;
+  if(giveUp) cur.sug=1;
+  else if(n.type==='table') cur.sug=bad===0?(accent?2:3):(bad===1?2:1);
+  else cur.sug=bad?1:(accent?2:3);
+  /* по таблице склонения статистика считается по каждому падежу отдельно */
+  if(n.type==='table') cur.x=exp.map(function(e,i){return e.row?[e.row,cur.results[i]==='bad'?0:1]:null;}).filter(Boolean);
   cur.phase='answer'; render();
+}
+function pick(i){
+  var n=NOTES[S.cards[cur.id].n], ok=n.options[i]===n.answer;
+  cur.pick=i; cur.results=[ok?'ok':'bad']; cur.sug=ok?3:1; cur.phase='answer'; render();
 }
 function reveal(){ cur.phase='answer'; cur.results=null; cur.sug=null; render(); }
 function grade(g){
@@ -543,7 +726,9 @@ function grade(g){
   S.cards[cur.id]=schedule(c,g,S.cfg,now);
   if(wasNew) S.daily.newDone++;
   S.buried[c.n]=td;
-  S.log.push({t:now,c:cur.id,g:g,s:c.st==='review'?'r':(wasNew?'n':'l')});
+  var e={t:now,c:cur.id,g:g,s:c.st==='review'?'r':(wasNew?'n':'l')};
+  if(cur.x&&cur.x.length) e.x=cur.x;
+  S.log.push(e);
   if(S.log.length>LOG_MAX) S.log.splice(0,S.log.length-LOG_MAX);
   notice=''; confirmKey=null;
   persist(); cur=null; render();
@@ -557,6 +742,23 @@ function undo(){
   persist(); startCard(u.id); render();
 }
 
+/* ---------- reference ---------- */
+function loadRef(){
+  fetch('grammar.html').then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function(t){ REF=t; if(tab==='ref') render(); })
+    .catch(function(){ REF=false; if(tab==='ref') render(); });
+}
+function renderRef(v){
+  var h=refBack?'<div class="backbar"><button class="btn" data-act="back">← Вернуться к карточке</button></div>':'';
+  if(REF===null){ v.innerHTML=h+'<p class="hint" style="margin-top:20px">Загружаю справку…</p>'; loadRef(); return; }
+  if(REF===false){ REF=null; v.innerHTML=h+'<p class="empty">Справка не загрузилась. Открой её один раз с интернетом, дальше она будет работать и офлайн.</p>'; return; }
+  v.innerHTML=h+'<div class="ref">'+REF+'</div>';
+  if(refTarget){
+    var el=document.getElementById(refTarget); refTarget=null;
+    if(el){ el.scrollIntoView({block:'start'}); el.classList.add('hl'); setTimeout(function(){el.classList.remove('hl');},2500); }
+  }
+}
+
 /* ---------- stats ---------- */
 function renderStats(v){
   var td=todayIdx(), list=allCards();
@@ -568,15 +770,16 @@ function renderStats(v){
     else { cnt.lrn++; fc[0]++; }
   });
   var total=list.length||1;
-  var acc={}; CASE_KEYS.concat(['verb']).forEach(function(k){acc[k]={n:0,ok:0};});
+  var acc={}; Object.keys(TOPICS).forEach(function(k){acc[k]={n:0,ok:0};});
+  var bump=function(k,ok){ if(acc[k]){ acc[k].n++; if(ok) acc[k].ok++; } };
   var today=0, days={}, r30={n:0,ok:0};
   S.log.forEach(function(e){
     var di=dayIdx(e.t); days[di]=1; if(di===td) today++;
     if(e.s==='r'&&Date.now()-e.t<30*DAY){ r30.n++; if(e.g>=2) r30.ok++; }
     var c=S.cards[e.c]; if(!c) return;
-    var n=noteById(c.n); if(!n) return;
-    var k=caseOf(n,c.k); if(!k||!acc[k]) return;
-    acc[k].n++; if(e.g>=2) acc[k].ok++;
+    var n=NOTES[c.n]; if(!n) return;
+    topicsOf(n,c.k).forEach(function(k){bump(k,e.g>=2);});
+    (e.x||[]).forEach(function(p){bump(p[0],!!p[1]);});
   });
   var streak=0, d0=days[td]?td:td-1; while(days[d0]){streak++;d0--;}
   var h='<h2>Сегодня</h2><p>Ответов: <b>'+today+'</b>. Дней подряд: <b>'+streak+'</b>.</p>';
@@ -593,32 +796,36 @@ function renderStats(v){
   }).join('')+'</div>';
   h+='<h2>Где ошибаешься</h2>';
   var any=false;
-  CASE_KEYS.concat(['verb']).forEach(function(k){
-    var a=acc[k]; if(!a.n) return; any=true;
-    var p=Math.round(100*a.ok/a.n);
-    h+='<div class="acc" style="--cc:var(--c-'+k+')"><div class="top"><span>'+CASES[k].ru+' ('+CASES[k].pl+')</span><span>'+p+'% из '+a.n+'</span></div><div class="bar"><i style="width:'+p+'%"></i></div></div>';
+  GROUPS.forEach(function(g){
+    var ks=Object.keys(TOPICS).filter(function(k){return TOPICS[k].g===g[0]&&acc[k].n;});
+    if(!ks.length) return; any=true;
+    h+='<h3>'+g[1]+'</h3>';
+    ks.forEach(function(k){
+      var a=acc[k], p=Math.round(100*a.ok/a.n);
+      h+='<div class="acc" style="--cc:var(--c-'+colorKey([k])+')"><div class="top"><span>'+esc(topicName(k))+'</span><span>'+p+'% из '+a.n+'</span></div><div class="bar"><i style="width:'+p+'%"></i></div></div>';
+    });
   });
-  if(!any) h+='<p class="hint">Пока нет ответов. Здесь появится доля верных ответов по каждому падежу.</p>';
-  else h+='<p class="hint">Считаются ответы, не оценённые как «Снова». Данные по последним '+LOG_MAX+' ответам.</p>';
+  if(!any) h+='<p class="hint">Пока нет ответов. Здесь появится доля верных ответов по каждой теме: падежам, временам, предлогам.</p>';
+  else h+='<p class="hint">Считаются ответы, не оценённые как «Снова»; в таблицах склонения каждый падеж отдельно. Данные по последним '+LOG_MAX+' ответам.</p>';
   v.innerHTML=h;
 }
 
 /* ---------- deck ---------- */
-function tagDots(tags){
-  return (tags||'').split(/\s+/).filter(function(t){return CASE_KEYS.indexOf(t)>=0;}).map(function(t){
-    return '<span title="'+CASES[t].ru+'"><i class="dot" style="background:var(--c-'+t+')"></i>'+CASES[t].pl+'</span>';
+function topicDots(it){
+  return allTopics(it).map(function(t){
+    return '<span><i class="dot" style="background:var(--c-'+colorKey([t])+')"></i>'+esc(TOPICS[t].pl||TOPICS[t].ru)+'</span>';
   }).join('');
 }
-function noteLI(n,isLocal){
-  var id=noteId(n.text), hid=!!S.hidden[id], btn;
+function noteLI(it,isLocal){
+  var id=noteId(it), hid=!!S.hidden[id], btn;
   if(isLocal) btn='<button class="link" data-act="delnote" data-id="'+id+'">'+(confirmKey===id?'Точно удалить?':'Удалить')+'</button>';
   else btn='<button class="link" data-act="'+(hid?'unhide':'hidenote')+'" data-id="'+id+'">'+(hid?'Вернуть':'Скрыть')+'</button>';
-  return '<li'+(hid?' class="off"':'')+'><div class="nt">'+esc(plain(n.text))+'</div><div class="meta">'+tagDots(n.tags)+
-         '<span>карточек: '+clozeNums(n.text).length+'</span>'+(hid?'<span>скрыта</span>':'')+btn+'</div></li>';
+  return '<li'+(hid?' class="off"':'')+'><div class="nt">'+esc(itemPlain(it))+'</div><div class="meta"><span>'+TYPES[it.type]+' · ур. '+it.level+'</span>'+topicDots(it)+
+         (hid?'<span>скрыта</span>':'')+btn+'</div></li>';
 }
-function packCounts(notes){
-  var r={cards:0,nw:0};
-  notes.forEach(function(n){ var id=noteId(n.text); clozeNums(n.text).forEach(function(k){ var c=S.cards[id+'-'+k]; r.cards++; if(!c||c.st==='new') r.nw++; }); });
+function packCounts(items){
+  var r={cards:0,nw:0,lv:{1:0,2:0,3:0}};
+  items.forEach(function(it){ var id=noteId(it); cardNums(it).forEach(function(k){ var c=S.cards[id+'-'+k]; r.cards++; r.lv[it.level]++; if(!c||c.st==='new') r.nw++; }); });
   return r;
 }
 function renderDeck(v){
@@ -626,18 +833,18 @@ function renderDeck(v){
         '<div class="actions"><button class="btn" data-act="refresh">Проверить обновления</button></div>';
   if(!C.packs.length) h+='<p class="hint">С сервера пока ничего не загружено.</p>';
   C.packs.forEach(function(p){
-    var pc=packCounts(p.notes);
+    var pc=packCounts(p.items);
     h+='<div class="pack"><label class="head"><input type="checkbox" data-pack="'+esc(p.id)+'"'+(packOn(p.id)?' checked':'')+'>'+
-       '<span><b>'+esc(p.title)+'</b><small>заметок '+p.notes.length+' · карточек '+pc.cards+' · ещё не начато '+pc.nw+'</small></span></label>'+
-       '<details><summary>Заметки</summary><ul class="notes">'+p.notes.map(function(n){return noteLI(n,false);}).join('')+'</ul></details></div>';
+       '<span><b>'+esc(p.title)+'</b><small>карточек '+pc.cards+' (ур. 1: '+pc.lv[1]+', ур. 2: '+pc.lv[2]+', ур. 3: '+pc.lv[3]+') · ещё не начато '+pc.nw+'</small></span></label>'+
+       '<details><summary>Заметки</summary><ul class="notes">'+p.items.map(function(it){return noteLI(it,false);}).join('')+'</ul></details></div>';
   });
   h+='<h2>Мои заметки</h2>';
-  if(S.local.length) h+='<ul class="notes">'+S.local.map(function(n){return noteLI(n,true);}).join('')+'</ul>';
+  if(S.local.length) h+='<ul class="notes">'+S.local.map(function(it){return noteLI(it,true);}).join('')+'</ul>';
   else h+='<p class="hint">Здесь будут заметки, добавленные вручную на этом устройстве.</p>';
   var hc=Object.keys(S.hidden).length;
   if(hc) h+='<p class="hint" style="margin-top:14px">Скрыто заметок: '+hc+'. <button class="link" data-act="unhideall">Вернуть все</button></p>';
   h+='<h3>Добавить вручную</h3>'+
-     '<p class="hint">Одна заметка на строке: текст, пояснение и теги через Tab (формат импорта Anki). Пропуск: <code>{{c1::ответ::подсказка}}</code>. Если Tab потерялся при вставке, раздели части знаком « | ». Теги <code>gen acc dat instr loc voc</code> задают падеж по порядку пропусков, <code>verb</code> отмечает глагольные формы.</p>'+
+     '<p class="hint">Одна заметка на строке: текст, пояснение и теги через Tab (формат импорта Anki). Пропуск: <code>{{c1::ответ::подсказка}}</code>, перевод после <code>&lt;br&gt;&lt;i&gt;…&lt;/i&gt;</code>. Если Tab потерялся при вставке, раздели части знаком « | ». Теги <code>gen acc dat instr loc voc</code> задают падеж по порядку пропусков; есть и <code>pres past fut imper cond prep pron adj</code>.</p>'+
      '<textarea id="imp" rows="5" spellcheck="false" placeholder="Do {{c1::kraju::kraj}} tego | do + Dopełniacz | gen prep"></textarea>'+
      '<div class="actions"><button class="btn primary" data-act="import">Добавить</button>'+
      '<label class="btn">Из файла…<input type="file" id="impfile" class="vh" accept=".txt,.tsv,text/plain"></label></div><div class="flash" id="flash"></div>';
@@ -647,10 +854,10 @@ function importText(txt){
   var arr=parseNotes(txt);
   if(!arr.length){ flashMsg('Не нашёл ни одной заметки с пропуском {{c1::…}}.'); return; }
   var known=knownIds(), dup=0, list=[];
-  arr.forEach(function(n){ var id=noteId(n.text); if(known[id]){dup++;return;} known[id]=1; list.push(n); });
+  arr.forEach(function(it){ var id=noteId(it); if(known[id]){dup++;return;} known[id]=1; list.push(it); });
   S.local=S.local.concat(list);
   applyContent(); persist(); renderDeck($('#view'));
-  var added=list.reduce(function(s,n){return s+clozeNums(n.text).length;},0);
+  var added=list.reduce(function(s,it){return s+cardNums(it).length;},0);
   var ta=$('#imp'); if(ta&&list.length) ta.value='';
   flashMsg('Добавлено заметок: '+list.length+', карточек: '+added+(dup?'. Уже были в колоде: '+dup:'')+'.');
 }
@@ -664,13 +871,13 @@ function fromV1(o){
   s.cfg=Object.assign({},DEF,o.cfg||{});
   (o.notes||[]).forEach(function(n){
     byId[n.id]=n;
-    var id=noteId(n.text);
-    if(String(n.id).charAt(0)==='u'&&!known[id]){ s.local.push({text:n.text,extra:n.extra||'',tags:n.tags||''}); known[id]=1; }
+    var it=legacyItem(n.text,n.extra,n.tags), id=noteId(it);
+    if(String(n.id).charAt(0)==='u'&&!known[id]){ s.local.push(it); known[id]=1; }
   });
   var map={};
   Object.keys(o.cards||{}).forEach(function(cid){
     var c=o.cards[cid], n=byId[c.n]; if(!n) return;
-    var nid=noteId(n.text), r=Object.assign({},c); r.n=nid; map[cid]=nid+'-'+c.k; s.cards[map[cid]]=r;
+    var nid=noteId(legacyItem(n.text,n.extra,n.tags)), r=Object.assign({},c); r.n=nid; map[cid]=nid+'-'+c.k; s.cards[map[cid]]=r;
   });
   s.seq=o.seq||0;
   s.log=(o.log||[]).filter(function(e){return map[e.c];}).map(function(e){return Object.assign({},e,{c:map[e.c]});});
@@ -702,6 +909,8 @@ function setRow(label,hint,inner){ return '<label class="row"><span>'+label+(hin
 function renderSettings(v){
   var c=S.cfg;
   var h='<h2>Настройки</h2>'+
+  '<div class="row"><span>Уровни сложности<small>'+[1,2,3].map(function(l){return l+' — '+LEVELS[l];}).join(', ')+'. Новые карточки идут от лёгких к сложным.</small></span>'+
+  '<span class="lvls">'+[1,2,3].map(function(l){return '<label><input type="checkbox" data-set="lv" value="'+l+'"'+(c.levels.indexOf(l)>=0?' checked':'')+'>'+l+'</label>';}).join('')+'</span></div>'+
   setRow('Новых карточек в день','Соседние карточки одной заметки откладываются на следующий день.','<input type="number" min="0" max="200" data-set="newPerDay" value="'+c.newPerDay+'">')+
   setRow('Шаги обучения, мин','Через сколько минут повторять новую карточку, пока она не «выпустится» в повторения.','<input type="text" data-set="steps" value="'+c.steps.join(' ')+'">')+
   setRow('Шаги после ошибки, мин','Для карточки, которую забыл в повторениях.','<input type="text" data-set="relearnSteps" value="'+c.relearnSteps.join(' ')+'">')+
@@ -709,7 +918,7 @@ function renderSettings(v){
   setRow('Первый интервал после «Легко», дни','','<input type="number" min="2" max="60" data-set="easyIvl" value="'+c.easyIvl+'">')+
   setRow('Множитель интервалов','1 даёт обычный рост интервалов (×ease), меньше 1 делает повторения чаще. По умолчанию 0,8: для навыка употребления форм короткие интервалы выглядят безопаснее длинных.','<input type="number" min="0.4" max="2" step="0.05" data-set="ivlMod" value="'+c.ivlMod+'">')+
   setRow('Максимальный интервал, дни','','<input type="number" min="7" max="3650" data-set="maxIvl" value="'+c.maxIvl+'">')+
-  setRow('Режим ответа','Ввод с проверкой или самооценка.','<select data-set="mode"><option value="type"'+(c.mode==='type'?' selected':'')+'>Печатать ответ</option><option value="self"'+(c.mode==='self'?' selected':'')+'>Самооценка</option></select>')+
+  setRow('Режим ответа','Ввод с проверкой или самооценка. Карточки с выбором ответа работают одинаково.','<select data-set="mode"><option value="type"'+(c.mode==='type'?' selected':'')+'>Печатать ответ</option><option value="self"'+(c.mode==='self'?' selected':'')+'>Самооценка</option></select>')+
   setRow('Не штрафовать за диакритику','Если включено, ответ без ą ę ł ś и т. п. (например, «zrodlo» вместо «źródło») засчитывается как верный.','<input type="checkbox" data-set="lenient"'+(c.lenient?' checked':'')+'>')+
   '<div class="flash" id="flash"></div>'+
   (installEvt?'<h3>Приложение</h3><div class="actions"><button class="btn" data-act="install">Установить как приложение</button></div>':'')+
@@ -730,7 +939,7 @@ function flashMsg(t){ var el=$('#flash'); if(el) el.textContent=t; }
 function render(){
   [].forEach.call(document.querySelectorAll('.tabs button'),function(b){ b.setAttribute('aria-selected',b.dataset.tab===tab?'true':'false'); });
   var v=$('#view');
-  if(tab==='study') renderStudy(v); else if(tab==='stats') renderStats(v); else if(tab==='deck') renderDeck(v); else renderSettings(v);
+  if(tab==='study') renderStudy(v); else if(tab==='ref') renderRef(v); else if(tab==='stats') renderStats(v); else if(tab==='deck') renderDeck(v); else renderSettings(v);
 }
 function readFile(input,fn){
   var f=input.files&&input.files[0]; if(!f) return;
@@ -739,15 +948,26 @@ function readFile(input,fn){
 var handlers={
   check:function(){doCheck(false);},
   giveup:function(){doCheck(true);},
+  pick:function(t){ if(cur&&cur.phase==='ask') pick(+t.dataset.i); },
   reveal:reveal,
   grade:function(t){grade(+t.dataset.g);},
   undo:undo,
-  hide:function(){
+  /* перевод и подтверждение скрытия меняем на месте, чтобы не стереть набранный ответ */
+  tr:function(t){
+    if(!cur) return; cur.tr=!cur.tr;
+    var el=$('#trx'); if(el) el.hidden=!cur.tr;
+    t.textContent=cur.tr?'Скрыть перевод':'Показать перевод';
+  },
+  hide:function(t){
     if(!cur) return;
-    if(confirmKey!=='hide'){ confirmKey='hide'; render(); return; }
+    if(confirmKey!=='hide'){ confirmKey='hide'; t.textContent='Точно скрыть эту заметку?'; return; }
     confirmKey=null; S.hidden[S.cards[cur.id].n]=Date.now(); buildNotes(); cur=null; undoRec=null; persist();
     notice='Заметка скрыта. Вернуть можно во вкладке «Колода».'; render();
   },
+  ref:function(t){
+    refBack=tab==='study'&&!!cur; refTarget=t.dataset.a; tab='ref'; render();
+  },
+  back:function(){ tab='study'; refBack=false; render(); window.scrollTo(0,0); },
   learnnow:function(){
     var l=allCards().filter(function(x){return isLearn(x.c);}).sort(function(a,b){return a.c.due-b.c.due;});
     if(l.length){ startCard(l[0].id); render(); }
@@ -771,7 +991,7 @@ var handlers={
     var id=t.dataset.id;
     if(confirmKey!==id){ confirmKey=id; renderDeck($('#view')); return; }
     confirmKey=null;
-    S.local=S.local.filter(function(n){return noteId(n.text)!==id;});
+    S.local=S.local.filter(function(it){return noteId(it)!==id;});
     Object.keys(S.cards).forEach(function(cid){ if(S.cards[cid].n===id) delete S.cards[cid]; });
     buildNotes(); cur=null; undoRec=null; persist(); renderDeck($('#view'));
   },
@@ -787,7 +1007,14 @@ var handlers={
 };
 function init(){
   var o=loadJSON(KEY); S=(o&&o.v===2)?o:newState(); migrate();
-  var cc=loadJSON(CKEY); if(cc&&cc.packs) C=cc;
+  var cc=loadJSON(CKEY);
+  if(cc&&cc.packs){
+    cc.packs.forEach(function(p){
+      if(!p.items) p.items=(p.notes||[]).map(function(n){return legacyItem(n.text,n.extra,n.tags);});
+      delete p.notes;
+    });
+    C=cc;
+  }
   applyContent();
   var view=$('#view');
   view.addEventListener('click',function(e){
@@ -808,7 +1035,11 @@ function init(){
     var c=S.cfg, ok=true;
     var nums=function(s){return s.split(/[\s,;]+/).map(function(x){return parseFloat(x.replace(',','.'));}).filter(function(x){return x>0&&isFinite(x);});};
     var num=function(lo,hi,def){var x=parseFloat(String(t.value).replace(',','.')); return isFinite(x)?Math.min(hi,Math.max(lo,x)):def;};
-    if(k==='newPerDay') c.newPerDay=Math.round(num(0,200,c.newPerDay));
+    if(k==='lv'){
+      var lv=[].slice.call(view.querySelectorAll('[data-set=lv]')).filter(function(x){return x.checked;}).map(function(x){return +x.value;});
+      if(lv.length){ c.levels=lv; applyContent(); } else ok=false;
+    }
+    else if(k==='newPerDay') c.newPerDay=Math.round(num(0,200,c.newPerDay));
     else if(k==='steps'){ var a=nums(t.value); if(a.length) c.steps=a; else ok=false; }
     else if(k==='relearnSteps'){ var b=nums(t.value); if(b.length) c.relearnSteps=b; else ok=false; }
     else if(k==='gradIvl') c.gradIvl=Math.round(num(1,30,c.gradIvl));
@@ -819,11 +1050,11 @@ function init(){
     else if(k==='lenient') c.lenient=!!t.checked;
     if(c.easyIvl<=c.gradIvl) c.easyIvl=c.gradIvl+1;
     persist(); cur=null;
-    renderSettings($('#view')); flashMsg(ok?'Сохранено.':'Не понял значение: оставил прежнее.');
+    renderSettings($('#view')); flashMsg(ok?'Сохранено.':(k==='lv'?'Нужен хотя бы один уровень.':'Не понял значение: оставил прежнее.'));
   });
   document.querySelector('.tabs').addEventListener('click',function(e){
     var b=e.target.closest('button[data-tab]'); if(!b) return;
-    tab=b.dataset.tab; confirmKey=null; render();
+    tab=b.dataset.tab; confirmKey=null; refBack=false; render(); window.scrollTo(0,0);
   });
   document.addEventListener('keydown',function(e){
     if(tab!=='study'||!cur||e.repeat||e.ctrlKey||e.metaKey||e.altKey) return;
@@ -837,9 +1068,13 @@ function init(){
       return;
     }
     if(t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.tagName==='INPUT') return;
+    /* preventDefault везде: иначе нажатая цифра впечатается в поле следующей карточки */
+    var n=NOTES[S.cards[cur.id].n];
     if(cur.phase==='answer'){
-      if(['1','2','3','4'].indexOf(e.key)>=0) grade(+e.key);
+      if(['1','2','3','4'].indexOf(e.key)>=0){ e.preventDefault(); grade(+e.key); }
       else if(e.key==='Enter'||e.key===' '){ e.preventDefault(); grade(cur.sug||3); }
+    } else if(n&&n.type==='choice'&&cur.order){
+      var j=+e.key-1; if(j>=0&&j<cur.order.length){ e.preventDefault(); pick(cur.order[j]); }
     } else if(S.cfg.mode==='self'&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); reveal(); }
   });
   /* приложение на телефоне обычно не закрывают, а сворачивают: при возврате проверяем колоду */
