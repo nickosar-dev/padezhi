@@ -3,7 +3,7 @@
    сама, как только телефон в сети. Колоду (packs/) не кэшируем: приложение хранит её
    у себя и само честно пишет, что сервер недоступен. */
 var CACHE='padezhi';
-var SHELL=['./','index.html','grammar.html','manifest.webmanifest','icon-192.png','icon-512.png'];
+var SHELL=['./','index.html','grammar.html','lexicon.json','manifest.webmanifest','icon-192.png','icon-512.png'];
 var TIMEOUT=4000;
 
 self.addEventListener('install',function(e){

@@ -159,7 +159,70 @@ def check_txt(path, seen):
     return title, n, cards, errors, warnings
 
 
+def check_lexicon():
+    """lexicon.json — словарь тренировки во вкладке «Грамматика»."""
+    path = ROOT / "lexicon.json"
+    errors = []
+    try:
+        lex = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as e:
+        return [f"lexicon.json: {e}"]
+
+    def need(where, value, n):
+        if not (isinstance(value, list) and len(value) == n and all(isinstance(x, str) for x in value)):
+            errors.append(f"lexicon.json {where}: нужен список из {n} строк")
+
+    nouns = {}
+    for n in lex.get("nouns", []):
+        w = f"nouns/{n.get('pl')}"
+        nouns[n.get("pl")] = n
+        need(w + ".sg", n.get("sg"), 7)
+        need(w + ".rsg", n.get("rsg"), 6)
+        if n.get("pln") is not None or n.get("rpl") is not None:
+            need(w + ".pln", n.get("pln"), 6)
+            need(w + ".rpl", n.get("rpl"), 6)
+        if not n.get("cls"):
+            errors.append(f"lexicon.json {w}: нет cls")
+    ru_token = re.compile(r"\{(?:[^:{}]+:)?(\w+)\}")
+    for case, tpls in lex.get("cases", {}).items():
+        for t in tpls:
+            if t["pl"].count("___") != 1:
+                errors.append(f"lexicon.json cases/{case}: в «{t['pl']}» должно быть одно ___")
+            for tok in ru_token.findall(t["ru"]):
+                if tok not in ("nom", "gen", "dat", "acc", "instr", "prep"):
+                    errors.append(f"lexicon.json cases/{case}: неизвестный падеж {{{tok}}}")
+    for p in lex.get("pronouns", []):
+        for k in ("gen", "dat", "acc", "instr", "loc"):
+            if not p.get("f", {}).get(k) or not p.get("r", {}).get(k):
+                errors.append(f"lexicon.json pronouns/{p.get('pl')}: нет формы {k}")
+    for t in lex.get("preps", []):
+        w = f"preps/{t.get('prep')}+{t.get('case')}"
+        if t["pl"].count("___") != 1:
+            errors.append(f"lexicon.json {w}: в «{t['pl']}» должно быть одно ___")
+        for name in t.get("only", []):
+            if name not in nouns:
+                errors.append(f"lexicon.json {w}: слова «{name}» нет в nouns")
+    for v in lex.get("verbs", []):
+        w = f"verbs/{v.get('inf')}"
+        need(w + ".pres", v.get("pres"), 6)
+        need(w + ".rpres", v.get("rpres"), 6)
+        need(w + ".past", v.get("past"), 4)
+        need(w + ".rpast", v.get("rpast"), 4)
+        if v.get("imper") is not None:
+            need(w + ".imper", v.get("imper"), 3)
+            need(w + ".rimper", v.get("rimper"), 3)
+        if not str(v.get("past", [""])[0]).endswith("em"):
+            errors.append(f"lexicon.json {w}: past[0] — форма «ja, м.р.» на -em")
+        if v.get("perf"):
+            need(w + ".perf.fut", v["perf"].get("fut"), 6)
+            need(w + ".perf.rfut", v["perf"].get("rfut"), 6)
+    print(f"lexicon.json: {len(nouns)} существительных, {len(lex.get('verbs', []))} глаголов, "
+          f"{len(lex.get('preps', []))} шаблонов с предлогами")
+    return errors
+
+
 def main():
+    lex_errors = check_lexicon()
     old = []
     if INDEX.exists():
         old = [p["id"] for p in json.loads(INDEX.read_text(encoding="utf-8")).get("packs", [])]
@@ -173,7 +236,7 @@ def main():
         files[p.stem] = p
     order = [i for i in old if i in files] + sorted(i for i in files if i not in old)
 
-    seen, packs, all_errors = {}, [], []
+    seen, packs, all_errors = {}, [], lex_errors
     for pid in order:
         path = files[pid]
         check = check_json if path.suffix == ".json" else check_txt

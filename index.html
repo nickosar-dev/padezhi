@@ -67,7 +67,23 @@ button,input,select,textarea{font:inherit;color:inherit}
 .sent i{color:var(--muted)}
 .sent b{font-weight:600}
 .tr{margin-top:8px;font:italic 400 17px/1.45 var(--serif);color:var(--muted)}
-.trbtn{margin-top:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:14px;cursor:pointer}
+.pill:hover{color:var(--ink)}
+
+.dhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:18px 0 0;font-size:14px}
+.dprog{height:4px;border-radius:2px;background:var(--line);overflow:hidden;margin:12px 0 0}
+.dprog i{display:block;height:100%;background:var(--ink)}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.btn.dbtn{text-align:left;padding:10px 12px}
+.dbtn b{display:block;font-weight:600}
+.dbtn small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.verdict{margin:16px 0 0;font-size:16px}
+.verdict.yes{color:var(--good)}
+.verdict.no{color:var(--bad)}
+.verdict b{color:var(--ink)}
+.mist{list-style:none;padding:0;margin:10px 0}
+.mist li{padding:8px 0;border-top:1px solid var(--line);font:400 17px/1.4 var(--serif)}
+.mist small{display:block;font:13px/1.4 system-ui,sans-serif;color:var(--muted)}
 .blank-input{font:inherit;color:inherit;background:transparent;border:0;border-bottom:2px solid var(--cc,var(--c-none));
   border-radius:0;padding:0 2px;margin:0 1px;text-align:center;max-width:100%;min-width:3ch}
 .blank-input:focus{outline:none;background:color-mix(in srgb,var(--cc,var(--c-none)) 14%,transparent)}
@@ -180,8 +196,8 @@ textarea{resize:vertical;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
     <h1>Падежи</h1>
     <nav class="tabs" aria-label="Разделы">
       <button data-tab="study" aria-selected="true">Занятие</button>
-      <button data-tab="ref" aria-selected="false">Справка</button>
-      <button data-tab="stats" aria-selected="false">Статистика</button>
+      <button data-tab="ref" aria-selected="false">Грамматика</button>
+      <button data-tab="stats" aria-selected="false">Прогресс</button>
       <button data-tab="deck" aria-selected="false">Колода</button>
       <button data-tab="settings" aria-selected="false" aria-label="Настройки" title="Настройки"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     </nav>
@@ -196,7 +212,7 @@ textarea{resize:vertical;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
 /* ---------- constants ---------- */
 var MIN=60000, DAY=86400000, KEY='pl-trainer-v2', CKEY='pl-trainer-content-v1', LOG_MAX=2000;
 var DEF={newPerDay:7,steps:[1,10],relearnSteps:[10],gradIvl:1,easyIvl:4,startEase:2.3,
-         ivlMod:0.8,maxIvl:90,mode:'type',lenient:false,levels:[1,2,3]};
+         ivlMod:0.8,maxIvl:90,mode:'type',lenient:false,levels:[1,2,3],trOn:false};
 /* Грамматические темы карточек: цвет, строка в статистике и раздел справки. */
 var TOPICS={
   nom:{ru:'Именительный',pl:'Mianownik',g:'case',ref:'ref-nom'},
@@ -226,6 +242,39 @@ var CASE_ROWS={nom:['Mianownik','kto? co?'],gen:['Dopełniacz','kogo? czego?'],d
   acc:['Biernik','kogo? co?'],instr:['Narzędnik','kim? czym?'],loc:['Miejscownik','o kim? o czym?','o'],voc:['Wołacz','обращение']};
 var LEVELS={1:'узнать форму',2:'вставить форму',3:'таблица целиком'};
 var TYPES={cloze:'пропуск',choice:'выбор',table:'таблица'};
+var ABBR={nom:'M',gen:'D',dat:'C',acc:'B',instr:'N',loc:'Ms',voc:'W'};
+
+/* ---------- тренировка базовой грамматики: темы ---------- */
+var DRILLS=[
+  {id:'gen',g:'Склонение',name:'Dopełniacz',sub:'родительный',kind:'case',cs:['gen']},
+  {id:'dat',g:'Склонение',name:'Celownik',sub:'дательный',kind:'case',cs:['dat']},
+  {id:'acc',g:'Склонение',name:'Biernik',sub:'винительный',kind:'case',cs:['acc']},
+  {id:'instr',g:'Склонение',name:'Narzędnik',sub:'творительный',kind:'case',cs:['instr']},
+  {id:'loc',g:'Склонение',name:'Miejscownik',sub:'предложный',kind:'case',cs:['loc']},
+  {id:'voc',g:'Склонение',name:'Wołacz',sub:'звательный',kind:'case',cs:['voc']},
+  {id:'cases',g:'Склонение',name:'Все падежи',sub:'вперемешку',kind:'case',cs:['gen','dat','acc','instr','loc','voc']},
+  {id:'pron',g:'Склонение',name:'Местоимения',sub:'ja, ty, on… по падежам',kind:'pron'},
+  {id:'prep',g:'Предлоги',name:'Предлог + падеж',sub:'do, na, w, z, pod…',kind:'prep'},
+  {id:'pres',g:'Глагол',name:'Настоящее время',sub:'czytam, czytasz…',kind:'verb',t:['pres']},
+  {id:'past',g:'Глагол',name:'Прошедшее время',sub:'czytałem, czytała…',kind:'verb',t:['past']},
+  {id:'fut',g:'Глагол',name:'Будущее время',sub:'będę czytać, przeczytam',kind:'verb',t:['futi','futp']},
+  {id:'imper',g:'Глагол',name:'Повелительное',sub:'czytaj!, czytajcie!',kind:'verb',t:['imper']},
+  {id:'cond',g:'Глагол',name:'Условное',sub:'czytałbym…',kind:'verb',t:['cond']},
+  {id:'verbs',g:'Глагол',name:'Все времена',sub:'вперемешку',kind:'verb',t:['pres','past','futi','futp','imper','cond']}
+];
+var DBY={}; DRILLS.forEach(function(D){DBY[D.id]=D;});
+var DRILL_LEN=10;
+var TNAME={pres:'Настоящее время',past:'Прошедшее время',futi:'Будущее время, несов. вид',futp:'Будущее время, сов. вид',imper:'Повелительное наклонение',cond:'Условное наклонение'};
+var TTOPIC={pres:'pres',past:'past',futi:'fut',futp:'fut',imper:'imper',cond:'cond'};
+var CI={nom:0,gen:1,dat:2,acc:3,instr:4,loc:5,voc:6}, RI={nom:0,gen:1,dat:2,acc:3,instr:4,prep:5,loc:5};
+var BEDE=['będę','będziesz','będzie','będziemy','będziecie','będą'], BUDU=['буду','будешь','будет','будем','будете','будут'];
+var BY={m:['bym','byś','by'],f:['bym','byś','by'],mp:['byśmy','byście','by'],fp:['byśmy','byście','by']};
+/* лица: P6 — для настоящего и будущего, GP — с родом, для прошедшего и условного */
+var P6=[{p:'ja',r:'я',i:0},{p:'ty',r:'ты',i:1},{p:'on',r:'он',i:2,g:'m'},{p:'ona',r:'она',i:2,g:'f'},
+        {p:'my',r:'мы',i:3},{p:'wy',r:'вы',i:4},{p:'oni',r:'они',i:5,g:'mp'},{p:'one',r:'они',i:5,g:'fp'}];
+var GP=[{p:'ja, м.р.',r:'я',g:'m',i:0},{p:'ja, ж.р.',r:'я',g:'f',i:0},{p:'ty, м.р.',r:'ты',g:'m',i:1},{p:'ty, ж.р.',r:'ты',g:'f',i:1},
+        {p:'on',r:'он',g:'m',i:2},{p:'ona',r:'она',g:'f',i:2},{p:'my, мужчины',r:'мы',g:'mp',i:0},{p:'my, женщины',r:'мы',g:'fp',i:0},
+        {p:'wy, мужчины',r:'вы',g:'mp',i:1},{p:'wy, женщины',r:'вы',g:'fp',i:1},{p:'oni',r:'они',g:'mp',i:2},{p:'one',r:'они',g:'fp',i:2}];
 
 /* ---------- state ----------
    S: прогресс (хранится на устройстве, попадает в резервную копию).
@@ -235,7 +284,7 @@ var S=null, C={packs:[],checked:0}, NOTES={}, NOTE_LIST=[];
 var cur=null, tab='study', undoRec=null, lastBlank=null, confirmKey=null;
 var notice='', saveFailed=false, installEvt=null;
 var net={busy:false,status:''};
-var REF=null, refBack=false, refTarget=null;
+var REF=null, LEX=null, refBack=false, refTarget=null, refShow=false, drill=null;
 
 /* ---------- helpers ---------- */
 function $(s,r){return (r||document).querySelector(s);}
@@ -427,13 +476,13 @@ function parsePack(file,text){
 /* ---------- state: create / load / save ---------- */
 function newState(){
   return {v:2,updated:0,seq:0,cards:{},cfg:Object.assign({},DEF),daily:{day:-1,newDone:0,extra:0},
-          buried:{},log:[],packs:{},hidden:{},local:[]};
+          buried:{},log:[],packs:{},hidden:{},local:[],drills:{},dstat:{}};
 }
 function migrate(){
   S.cfg=Object.assign({},DEF,S.cfg||{});
   S.daily=S.daily||{day:-1,newDone:0,extra:0};
   S.buried=S.buried||{}; S.log=S.log||[]; S.cards=S.cards||{}; S.seq=S.seq||0;
-  S.packs=S.packs||{}; S.hidden=S.hidden||{};
+  S.packs=S.packs||{}; S.hidden=S.hidden||{}; S.drills=S.drills||{}; S.dstat=S.dstat||{};
   S.local=(S.local||[]).map(function(n){ return n.type?n:legacyItem(n.text,n.extra,n.tags); });
 }
 function loadJSON(k){ try{ var raw=localStorage.getItem(k); return raw?JSON.parse(raw):null; }catch(e){ return null; } }
@@ -460,7 +509,8 @@ function buildNotes(){
     NOTES[id]=o; NOTE_LIST.push(o);
   };
   C.packs.forEach(function(p,pi){ if(packOn(p.id)) p.items.forEach(function(it,ii){add(it,p.id,pi,ii);}); });
-  S.local.forEach(function(it,ii){add(normItem(it),'local',999,ii);});
+  /* ошибки из тренировки идут в очередь новых первыми: их отправили в повторения специально */
+  S.local.forEach(function(it,ii){add(normItem(it),'local',(it.tags||[]).indexOf('drill')>=0?-1:999,ii);});
 }
 function knownIds(){
   var o={};
@@ -580,10 +630,10 @@ function allCards(){
   return Object.keys(S.cards).filter(function(id){return NOTES[S.cards[id].n];}).map(function(id){return {id:id,c:S.cards[id]};});
 }
 function isLearn(c){ return c.st==='learn'||c.st==='relearn'; }
-/* новые карточки идут от лёгких к сложным: уровень, затем пакет, затем порядок в пакете */
+/* новые карточки: сперва ошибки из тренировки, дальше от лёгких к сложным — уровень, пакет, порядок в пакете */
 function newOrder(a,b){
   var A=NOTES[a.c.n], B=NOTES[b.c.n];
-  return (A.level-B.level)||(A.pi-B.pi)||(A.ii-B.ii)||(a.c.k-b.c.k);
+  return ((A.pi<0)-(B.pi<0))*-1||(A.level-B.level)||(A.pi-B.pi)||(A.ii-B.ii)||(a.c.k-b.c.k);
 }
 function queueCounts(){
   ensureDaily();
@@ -642,6 +692,10 @@ function emptyHTML(q){
   }
   return h+'</div>';
 }
+function keysHTML(){
+  return '<div class="keys" role="group" aria-label="Польские буквы">'+
+    'ąćęłńóśźż'.split('').map(function(ch){return '<button type="button" class="btn key" tabindex="-1" data-act="key" data-ch="'+ch+'">'+ch+'</button>';}).join('')+'</div>';
+}
 function refLinksHTML(tps){
   var seen={}, out=[];
   tps.forEach(function(t){ var T=TOPICS[t]; if(T&&!seen[T.ref]){ seen[T.ref]=1; out.push('<button class="link" data-act="ref" data-a="'+T.ref+'">'+esc(T.link||T.pl||T.ru)+'</button>'); } });
@@ -671,16 +725,13 @@ function renderStudy(v){
   else h+='<div class="sent small">'+sanitize(n.q)+'</div>'+tableHTML(n,o);
   if(n.tr) h+='<div class="tr" id="trx"'+(ask&&!cur.tr?' hidden':'')+'>'+sanitize(n.tr)+'</div>';
   h+='</section>';
-  if(n.tr&&ask) h+='<button class="link trbtn" data-act="tr">'+(cur.tr?'Скрыть перевод':'Показать перевод')+'</button>';
+  if(n.tr&&ask) h+='<button class="pill" data-act="tr">'+(cur.tr?'Скрыть перевод':'Показать перевод')+'</button>';
   if(n.type==='choice') h+=choiceHTML(n);
   if(ask){
     if(n.type!=='choice'){
       if(S.cfg.mode==='type'){
         h+='<div class="actions"><button class="btn primary" data-act="check">Проверить</button><button class="btn" data-act="giveup">Не помню</button></div>';
-        if(exp.some(function(e){return !/[а-яё]/i.test(e.a);})){
-          h+='<div class="keys" role="group" aria-label="Польские буквы">'+
-             'ąćęłńóśźż'.split('').map(function(ch){return '<button type="button" class="btn key" tabindex="-1" data-act="key" data-ch="'+ch+'">'+ch+'</button>';}).join('')+'</div>';
-        }
+        if(exp.some(function(e){return !/[а-яё]/i.test(e.a);})) h+=keysHTML();
       } else {
         h+='<div class="actions"><button class="btn primary" data-act="reveal">Показать ответ</button></div>';
       }
@@ -742,17 +793,209 @@ function undo(){
   persist(); startCard(u.id); render();
 }
 
-/* ---------- reference ---------- */
-function loadRef(){
-  fetch('grammar.html').then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
-    .then(function(t){ REF=t; if(tab==='ref') render(); })
-    .catch(function(){ REF=false; if(tab==='ref') render(); });
+/* ---------- grammar tab: справка (grammar.html) + тренировка (lexicon.json) ---------- */
+var gLoading=false;
+function loadGrammar(){
+  if(gLoading) return; gLoading=true;
+  var get=function(u,json){ return fetch(u).then(function(r){ if(!r.ok) throw new Error(r.status); return json?r.json():r.text(); }); };
+  Promise.all([
+    get('grammar.html').then(function(t){REF=t;},function(){REF=false;}),
+    get('lexicon.json',true).then(function(j){LEX=j;},function(){LEX=false;})
+  ]).then(function(){ gLoading=false; if(tab==='ref') render(); });
+}
+
+/* генераторы заданий: каждое — строчка с пропуском, ответ, подсказка и перевод */
+function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function words(){ return [].slice.call(arguments).filter(Boolean).join(' '); }
+function split3(t){ var i=t.indexOf('___'); return [t.slice(0,i),t.slice(i+3)]; }
+function ruPrep(p,w){
+  var lw=w.toLowerCase();
+  if(p==='о'&&/^[аоуэи]/.test(lw)) return 'об';
+  if(p==='с'&&/^[сзшжщ][^аеёиоуыэюя]/.test(lw)) return 'со';
+  if(p==='в'&&/^[вф][^аеёиоуыэюя]/.test(lw)) return 'во';
+  if(p==='к'&&/^(мн|вс)/.test(lw)) return 'ко';
+  return p;
+}
+/* «Я думаю {о:prep}.» → «Я думаю об окне.» */
+function fillRu(t,get){ return t.replace(/\{(?:([^:{}]+):)?(\w+)\}/g,function(_,p,c){ var w=get(c); return p?ruPrep(p,w)+' '+w:w; }); }
+function nForm(n,c,pl){ return pl?n.pln[c==='voc'?0:CI[c]]:n.sg[CI[c]]; }
+function nRu(n,c,pl){ return (pl?n.rpl:n.rsg)[RI[c]]; }
+function fits(n,t){ return t.only?t.only.indexOf(n.pl)>=0:(!t.cls||n.cls.some(function(x){return t.cls.indexOf(x)>=0;})); }
+function nounNote(n,pl,c){
+  var ks=['nom','gen','dat','acc','instr','loc'].concat(pl?[]:['voc']);
+  return '<b>'+esc(n.pl)+'</b> ('+esc(n.ru)+'), '+(pl?'мн. ч.':'ед. ч.')+': '+ks.map(function(k){
+    var f=esc(nForm(n,k,pl)); return ABBR[k]+' '+(k===c?'<b>'+f+'</b>':f);
+  }).join(' · ');
+}
+function qCase(c){
+  var t=rnd(LEX.cases[c]), n=rnd(LEX.nouns.filter(function(x){return fits(x,t);}));
+  var pl=!!n.pln&&Math.random()<0.4, s=split3(t.pl);
+  return {key:'c|'+c+'|'+n.pl+'|'+pl,before:s[0],after:s[1],ans:nForm(n,c,pl),hint:n.pl+(pl?', мн. ч.':''),
+    label:CASE_ROWS[c][0]+' · '+(pl?'мн. ч.':'ед. ч.'),ru:fillRu(t.ru,function(k){return nRu(n,k,pl);}),
+    note:nounNote(n,pl,c),topic:c,topics:[c],color:c};
+}
+function qPron(){
+  var p=rnd(LEX.pronouns), c=rnd(['gen','dat','acc','instr','loc']), t=LEX.pronCases[c], s=split3(t.pl);
+  return {key:'p|'+p.pl+'|'+c,before:s[0],after:s[1],ans:p.f[c],hint:p.pl,label:CASE_ROWS[c][0],
+    ru:fillRu(t.ru,function(k){return p.r[k];}),topic:'pron',topics:['pron',c],color:c,
+    note:'<b>'+esc(p.pl)+'</b>: '+['gen','dat','acc','instr','loc'].map(function(k){ var f=esc(p.f[k]); return ABBR[k]+' '+(k===c?'<b>'+f+'</b>':f); }).join(' · ')};
+}
+function qPrep(){
+  var t=rnd(LEX.preps), n=rnd(LEX.nouns.filter(function(x){return fits(x,t);}));
+  var pl=!t.only&&!!n.pln&&Math.random()<0.3, s=split3(t.pl), ans=nForm(n,t.case,pl);
+  return {key:'r|'+t.prep+'|'+t.case+'|'+n.pl+'|'+pl,before:s[0],after:s[1],ans:ans,hint:n.pl+(pl?', мн. ч.':''),
+    label:'Предлог '+t.prep+(t.q?' · '+t.q:''),ru:fillRu(t.ru,function(k){return nRu(n,k,pl);}),topic:'prep',topics:['prep',t.case],color:t.case,
+    note:'<b>'+esc(t.prep)+' + '+CASE_ROWS[t.case][0]+'</b>'+(t.q?' ('+esc(t.q)+')':'')+': '+esc(n.pl)+' → '+esc(t.prep)+' '+esc(ans)};
+}
+/* прошедшее: из [ja м.р., on, ona, oni] выводятся остальные формы */
+function pastSet(P){
+  var fs=P[2].replace(/a$/,'');
+  return {m:[P[0],P[0].replace(/em$/,'eś'),P[1]],f:[fs+'am',fs+'aś',P[2]],mp:[P[3]+'śmy',P[3]+'ście',P[3]],fp:[fs+'yśmy',fs+'yście',fs+'y']};
+}
+function lform(P,g){ return g==='m'?P[1]:g==='f'?P[2]:g==='mp'?P[3]:P[2].replace(/a$/,'')+'y'; }
+function rPast(v,g){ return v.rpast[g==='m'?0:g==='f'?1:3]; }
+function bold(list,i){ return list.map(function(f,j){ f=esc(f); return j===i?'<b>'+f+'</b>':f; }).join(', '); }
+/* mieć по-русски естественнее через «у меня есть»: Mamy czas → У нас есть время */
+var HAVE={'я':'у меня','ты':'у тебя','он':'у него','она':'у неё','мы':'у нас','вы':'у вас','они':'у них'};
+function qVerb(t){
+  var v=rnd(LEX.verbs.filter(function(x){ return t==='imper'?x.imper:t==='futp'?x.perf:true; }));
+  var obj=v.obj?' '+v.obj:'', q={topic:TTOPIC[t],topics:[TTOPIC[t]],color:'verb',label:TNAME[t],hint:v.inf,verb:true};
+  if(t==='pres'||t==='futi'||t==='futp'){
+    var p=rnd(P6), i=p.i;
+    q.key='v|'+t+'|'+v.inf+'|'+p.p; q.before=(t==='pres'?'Teraz':'Jutro')+' ('+p.p+') '; q.after=obj+'.';
+    if(t==='pres'){
+      q.ans=v.pres[i]; q.ru=(v.rhave?words('Сейчас',HAVE[p.r],'есть',v.robj):words('Сейчас',p.r,v.rpres[i],v.robj))+'.';
+      q.note='<b>'+esc(v.inf)+'</b>, настоящее: '+bold(v.pres,i);
+    } else if(t==='futp'){
+      q.hint=v.perf.inf; q.ans=v.perf.fut[i]; q.ru=words('Завтра',p.r,v.perf.rfut[i],v.robj)+'.'; q.topics=['fut','aspect'];
+      q.note='<b>'+esc(v.perf.inf)+'</b> — сов. вид к '+esc(v.inf)+'; его «настоящее» значит будущее: '+bold(v.perf.fut,i);
+    } else if(v.futSimple){
+      q.ans=BEDE[i]; q.ru=words('Завтра',p.r,BUDU[i],v.robj)+'.';
+      q.note='<b>być</b>, будущее: '+bold(BEDE,i);
+    } else {
+      var gs=p.g?[p.g]:(i<3?['m','f']:['mp','fp']);
+      q.ans=[BEDE[i]+' '+v.inf].concat(gs.map(function(g){return BEDE[i]+' '+lform(v.past,g);})).join(' / ');
+      q.ru=(v.rhave?words('Завтра',HAVE[p.r],'будет',v.robj):words('Завтра',p.r,BUDU[i],v.ru,v.robj))+'.';
+      q.note='Несов. вид: <b>'+esc(BEDE[i])+'</b> + инфинитив ('+esc(v.inf)+') или + форма на -ł ('+gs.map(function(g){return esc(lform(v.past,g));}).join(', ')+'). Оба варианта правильные.';
+    }
+  } else if(t==='past'||t==='cond'){
+    var gp=rnd(GP), ps=pastSet(v.past), l=lform(v.past,gp.g);
+    q.key='v|'+t+'|'+v.inf+'|'+gp.p; q.after=obj+'.';
+    if(t==='past'){
+      q.before='Wczoraj ('+gp.p+') '; q.ans=ps[gp.g][gp.i]; q.ru=(v.rhave?words('Вчера',HAVE[gp.r],'было',v.robj):words('Вчера',gp.r,rPast(v,gp.g),v.robj))+'.';
+      var rows=[[ps.m[0],ps.f[0]],[ps.m[1],ps.f[1]],[ps.m[2],ps.f[2],ps.f[2].replace(/a$/,'o')],[ps.mp[0],ps.fp[0]],[ps.mp[1],ps.fp[1]],[ps.mp[2],ps.fp[2]]];
+      q.note='<b>'+esc(v.inf)+'</b>, прошедшее: '+rows.map(function(r){
+        return r.map(function(f){ return f===q.ans?'<b>'+esc(f)+'</b>':esc(f); }).join('/');
+      }).join(', ');
+    } else {
+      var by=BY[gp.g][gp.i];
+      q.before=(v.condPlain?'':'Chętnie ')+'('+gp.p+') '; q.ans=l+by+' / '+by+' '+l;
+      q.ru=cap(v.rhave?words(HAVE[gp.r],'было бы',v.robj):v.condPlain?words(gp.r,rPast(v,gp.g),'бы',v.robj):words(gp.r,'бы с удовольствием',rPast(v,gp.g),v.robj))+'.';
+      q.note='Прошедшее + by + окончание: '+esc(l)+' + '+esc(by)+' → <b>'+esc(l+by)+'</b>. Можно и раздельно: '+esc(by+' '+l)+'.';
+    }
+  } else {
+    var j=rnd([0,1,2]);
+    q.key='v|imper|'+v.inf+'|'+j; q.before='('+['ty','my','wy'][j]+') '; q.after=obj+'!';
+    q.ans=v.imper[j]; q.ru=cap(words(v.rimper[j],v.robj))+'!';
+    q.note='<b>'+esc(v.inf)+'</b>, повелительное: '+bold(v.imper,j);
+  }
+  return q;
+}
+function genQ(D){
+  if(D.kind==='case') return qCase(rnd(D.cs));
+  if(D.kind==='pron') return qPron();
+  if(D.kind==='prep') return qPrep();
+  return qVerb(rnd(D.t));
+}
+function startDrill(id){
+  var D=DBY[id], qs=[], seen={};
+  for(var k=0;qs.length<DRILL_LEN&&k<300;k++){ var q=genQ(D); if(!seen[q.key]){ seen[q.key]=1; qs.push(q); } }
+  drill={id:id,qs:qs,i:0,phase:'ask',vals:[],res:null,ok:0,wrong:[],done:false,added:0};
+  refShow=false; refBack=false; render(); window.scrollTo(0,0);
+}
+function dCheck(giveUp){
+  if(!drill||drill.phase!=='ask') return;
+  var q=drill.qs[drill.i], inp=$('.blank-input'), raw=inp?inp.value:'', u=raw;
+  if(!giveUp&&!u.trim()){ if(inp) inp.focus(); return; }
+  if(q.verb) u=u.replace(/^\s*(ja|ty|on|ona|ono|my|wy|oni|one)\s+/i,'');
+  var r=giveUp?'bad':cmp(u,q.ans,'');
+  drill.vals=[raw]; drill.res=[r]; drill.phase='answer';
+  if(r==='bad') drill.wrong.push(q); else drill.ok++;
+  var st=S.dstat[q.topic]||(S.dstat[q.topic]={n:0,ok:0}); st.n++; if(r!=='bad') st.ok++;
+  if(drill.i===drill.qs.length-1){
+    var D=S.drills[drill.id]||(S.drills[drill.id]={n:0,ok:0,runs:0});
+    D.last=drill.ok+'/'+drill.qs.length; D.at=Date.now(); D.runs++; D.n+=drill.qs.length; D.ok+=drill.ok;
+  }
+  persist(); render();
+}
+function dNext(){
+  if(!drill||drill.phase!=='answer') return;
+  if(drill.i<drill.qs.length-1){ drill.i++; drill.phase='ask'; drill.vals=[]; drill.res=null; }
+  else drill.done=true;
+  render(); window.scrollTo(0,0);
+}
+/* ошибки тренировки → обычные карточки «Мои заметки» в повторениях */
+function drillItem(q){
+  return {type:'cloze',level:2,text:q.before+'{{c1::'+q.ans+'::'+q.hint+'}}'+q.after,tr:q.ru,
+          note:q.label+'. '+plain(q.note),topics:q.topics,tags:['drill']};
+}
+function renderDrill(v){
+  var d=drill, D=DBY[d.id], n=d.qs.length;
+  var h='<div class="dhead"><button class="link" data-act="dexit">← Все темы</button><span class="muted">Тренировка: '+esc(D.name)+'</span></div>';
+  if(d.done){
+    h+='<h2>Готово: '+d.ok+' из '+n+'</h2>';
+    if(d.wrong.length){
+      h+='<p class="hint">Где ошибся:</p><ul class="mist">'+d.wrong.map(function(q){
+        return '<li>'+esc(q.before)+'<b>'+esc(q.ans)+'</b>'+esc(q.after)+'<small>'+esc(q.label)+' · '+esc(q.ru)+'</small></li>';
+      }).join('')+'</ul>';
+    } else h+='<p>Без единой ошибки.</p>';
+    h+='<div class="actions"><button class="btn primary" data-act="dagain">Ещё '+n+' заданий</button>'+
+       (d.wrong.length&&!d.added?'<button class="btn" data-act="dadd">Добавить ошибки в повторения</button>':'')+
+       '<button class="btn" data-act="dexit">Все темы</button></div>'+
+       (d.added>0?'<p class="flash">Добавлено в повторения: '+d.added+'. Они появятся в «Занятии» среди новых карточек.</p>':
+        d.added<0?'<p class="flash">Эти ошибки уже есть в повторениях.</p>':'');
+    v.innerHTML=h; return;
+  }
+  var q=d.qs[d.i], ask=d.phase==='ask', o={phase:d.phase,mode:'type',vals:d.vals,results:d.res};
+  h+='<div class="dprog"><i style="width:'+Math.round(100*d.i/n)+'%"></i></div>'+
+     '<div class="counts"><span>Задание <b>'+(d.i+1)+'</b> из '+n+'</span><span>Верно <b>'+d.ok+'</b></span></div>'+
+     '<section class="q" style="--cc:var(--c-'+q.color+')"><div class="src">'+esc(q.label)+'</div>'+
+     '<div class="sent">'+esc(q.before)+blankHTML(0,q.ans,q.hint,o)+esc(q.after)+'</div>'+
+     '<div class="tr" id="trx"'+(ask&&!S.cfg.trOn?' hidden':'')+'>'+esc(q.ru)+'</div></section>';
+  if(ask){
+    h+='<button class="pill" data-act="dtr">'+(S.cfg.trOn?'Скрыть перевод':'Показать перевод')+'</button>'+
+       '<div class="actions"><button class="btn primary" data-act="dcheck">Проверить</button><button class="btn" data-act="dgiveup">Не знаю</button></div>'+keysHTML();
+  } else {
+    var r=d.res[0];
+    h+='<p class="verdict '+(r==='bad'?'no':'yes')+'">'+(r==='ok'?'Верно':r==='accent'?'Верно, но без диакритики: правильно подчёркнуто точками':'Правильно: <b>'+esc(q.ans)+'</b>')+'</p>'+
+       '<div class="extra" style="--cc:var(--c-'+q.color+')">'+q.note+'</div>'+refLinksHTML(q.topics)+
+       '<div class="actions"><button class="btn primary" data-act="dnext">'+(d.i<n-1?'Дальше':'Итоги')+'</button></div>';
+  }
+  v.innerHTML=h;
+  if(ask){ var f=v.querySelector('.blank-input'); if(f){ lastBlank=f; try{f.focus({preventScroll:true});}catch(e){f.focus();} } }
+}
+function drillsHTML(){
+  if(LEX===false) return '<p class="hint" style="margin-top:20px">Тренировка не загрузилась. Открой эту вкладку один раз с интернетом.</p>';
+  var h='<h2>Тренировка</h2><p class="hint">'+DRILL_LEN+' коротких заданий по теме: поставь слово в нужную форму. Перевод строчки открывается кнопкой. Ошибки в конце можно отправить в повторения.</p>';
+  if(drill&&!drill.done) h+='<div class="banner">Есть незаконченная тренировка «'+esc(DBY[drill.id].name)+'». <button class="link" data-act="dresume">Продолжить</button></div>';
+  ['Склонение','Предлоги','Глагол'].forEach(function(g){
+    h+='<h3>'+g+'</h3><div class="dgrid">'+DRILLS.filter(function(D){return D.g===g;}).map(function(D){
+      var st=S.drills[D.id];
+      return '<button class="btn dbtn" data-act="dstart" data-id="'+D.id+'"><b>'+esc(D.name)+'</b><small>'+esc(D.sub)+(st?' · последний раз '+st.last:'')+'</small></button>';
+    }).join('')+'</div>';
+  });
+  return h;
 }
 function renderRef(v){
-  var h=refBack?'<div class="backbar"><button class="btn" data-act="back">← Вернуться к карточке</button></div>':'';
-  if(REF===null){ v.innerHTML=h+'<p class="hint" style="margin-top:20px">Загружаю справку…</p>'; loadRef(); return; }
-  if(REF===false){ REF=null; v.innerHTML=h+'<p class="empty">Справка не загрузилась. Открой её один раз с интернетом, дальше она будет работать и офлайн.</p>'; return; }
-  v.innerHTML=h+'<div class="ref">'+REF+'</div>';
+  if(REF===null||LEX===null){ v.innerHTML='<p class="hint" style="margin-top:20px">Загружаю…</p>'; loadGrammar(); return; }
+  if(drill&&!refShow){ renderDrill(v); return; }
+  var h=refBack?'<div class="backbar"><button class="btn" data-act="back">'+(refBack==='drill'?'← Вернуться к тренировке':'← Вернуться к карточке')+'</button></div>':'';
+  h+=drillsHTML();
+  if(REF===false) h+='<p class="empty">Справка не загрузилась. Открой эту вкладку один раз с интернетом, дальше она будет работать и офлайн.</p>';
+  else h+='<div class="ref">'+REF+'</div>';
+  v.innerHTML=h;
+  if(REF===false||LEX===false){ REF=REF||null; LEX=LEX||null; }
   if(refTarget){
     var el=document.getElementById(refTarget); refTarget=null;
     if(el){ el.scrollIntoView({block:'start'}); el.classList.add('hl'); setTimeout(function(){el.classList.remove('hl');},2500); }
@@ -807,6 +1050,14 @@ function renderStats(v){
   });
   if(!any) h+='<p class="hint">Пока нет ответов. Здесь появится доля верных ответов по каждой теме: падежам, временам, предлогам.</p>';
   else h+='<p class="hint">Считаются ответы, не оценённые как «Снова»; в таблицах склонения каждый падеж отдельно. Данные по последним '+LOG_MAX+' ответам.</p>';
+  var dr=DRILLS.filter(function(D){return S.drills[D.id];});
+  h+='<h2>Тренировка</h2>';
+  if(dr.length){
+    dr.forEach(function(D){
+      var st=S.drills[D.id], p=Math.round(100*st.ok/Math.max(1,st.n)), col=D.kind==='verb'?'verb':(D.cs&&D.cs.length===1?D.cs[0]:'none');
+      h+='<div class="acc" style="--cc:var(--c-'+col+')"><div class="top"><span>'+esc(D.name)+'</span><span>последний раз '+st.last+' · всего '+p+'% из '+st.n+'</span></div><div class="bar"><i style="width:'+p+'%"></i></div></div>';
+    });
+  } else h+='<p class="hint">Здесь появятся результаты тренировок из вкладки «Грамматика».</p>';
   v.innerHTML=h;
 }
 
@@ -965,9 +1216,32 @@ var handlers={
     notice='Заметка скрыта. Вернуть можно во вкладке «Колода».'; render();
   },
   ref:function(t){
-    refBack=tab==='study'&&!!cur; refTarget=t.dataset.a; tab='ref'; render();
+    refBack=(tab==='study'&&cur)?'card':((tab==='ref'&&drill&&!refShow)?'drill':false);
+    refShow=true; refTarget=t.dataset.a; tab='ref'; render();
   },
-  back:function(){ tab='study'; refBack=false; render(); window.scrollTo(0,0); },
+  back:function(){
+    if(refBack==='drill'){ refShow=false; refBack=false; }
+    else { tab='study'; refBack=false; }
+    render(); window.scrollTo(0,0);
+  },
+  dstart:function(t){ startDrill(t.dataset.id); },
+  dagain:function(){ startDrill(drill.id); },
+  dresume:function(){ refShow=false; refBack=false; render(); window.scrollTo(0,0); },
+  dexit:function(){ drill=null; refShow=false; refBack=false; render(); window.scrollTo(0,0); },
+  dcheck:function(){ dCheck(false); },
+  dgiveup:function(){ dCheck(true); },
+  dnext:dNext,
+  dtr:function(t){
+    S.cfg.trOn=!S.cfg.trOn; saveLocal();
+    var el=$('#trx'); if(el) el.hidden=!S.cfg.trOn;
+    t.textContent=S.cfg.trOn?'Скрыть перевод':'Показать перевод';
+    if(lastBlank&&document.body.contains(lastBlank)) lastBlank.focus();
+  },
+  dadd:function(){
+    var known=knownIds(), n=0;
+    drill.wrong.forEach(function(q){ var it=drillItem(q), id=noteId(it); if(!known[id]){ known[id]=1; S.local.push(it); n++; } });
+    drill.added=n||-1; applyContent(); persist(); render();
+  },
   learnnow:function(){
     var l=allCards().filter(function(x){return isLearn(x.c);}).sort(function(a,b){return a.c.due-b.c.due;});
     if(l.length){ startCard(l[0].id); render(); }
@@ -1054,10 +1328,18 @@ function init(){
   });
   document.querySelector('.tabs').addEventListener('click',function(e){
     var b=e.target.closest('button[data-tab]'); if(!b) return;
-    tab=b.dataset.tab; confirmKey=null; refBack=false; render(); window.scrollTo(0,0);
+    tab=b.dataset.tab; confirmKey=null; refBack=false; refShow=false; render(); window.scrollTo(0,0);
   });
   document.addEventListener('keydown',function(e){
-    if(tab!=='study'||!cur||e.repeat||e.ctrlKey||e.metaKey||e.altKey) return;
+    if(e.repeat||e.ctrlKey||e.metaKey||e.altKey) return;
+    if(tab==='ref'&&drill&&!refShow&&!drill.done){
+      var dt=e.target;
+      if(e.key!=='Enter') return;
+      if(dt.classList&&dt.classList.contains('blank-input')){ e.preventDefault(); dCheck(false); }
+      else if(drill.phase==='answer'&&dt.tagName!=='BUTTON'){ e.preventDefault(); dNext(); }
+      return;
+    }
+    if(tab!=='study'||!cur) return;
     var t=e.target;
     if(t.classList&&t.classList.contains('blank-input')){
       if(e.key==='Enter'){
