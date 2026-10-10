@@ -1,13 +1,25 @@
 {
-  "built": "2026-10-06T12:25:38+00:00",
+  "built": "2026-10-10T10:52:45+00:00",
   "packs": [
+    {
+      "id": "norwid-kurs",
+      "file": "packs/norwid-kurs.json",
+      "title": "Курс · уроки по Норвиду",
+      "notes": 265,
+      "cards": 265,
+      "hash": "aa380b670b"
+    },
     {
       "id": "norwid-moja-piosnka",
       "file": "packs/norwid-moja-piosnka.json",
       "title": "Norwid · Moja piosnka II",
-      "notes": 92,
-      "cards": 105,
-      "hash": "91ded7d4d0"
+      "notes": 118,
+      "cards": 131,
+      "hash": "1b31fa3e45"
     }
-  ]
+  ],
+  "course": {
+    "file": "packs/course.json",
+    "hash": "73b402a5f7"
+  }
 }

@@ -1,0 +1,260 @@
+{
+ "title": "Польский по стихам",
+ "lessons": [
+  {
+   "n": 1,
+   "title": "Слова стиха: существительные",
+   "ref": "ref-read",
+   "intro": "<p>Сначала слова: без них не прочитать ни одной строки. Здесь все существительные из «Moja piosnka [II]». Стих целиком с переводом — во вкладке «Уроки».</p>\n<p><b>Как читать.</b> Ударение почти всегда на предпоследнем слоге: kru-SZY-na, usza-no-WA-nie. <b>sz</b> = ш, <b>cz</b> = ч, <b>rz</b> и <b>ż</b> = ж, <b>ł</b> — как английское w, <b>ó</b> = у, <b>ą</b> и <b>ę</b> — носовые «он» и «эн».</p>\n<p>В карточке польское слово, выбери перевод. Под ответом — строчка стиха, где слово встречается.</p>"
+  },
+  {
+   "n": 2,
+   "title": "Род существительных; ten, ta, to",
+   "ref": "ref-nouns",
+   "intro": "<p>Как в русском, три рода, и обычно его видно по окончанию:</p>\n<ul><li><b>мужской</b> — на согласный: kraj, chleb, dar, ukłon, bocian, Pan;</li>\n<li><b>женский</b> — на -a: ziemia, kruszyna, wina, grusza, tęsknota; и некоторые на мягкий согласный: rzecz, przyjaźń — их запоминаем;</li>\n<li><b>средний</b> — на -o и -e: niebo, gniazdo, uszanowanie, wyznanie, mieszkanie.</li></ul>\n<p>Род не всегда как в русском: <b>kraj</b> мужского рода, а «страна» — женского; <b>światłocień</b> мужского, а «светотень» — женского.</p>\n<p>«Этот» тоже по родам: <b>ten</b> kraj, <b>ta</b> ziemia, <b>to</b> niebo. У Норвида: «Do kraju <b>tego</b>» — это тот же ten, только в другом падеже (урок 11).</p>"
+  },
+  {
+   "n": 3,
+   "title": "Прилагательные: согласование",
+   "ref": "ref-adj",
+   "intro": "<p>Прилагательное меняет окончание по роду существительного, как в русском:</p>\n<ul><li>мужской: duż<b>y</b> kraj, pierwsz<b>y</b> ukłon;</li>\n<li>женский: duż<b>a</b> wina, inn<b>a</b> rzecz;</li>\n<li>средний: duż<b>e</b> gniazdo, odwieczn<b>e</b> wyznanie.</li></ul>\n<p>Мягкие прилагательные вместо -y пишут -i: bocian<b>i</b>, bocian<b>ia</b>, bocian<b>ie</b>. «Мой» — <b>mój, moja, moje</b>.</p>\n<p>В стихах прилагательное часто стоит после существительного: «gniazdo bocianie» = bocianie gniazdo, «rzeczy innej» = innej rzeczy.</p>"
+  },
+  {
+   "n": 4,
+   "title": "Глагол być, местоимения, служебные слова",
+   "ref": "ref-pres",
+   "intro": "<p><b>Личные местоимения:</b> ja (я), ty (ты), on (он), ona (она), ono (оно), my (мы), wy (вы), <b>oni</b> (они — если есть хоть один мужчина), <b>one</b> (они — все остальные).</p>\n<p><b>być</b> — быть: jestem, jesteś, jest, jesteśmy, jesteście, są. Местоимение обычно опускают: <i>Jestem</i> = я (есть).</p>\n<p>В отличие от русского, связку не пропускают: <i>Kraj <b>jest</b> duży</i> — страна большая. У Норвида: «pierwsze ukłony <b>są</b> jak…» — первые поклоны (суть) как…</p>\n<p>И короткие слова стиха: gdzie, jak, bo, i, tak, nie, jeszcze, już.</p>"
+  },
+  {
+   "n": 5,
+   "title": "Настоящее время: -am, -asz",
+   "ref": "ref-pres",
+   "intro": "<p>У глагола шесть форм, и окончание само говорит, кто действует. Первый тип — на <b>-am, -asz</b>:</p>\n<p>mieć (иметь): <b>mam, masz, ma, mamy, macie, mają</b>.</p>\n<p>Так же: mieszkać (жить — от этого глагола слово mieszkanie), kochać (любить).</p>\n<p>У Норвида: «Do tych, co <b>mają</b> tak za tak» — к тем, кто считает «да» за «да». <i>Mieć coś za coś</i> — считать что-то чем-то.</p>"
+  },
+  {
+   "n": 6,
+   "title": "Настоящее время: -ę, -isz",
+   "ref": "ref-pres",
+   "intro": "<p>Второй тип — на <b>-ę, -isz</b>: podnosić (поднимать): <b>podnoszę, podnosisz, podnosi, podnosimy, podnosicie, podnoszą</b>.</p>\n<ul><li>После cz, sz, ż, rz вместо i пишется y: służ<b>y</b>sz, leż<b>y</b>sz.</li>\n<li>В формах ja и oni часто чередование: podno<b>sz</b>ę, podno<b>sz</b>ą (s → sz), mu<b>sz</b>ę, mu<b>sz</b>ą.</li>\n<li>stać (стоять) — особый: stoję, stoisz, stoi, stoimy, stoicie, stoją.</li></ul>\n<p>Из стиха: «<b>Podnoszą</b> z ziemi», «wszystkim <b>służą</b>», «gdzie <b>leży</b> mieszkanie», «któż o mnie <b>stoi</b>», «tak być <b>musi</b>».</p>"
+  },
+  {
+   "n": 7,
+   "title": "Настоящее время: -ę, -esz и -em; отрицание",
+   "ref": "ref-pres",
+   "intro": "<p>Третий тип — на <b>-ę, -esz</b>: psuć (портить): <b>psuję, psujesz, psuje, psujemy, psujecie, psują</b>.</p>\n<p>И особые на <b>-em</b>: wiedzieć (знать): <b>wiem, wiesz, wie, wiemy, wiecie, wiedzą</b> — у oni своя форма.</p>\n<p><b>Отрицание</b> — nie перед глаголом, как в русском: <i>nie wiem</i> — не знаю, <i>nie mam</i> — не имею. У Норвида: «już <b>nie wiem</b>, gdzie leży mieszkanie».</p>"
+  },
+  {
+   "n": 8,
+   "title": "Падежи. Biernik: женский и средний род",
+   "ref": "ref-acc",
+   "intro": "<p>В польском семь падежей: шесть русских и звательный. Начнём с <b>Biernik</b> (винительный): кого? что? — прямое дополнение.</p>\n<ul><li>женский род на -a → <b>-ę</b>: kruszyna → kruszyn<b>ę</b>, ziemia → ziemi<b>ę</b>;</li>\n<li>женский на согласный не меняется: rzecz, przyjaźń;</li>\n<li>средний род не меняется: gniazdo, uszanowanie.</li></ul>\n<p>ta → <b>tę</b>, прилагательное ж.р. → <b>-ą</b>: Widzę tę dużą gruszę. Предлог <b>przez</b> всегда с Biernik: «przez uszanowanie».</p>\n<p>Новый глагол: widzieć — видеть (widzę, widzisz…). У Норвида: «gdzie <b>kruszynę</b> chleba podnoszą», «Popsować <b>gniazdo</b>».</p>"
+  },
+  {
+   "n": 9,
+   "title": "Biernik: мужской род",
+   "ref": "ref-acc",
+   "intro": "<p>Мужской род в Biernik зависит от одушевлённости — как в русском:</p>\n<ul><li><b>неодушевлённые</b> не меняются: Kocham ten kraj, Mam chleb, Mam dar;</li>\n<li><b>одушевлённые</b> (люди и животные) получают <b>-a</b>, как в Dopełniacz: Chwalę Pan<b>a</b>, Widzę bocian<b>a</b>, Wyznaję Chrystus<b>a</b>.</li></ul>\n<p>Прилагательное у одушевлённых тоже как в Dopełniacz: Widzę <b>tego</b> bociana, Kocham <b>mojego</b> brata.</p>\n<p>Новые глаголы: wyznawać — исповедовать (wyznaję, от него wyznanie), widzieć — видеть.</p>"
+  },
+  {
+   "n": 10,
+   "title": "Dopełniacz: существительные",
+   "ref": "ref-gen",
+   "intro": "<p><b>Dopełniacz</b> (родительный): кого? чего? Нужен:</p>\n<ul><li>для части и принадлежности: kruszyna <b>chleba</b>, dar <b>nieba</b>, <b>Chrystusa</b> wyznanie, gniazdo <b>bociana</b>;</li>\n<li>при <b>отрицании</b> вместо Biernik: Mam chleb → Nie mam <b>chleba</b>;</li>\n<li>после do, z («из, с»), bez, dla, u: do <b>kraju</b>, z <b>ziemi</b>, bez <b>światłocienia</b>.</li></ul>\n<p>Окончания: м.р. <b>-a</b> или <b>-u</b> (chleba, Pana / kraju, daru — правила нет, запоминаем); ж.р. <b>-y</b> / <b>-i</b> (kruszyny, winy / ziemi, rzeczy, przyjaźni); ср.р. <b>-a</b> (nieba, gniazda).</p>\n<p>Норвид сам сложил слова с bez-: <b>beztęsknota</b> (жизнь без тоски), <b>bezmyślenie</b> (без раздумий): «Do beztęsknoty i do bezmyślenia».</p>"
+  },
+  {
+   "n": 11,
+   "title": "Dopełniacz: прилагательные и ten",
+   "ref": "ref-adj",
+   "intro": "<p>Прилагательные и ten в Dopełniacz:</p>\n<ul><li>мужской и средний род — <b>-ego</b>: tego, innego, pierwszego, mojego;</li>\n<li>женский — <b>-ej</b>: tej, innej, niewinnej, mojej.</li></ul>\n<p>У Норвида прилагательное часто после существительного: «Do kraju <b>tego</b>» = do tego kraju; «Tęskno mi… do rzeczy <b>innej</b>… równie <b>niewinnej</b>» = по другой, столь же невинной вещи.</p>"
+  },
+  {
+   "n": 12,
+   "title": "Narzędnik",
+   "ref": "ref-instr",
+   "intro": "<p><b>Narzędnik</b> (творительный): кем? чем? Нужен:</p>\n<ul><li>после <b>być + существительное</b>: Chleb jest <b>darem</b> nieba; у Норвида «gdzie <b>winą</b> jest <b>dużą</b>» — где большой виной является…;</li>\n<li>после z в значении «вместе с»: z Panem;</li>\n<li>после tęsknić za (тосковать по): tęsknię za ziemią;</li>\n<li>после pod, nad, przed, za, między на вопрос «где?»: pod gruszą.</li></ul>\n<p>Окончания: м.р. и ср.р. <b>-em</b> (darem, niebem, mieszkaniem), ж.р. <b>-ą</b> (ziemią, winą, przyjaźnią); прилагательные -ym / -ą.</p>"
+  },
+  {
+   "n": 13,
+   "title": "Miejscownik и чередования",
+   "ref": "ref-loc",
+   "intro": "<p><b>Miejscownik</b> (предложный) бывает только с предлогами <b>w, na, o, przy, po</b>: na gruszy, o niebie, w kraju.</p>\n<p>Окончание <b>-e</b> смягчает основу: dar → dar<b>ze</b>, niebo → nieb<b>ie</b>, gniazdo → gnieźdz<b>ie</b>, kruszyna → kruszyn<b>ie</b>, tęsknota → tęskno<b>cie</b>, Chrystus → Chrystus<b>ie</b>.</p>\n<p>Окончание <b>-u</b>: после k, g, ch и мягких, и у некоторых слов: kraj → kraju, Pan → Panu, mieszkanie → mieszkaniu. Женский на мягкий — <b>-i</b>: ziemi, gruszy, rzeczy, przyjaźni.</p>\n<p>Где? — na gruszy (Miejscownik). Куда? — na gruszę (Biernik). У Норвида: «na <b>gruszy</b>», «o <b>mnie</b>».</p>"
+  },
+  {
+   "n": 14,
+   "title": "Celownik",
+   "ref": "ref-dat",
+   "intro": "<p><b>Celownik</b> (дательный): кому? чему? Нужен после służyć (служить кому), dziękować (благодарить кого — по-польски «кому»!), pomagać, и в безличных: <b>tęskno mi</b>, zimno mi.</p>\n<p>Окончания: м.р. <b>-owi</b> (krajowi, bocianowi, Chrystusowi; но Panu), ж.р. как в Miejscownik (kruszynie, ziemi, przyjaźni), ср.р. <b>-u</b> (niebu, gniazdu, mieszkaniu).</p>\n<p>Местоимения: mi, ci, mu, jej, nam, wam, im. У Норвида: «Tęskno <b>mi</b>», «Bo <b>wszystkim</b> służą», «<b>Przyjaźni mojéj</b>» — моей дружбе (é — старое написание, сейчас mojej).</p>"
+  },
+  {
+   "n": 15,
+   "title": "Wołacz и всё склонение ед. ч.",
+   "ref": "ref-voc",
+   "intro": "<p><b>Wołacz</b> — форма обращения, как русское «Господи»:</p>\n<ul><li>м.р. <b>-e</b> / <b>-u</b>: Pan → Pan<b>ie</b>, bocian → bocian<b>ie</b>, kraj → kraj<b>u</b>; особое: Chrystus → <b>Chryste</b>;</li>\n<li>ж.р. <b>-o</b>: ziemia → ziemi<b>o</b>, tęsknota → tęsknot<b>o</b>; на мягкий согласный — <b>-i</b>: przyjaźń → przyjaźn<b>i</b>;</li>\n<li>ср.р. как Mianownik: niebo!</li></ul>\n<p>Ловушка из стиха: «gniazdo <b>bocianie</b>» — это прилагательное (аистиное), а «<b>Bocianie</b>!» — обращение к аисту.</p>\n<p>Дальше — таблицы: все падежи ед. ч. разом.</p>"
+  },
+  {
+   "n": 16,
+   "title": "Множественное число: Mianownik и Biernik",
+   "ref": "ref-mos",
+   "intro": "<p>Мн. ч. в Mianownik: м.р. и ж.р. <b>-y / -i / -e</b> (dary, ukłony, kraje, grusze, rzeczy), ср.р. <b>-a</b> (gniazda, mieszkania).</p>\n<p><b>Мужско-личная форма:</b> если речь о мужчинах — oni, wszyscy, pierwsi, panowie. Обо всём остальном (женщины, животные, вещи) — one, wszystkie, <b>pierwsze ukłony</b>, bociany.</p>\n<p>Biernik мн. ч. = Mianownik, кроме мужчин: widzę bociany, но widzę panów. У Норвида: «gdzie <b>pierwsze ukłony</b> / <b>Są</b> jak…».</p>"
+  },
+  {
+   "n": 17,
+   "title": "Множественное число: остальные падежи",
+   "ref": "ref-nouns",
+   "intro": "<p>Три падежа мн. ч. одинаковы у всех родов: Celownik <b>-om</b>, Narzędnik <b>-ami</b>, Miejscownik <b>-ach</b>: krajom, darami, o ukłonach.</p>\n<p>Dopełniacz мн. ч.: м.р. <b>-ów</b> (darów, ukłonów, bocianów), ж.р. и ср.р. часто <b>без окончания</b> (kruszyn, gniazd), мягкие на <b>-i</b> (rzeczy, przyjaźni).</p>\n<p>ten во мн. ч.: tych, tym, tymi. У Норвида: «Dla <b>darów</b> nieba», «Do <b>tych</b>, co mają…» — к тем, кто…</p>"
+  },
+  {
+   "n": 18,
+   "title": "Прошедшее время",
+   "ref": "ref-past",
+   "intro": "<p>Основа — инфинитив без -ć плюс <b>-ł</b>: tęskni-ć → tęsknił, być → był. Дальше окончания по роду и лицу:</p>\n<p>ja: tęskniłem / tęskniłam; ty: tęskniłeś / tęskniłaś; on, ona, ono: tęsknił, tęskniła, tęskniło; my: tęskniliśmy / tęskniłyśmy; oni / one: tęsknili / tęskniły.</p>\n<p><b>-li</b> — только о мужчинах, обо всём остальном <b>-ły</b>: bociany służyły. У глаголов на -eć e → a: leżeć → leżał, но leżeli.</p>\n<p>Безличное — в ср.р.: tęskno mi <b>było</b>.</p>"
+  },
+  {
+   "n": 19,
+   "title": "Будущее время и вид глагола",
+   "ref": "ref-fut",
+   "intro": "<p>Как в русском, глаголы парные: несов. вид — процесс (psuć — портить), сов. вид — результат (popsuć — испортить).</p>\n<ul><li>Будущее <b>несов.</b> вида: będę + инфинитив (или форма на -ł): będę tęsknić = będę tęsknił.</li>\n<li>Будущее <b>сов.</b> вида — его «настоящие» формы: popsuję (испорчу), pochwalę (похвалю).</li></ul>\n<p>У Норвида: «choć się tak nie <b>stanie</b>» — хоть так и не станется: stać się (стать, случиться) — сов. вид, stanie — будущее. И «Popsować gniazdo» — старая форма popsuć.</p>"
+  },
+  {
+   "n": 20,
+   "title": "Повелительное наклонение",
+   "ref": "ref-imper",
+   "intro": "<p>Берём форму «on» и отбрасываем окончание: on chwali → <b>chwal!</b>, on kocha → <b>kochaj!</b>; для нескольких -cie: chwalcie!, kochajcie!; «давайте» — -my: chwalmy!</p>\n<p>Особые: być → <b>bądź</b>, stać → <b>stój</b>. Запрет — с nie, обычно несов. вид: nie psuj!</p>\n<p>«Пусть» — <b>niech</b>: «Niech będzie pochwalony Jezus Chrystus» — старое польское приветствие, ответ: «Na wieki wieków. Amen». У Норвида оно звучит как «<b>Bądź</b> pochwalony!» — будь благословен.</p>"
+  },
+  {
+   "n": 21,
+   "title": "Условное наклонение",
+   "ref": "ref-cond",
+   "intro": "<p>Прошедшее время + <b>by</b> + окончание лица: tęsknił + by + m → <b>tęskniłbym</b> (я тосковал бы), tęskniła + by + m → tęskniłabym.</p>\n<p>by может уйти к союзу: <b>gdybym</b> wiedział — если бы я знал; вежливо: <b>chciałbym</b> — я хотел бы.</p>"
+  },
+  {
+   "n": 22,
+   "title": "który, kto, co; частица -ż; się",
+   "ref": "ref-sie",
+   "intro": "<p><b>który</b> склоняется как прилагательное: który, która, które; którego, której… У Норвида: «do rzeczy innej, / <b>Której</b>, już nie wiem, gdzie leży mieszkanie» — по вещи, чьё жилище, уже не знаю, где.</p>\n<p><b>co</b> в книжной речи значит «который, кто»: «Do tych, <b>co</b> mają…» — к тем, кто… <b>któż</b> = kto + <b>-ż</b> («кто же»).</p>\n<p><b>się</b> — как русское -ся, отдельным словом: stać się — стать, случиться. Может стоять перед глаголом: «choć <b>się</b> tak nie stanie».</p>\n<p>И последние слова стиха: ówdzie, równie, choć.</p>"
+  }
+ ],
+ "poem": {
+  "title": "Moja piosnka [II]",
+  "author": "Cyprian Kamil Norwid",
+  "year": 1854,
+  "lines": [
+   [
+    "Do kraju tego, gdzie kruszynę chleba",
+    "В ту страну, где крошку хлеба"
+   ],
+   [
+    "Podnoszą z ziemi przez uszanowanie",
+    "поднимают с земли из уважения"
+   ],
+   [
+    "Dla darów nieba,",
+    "к дарам неба,"
+   ],
+   [
+    "Tęskno mi, Panie.",
+    "тоскую я, Господи."
+   ],
+   [
+    "",
+    ""
+   ],
+   [
+    "Do kraju tego, gdzie winą jest dużą",
+    "В ту страну, где большой виной считается"
+   ],
+   [
+    "Popsować gniazdo na gruszy bocianie,",
+    "разорить аистиное гнездо на груше,"
+   ],
+   [
+    "Bo wszystkim służą,",
+    "потому что они служат всем,"
+   ],
+   [
+    "Tęskno mi, Panie.",
+    "тоскую я, Господи."
+   ],
+   [
+    "",
+    ""
+   ],
+   [
+    "Do kraju tego, gdzie pierwsze ukłony",
+    "В ту страну, где первые поклоны"
+   ],
+   [
+    "Są jak odwieczne Chrystusa wyznanie:",
+    "как извечное исповедание Христа:"
+   ],
+   [
+    "«Bądź pochwalony!»",
+    "«Будь благословен!»"
+   ],
+   [
+    "Tęskno mi, Panie.",
+    "тоскую я, Господи."
+   ],
+   [
+    "",
+    ""
+   ],
+   [
+    "Tęskno mi jeszcze i do rzeczy innej,",
+    "Тоскую я ещё и по другой вещи,"
+   ],
+   [
+    "Której, już nie wiem, gdzie leży mieszkanie,",
+    "чьё жилище — уже не знаю, где,"
+   ],
+   [
+    "Równie niewinnej...",
+    "столь же невинной…"
+   ],
+   [
+    "Tęskno mi, Panie.",
+    "тоскую я, Господи."
+   ],
+   [
+    "",
+    ""
+   ],
+   [
+    "Do beztęsknoty i do bezmyślenia,",
+    "По жизни без тоски и без раздумий,"
+   ],
+   [
+    "Do tych, co mają tak za tak, nie za nie —",
+    "по тем, у кого «да» — это «да», а «нет» — это «нет»,"
+   ],
+   [
+    "Bez światłocienia,",
+    "без светотени,"
+   ],
+   [
+    "Tęskno mi, Panie.",
+    "тоскую я, Господи."
+   ],
+   [
+    "",
+    ""
+   ],
+   [
+    "Tęskno mi ówdzie, gdzie któż o mnie stoi?",
+    "Тоскую там, где — кто же обо мне печётся?"
+   ],
+   [
+    "I tak być musi, choć się tak nie stanie",
+    "И так быть должно, хоть так и не станется"
+   ],
+   [
+    "Przyjaźni mojéj!",
+    "с моей дружбой!"
+   ],
+   [
+    "Tęskno mi, Panie.",
+    "тоскую я, Господи."
+   ]
+  ]
+ }
+}

@@ -184,6 +184,26 @@ textarea{resize:vertical;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
 .ref th,.ref td{border-bottom:1px solid var(--line);padding:6px 8px 6px 0;text-align:left;vertical-align:top}
 .ref th{color:var(--muted);font-weight:500}
 .ref th small{font-weight:400}
+.lesson h2{margin-top:6px}
+.lessons{margin-top:6px}
+.lesson-row{border-top:1px solid var(--line);padding:8px 0}
+.lesson-row summary{display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none;margin:0;color:var(--ink);font-size:15px}
+.lesson-row summary::-webkit-details-marker{display:none}
+.lesson-row .ln{flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);font-size:13px}
+.lesson-row.cur .ln{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lesson-row.passed .ln{border-color:var(--good);color:var(--good)}
+.lesson-row.lock .lt{color:var(--muted)}
+.lesson-row .lt{flex:1}
+.lesson-row .lt small{display:block;color:var(--muted);font-size:12px}
+.lesson-row .lbar{flex:none;width:56px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.lesson-row .lbar i{display:block;height:100%;background:var(--good)}
+.lintro{margin-left:40px}
+.poem{margin-top:12px}
+.poem p{margin:0;font:400 18px/1.55 var(--serif)}
+.poem .pl,.poem .pr{display:block}
+.poem .pr{display:none;font:italic 400 15px/1.4 var(--serif);color:var(--muted);margin:0 0 6px}
+.poem.tron .pr{display:block}
+.poem .pgap{height:14px}
 .ref .hl,.ref .hl td{background:color-mix(in srgb,var(--focus) 16%,transparent);transition:background .4s}
 @media (min-width:560px){.ref .toc ol{columns:2;column-gap:28px}}
 @media (max-width:420px){.grades{grid-template-columns:repeat(2,1fr)}.tabs{gap:14px;font-size:15px}}
@@ -196,7 +216,7 @@ textarea{resize:vertical;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
     <h1>Падежи</h1>
     <nav class="tabs" aria-label="Разделы">
       <button data-tab="study" aria-selected="true">Занятие</button>
-      <button data-tab="ref" aria-selected="false">Грамматика</button>
+      <button data-tab="ref" aria-selected="false">Уроки</button>
       <button data-tab="stats" aria-selected="false">Прогресс</button>
       <button data-tab="deck" aria-selected="false">Колода</button>
       <button data-tab="settings" aria-selected="false" aria-label="Настройки" title="Настройки"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
@@ -233,7 +253,8 @@ var TOPICS={
   prep:{ru:'Предлоги',g:'other',ref:'ref-prep'},
   pron:{ru:'Местоимения',g:'other',ref:'ref-pron'},
   adj:{ru:'Прилагательные',g:'other',ref:'ref-adj'},
-  mos:{ru:'Мужско-личная форма',g:'other',ref:'ref-mos'}
+  mos:{ru:'Мужско-личная форма',g:'other',ref:'ref-mos'},
+  lex:{ru:'Значения слов',g:'other'}
 };
 var COLOR_CASES=['gen','acc','dat','instr','loc','voc'];
 var GROUPS=[['case','Падежи'],['verb','Глагол'],['other','Другое']];
@@ -351,6 +372,7 @@ function normItem(r){
           topics:(r.topics||[]).filter(function(t){return TOPICS[t];}),tags:r.tags||[]};
   if(r.key) it.key=r.key;
   if(r.per) it.per=r.per;
+  if(+r.lesson>0) it.lesson=+r.lesson;
   if(it.type==='cloze'){ if(!r.text||!/\{\{c\d+::/.test(r.text)) return null; it.text=r.text; }
   else if(it.type==='choice'){ if(!r.q||!r.options||r.options.indexOf(r.answer)<0) return null; it.q=r.q; it.options=r.options.slice(); it.answer=r.answer; }
   else if(it.type==='table'){ if(!r.q||!r.rows||!r.rows.length) return null; it.q=r.q; it.rows=r.rows.map(function(x){return [String(x[0]),String(x[1]),!!x[2]];}); }
@@ -476,13 +498,14 @@ function parsePack(file,text){
 /* ---------- state: create / load / save ---------- */
 function newState(){
   return {v:2,updated:0,seq:0,cards:{},cfg:Object.assign({},DEF),daily:{day:-1,newDone:0,extra:0},
-          buried:{},log:[],packs:{},hidden:{},local:[],drills:{},dstat:{}};
+          buried:{},log:[],packs:{},hidden:{},local:[],drills:{},dstat:{},course:{open:1,seen:{}}};
 }
 function migrate(){
   S.cfg=Object.assign({},DEF,S.cfg||{});
   S.daily=S.daily||{day:-1,newDone:0,extra:0};
   S.buried=S.buried||{}; S.log=S.log||[]; S.cards=S.cards||{}; S.seq=S.seq||0;
   S.packs=S.packs||{}; S.hidden=S.hidden||{}; S.drills=S.drills||{}; S.dstat=S.dstat||{};
+  S.course=S.course||{open:1,seen:{}}; S.course.seen=S.course.seen||{};
   S.local=(S.local||[]).map(function(n){ return n.type?n:legacyItem(n.text,n.extra,n.tags); });
 }
 function loadJSON(k){ try{ var raw=localStorage.getItem(k); return raw?JSON.parse(raw):null; }catch(e){ return null; } }
@@ -504,6 +527,7 @@ function buildNotes(){
   var lv=S.cfg.levels;
   var add=function(it,src,pi,ii){
     if(!it||lv.indexOf(it.level)<0) return;
+    if(it.lesson&&it.lesson>S.course.open) return;
     var id=noteId(it); if(NOTES[id]||S.hidden[id]) return;
     var o=Object.assign({},it,{id:id,src:src,pi:pi,ii:ii});
     NOTES[id]=o; NOTE_LIST.push(o);
@@ -535,12 +559,83 @@ function ensureCards(){
 }
 function applyContent(){
   buildNotes();
+  checkUnlock();
   var added=ensureCards();
   if(!added.length) return '';
   persist();
   var by={}, order=[];
   added.forEach(function(s){ if(!by[s]){by[s]=0;order.push(s);} by[s]++; });
   return 'Новые карточки: '+order.map(function(s){return '«'+packTitle(s)+'» +'+by[s];}).join(', ')+'.';
+}
+
+/* ---------- курс: уроки открываются по очереди ----------
+   Урок открыт, если его номер ≤ S.course.open. Следующий открывается сам, когда у текущего
+   не осталось новых карточек и 80% выучено (дошло до повторений), или вручную кнопкой. */
+var UNLOCK_SHARE=0.8;
+function lessons(){ return (C.course&&C.course.lessons)||[]; }
+function lessonTitle(n){ var L=lessons()[n-1]; return L?L.title:''; }
+function lessonCounts(){
+  var out={}, lv=S.cfg.levels;
+  C.packs.forEach(function(p){
+    if(!packOn(p.id)) return;
+    p.items.forEach(function(it){
+      if(!it.lesson||lv.indexOf(it.level)<0) return;
+      var id=noteId(it); if(S.hidden[id]) return;
+      var o=out[it.lesson]||(out[it.lesson]={total:0,nw:0,rev:0});
+      cardNums(it).forEach(function(k){ var c=S.cards[id+'-'+k]; o.total++; if(!c||c.st==='new') o.nw++; else if(c.st==='review') o.rev++; });
+    });
+  });
+  return out;
+}
+function openNext(){
+  if(S.course.open>=lessons().length) return false;
+  S.course.open++; buildNotes(); ensureCards(); persist();
+  notice='Открыт урок '+S.course.open+': '+lessonTitle(S.course.open)+'.';
+  return true;
+}
+function checkUnlock(){
+  var ls=lessons(), changed=false;
+  while(ls.length&&S.course.open<ls.length){
+    var st=lessonCounts()[S.course.open]||{total:0,nw:0,rev:0};
+    if(st.total&&!(st.nw===0&&st.rev>=UNLOCK_SHARE*st.total)) break;
+    S.course.open++; changed=true;
+  }
+  if(changed){ buildNotes(); ensureCards(); persist(); notice='Открыт урок '+S.course.open+': '+lessonTitle(S.course.open)+'.'; }
+  return changed;
+}
+function lessonIntroHTML(n){
+  var L=lessons()[n-1];
+  return '<section class="lesson"><div class="src">Урок '+n+' из '+lessons().length+'</div><h2>'+esc(L.title)+'</h2>'+
+    '<div class="ref">'+L.intro+'</div><div class="actions"><button class="btn primary" data-act="lseen" data-n="'+n+'">К упражнениям</button>'+
+    (L.ref?'<button class="btn" data-act="ref" data-a="'+L.ref+'">Подробнее в справке</button>':'')+'</div></section>';
+}
+function nextLessonHint(){
+  var ls=lessons(), o=S.course.open; if(!ls.length||o>=ls.length) return '';
+  var st=lessonCounts()[o]; if(!st||st.nw>0) return '';
+  return '<p class="hint">Новые карточки урока '+o+' закончились. Урок '+(o+1)+' откроется сам, когда выучишь '+Math.round(UNLOCK_SHARE*100)+'% карточек этого урока (сейчас '+st.rev+' из '+st.total+'). Можно открыть его и сейчас.</p>'+
+    '<div class="actions"><button class="btn" data-act="lopen">Открыть урок '+(o+1)+'</button></div>';
+}
+function courseHTML(){
+  var ls=lessons(); if(!ls.length) return '';
+  var cnt=lessonCounts(), o=S.course.open;
+  var h='<h2>Курс: урок '+o+' из '+ls.length+'</h2><p class="hint">Уроки идут по порядку, как в учебнике. Следующий открывается, когда выучено '+Math.round(UNLOCK_SHARE*100)+'% карточек текущего; можно открыть и раньше.</p><div class="lessons">';
+  ls.forEach(function(L){
+    var st=cnt[L.n]||{total:0,nw:0,rev:0}, state=L.n<o?'passed':(L.n===o?'cur':'lock'), pct=st.total?Math.round(100*st.rev/st.total):0;
+    h+='<details class="lesson-row '+state+'"'+(state==='cur'?' open':'')+'><summary><span class="ln">'+L.n+'</span>'+
+       '<span class="lt">'+esc(L.title)+'<small>'+(state==='lock'?'закрыт · карточек '+st.total:'выучено '+st.rev+' из '+st.total)+'</small></span>'+
+       '<span class="lbar"><i style="width:'+pct+'%"></i></span></summary><div class="ref lintro">'+L.intro+'</div><div class="actions lintro">'+
+       (L.ref?'<button class="btn" data-act="ref" data-a="'+L.ref+'">Справка по теме</button>':'')+
+       (state==='cur'&&o<ls.length?'<button class="btn" data-act="lopen">Открыть урок '+(o+1)+' сейчас</button>':'')+'</div></details>';
+  });
+  return h+'</div>';
+}
+function poemHTML(){
+  var P=C.course&&C.course.poem; if(!P) return '';
+  var on=!!S.cfg.poemTr;
+  var h='<h2>Стих целиком</h2><p class="hint">'+esc(P.author)+', «'+esc(P.title)+'», '+esc(P.year)+'</p>'+
+        '<button class="pill" data-act="ptr">'+(on?'Скрыть перевод':'Показать перевод')+'</button><div class="poem'+(on?' tron':'')+'" id="poem">';
+  P.lines.forEach(function(l){ h+=l[0]?'<p><span class="pl">'+esc(l[0])+'</span><span class="pr">'+esc(l[1])+'</span></p>':'<p class="pgap"></p>'; });
+  return h+'</div>';
 }
 
 /* ---------- server packs ---------- */
@@ -552,9 +647,12 @@ function refreshPacks(manual){
   fetch('packs/index.json?t='+Date.now(),{cache:'no-store'}).then(function(r){
     if(!r.ok) throw new Error('HTTP '+r.status); return r.json();
   }).then(function(idx){
-    var prev={};
+    var prev={}, ci=idx&&idx.course;
     C.packs.forEach(function(p){prev[p.id]=p;});
-    return Promise.all(((idx&&idx.packs)||[]).map(function(p){
+    var course=(ci&&!(C.course&&C.course.hash===ci.hash))?
+      fetch(ci.file+'?v='+encodeURIComponent(ci.hash)).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+        .then(function(j){ j.hash=ci.hash; return j; }).catch(function(){ return C.course||null; }):Promise.resolve(C.course||null);
+    return Promise.all([course,Promise.all(((idx&&idx.packs)||[]).map(function(p){
       var old=prev[p.id];
       if(old&&p.hash&&old.hash===p.hash) return Object.assign({},old,{title:p.title||old.title});
       return fetch(p.file+'?v='+encodeURIComponent(p.hash||Date.now())).then(function(r){
@@ -563,9 +661,9 @@ function refreshPacks(manual){
         var pk=parsePack(p.file,t);
         return {id:p.id,title:p.title||pk.title||p.id,hash:p.hash||'',items:pk.items};
       }).catch(function(){ return old||null; });
-    }));
-  }).then(function(packs){
-    C={packs:packs.filter(Boolean),checked:Date.now()}; saveContent();
+    }))]);
+  }).then(function(res){
+    C={packs:res[1].filter(Boolean),course:res[0],checked:Date.now()}; saveContent();
     var msg=applyContent();
     if(msg) notice=msg;
     net.busy=false;
@@ -633,7 +731,7 @@ function isLearn(c){ return c.st==='learn'||c.st==='relearn'; }
 /* новые карточки: сперва ошибки из тренировки, дальше от лёгких к сложным — уровень, пакет, порядок в пакете */
 function newOrder(a,b){
   var A=NOTES[a.c.n], B=NOTES[b.c.n];
-  return ((A.pi<0)-(B.pi<0))*-1||(A.level-B.level)||(A.pi-B.pi)||(A.ii-B.ii)||(a.c.k-b.c.k);
+  return ((A.pi<0)-(B.pi<0))*-1||((A.lesson||99)-(B.lesson||99))||(A.level-B.level)||(A.pi-B.pi)||(A.ii-B.ii)||(a.c.k-b.c.k);
 }
 function queueCounts(){
   ensureDaily();
@@ -690,7 +788,7 @@ function emptyHTML(q){
   } else if(q.nwTotal>0&&!lrn.length){
     h+='<p class="hint">Остальные новые карточки откроются завтра: соседние карточки одной заметки откладываются на день.</p>';
   }
-  return h+'</div>';
+  return h+nextLessonHint()+'</div>';
 }
 function keysHTML(){
   return '<div class="keys" role="group" aria-label="Польские буквы">'+
@@ -698,19 +796,24 @@ function keysHTML(){
 }
 function refLinksHTML(tps){
   var seen={}, out=[];
-  tps.forEach(function(t){ var T=TOPICS[t]; if(T&&!seen[T.ref]){ seen[T.ref]=1; out.push('<button class="link" data-act="ref" data-a="'+T.ref+'">'+esc(T.link||T.pl||T.ru)+'</button>'); } });
+  tps.forEach(function(t){ var T=TOPICS[t]; if(T&&T.ref&&!seen[T.ref]){ seen[T.ref]=1; out.push('<button class="link" data-act="ref" data-a="'+T.ref+'">'+esc(T.link||T.pl||T.ru)+'</button>'); } });
   return out.length?'<div class="reflinks"><span>Справка:</span>'+out.join('')+'</div>':'';
 }
 function renderStudy(v){
   ensureDaily();
   if(cur&&(!S.cards[cur.id]||!NOTES[S.cards[cur.id].n])) cur=null;
   if(!cur){ var id=pickNext(); if(id) startCard(id); }
+  if(cur){
+    var n0=NOTES[S.cards[cur.id].n];
+    if(n0.lesson&&S.cards[cur.id].st==='new'&&!S.course.seen[n0.lesson]&&lessons()[n0.lesson-1]){ v.innerHTML=bannersHTML()+lessonIntroHTML(n0.lesson); return; }
+  }
   var q=queueCounts();
   var act=cur?(S.cards[cur.id].st==='new'?'nw':(S.cards[cur.id].st==='review'?'rev':'lrn')):'';
   var h=bannersHTML()+
         '<div class="counts"><span class="'+(act==='nw'?'on':'')+'">Новые <b>'+q.nw+'</b></span>'+
         '<span class="'+(act==='lrn'?'on':'')+'">Обучение <b>'+q.lrn+'</b></span>'+
-        '<span class="'+(act==='rev'?'on':'')+'">Повторения <b>'+q.rev+'</b></span></div>';
+        '<span class="'+(act==='rev'?'on':'')+'">Повторения <b>'+q.rev+'</b></span>'+
+        (lessons().length?'<span>Урок <b>'+S.course.open+'</b> из '+lessons().length+'</span>':'')+'</div>';
   if(!cur){
     h+=emptyHTML(q);
     if(undoRec) h+='<div class="undo"><button class="link" data-act="undo">Отменить последнюю оценку</button></div>';
@@ -782,7 +885,7 @@ function grade(g){
   S.log.push(e);
   if(S.log.length>LOG_MAX) S.log.splice(0,S.log.length-LOG_MAX);
   notice=''; confirmKey=null;
-  persist(); cur=null; render();
+  persist(); checkUnlock(); cur=null; render();
 }
 function undo(){
   if(!undoRec) return;
@@ -821,7 +924,7 @@ function ruPrep(p,w){
 function fillRu(t,get){ return t.replace(/\{(?:([^:{}]+):)?(\w+)\}/g,function(_,p,c){ var w=get(c); return p?ruPrep(p,w)+' '+w:w; }); }
 function nForm(n,c,pl){ return pl?n.pln[c==='voc'?0:CI[c]]:n.sg[CI[c]]; }
 function nRu(n,c,pl){ return (pl?n.rpl:n.rsg)[RI[c]]; }
-function fits(n,t){ return t.only?t.only.indexOf(n.pl)>=0:(!t.cls||n.cls.some(function(x){return t.cls.indexOf(x)>=0;})); }
+function fits(n,t){ if(n.nodrill) return false; return t.only?t.only.indexOf(n.pl)>=0:(!t.cls||n.cls.some(function(x){return t.cls.indexOf(x)>=0;})); }
 function nounNote(n,pl,c){
   var ks=['nom','gen','dat','acc','instr','loc'].concat(pl?[]:['voc']);
   return '<b>'+esc(n.pl)+'</b> ('+esc(n.ru)+'), '+(pl?'мн. ч.':'ед. ч.')+': '+ks.map(function(k){
@@ -859,7 +962,7 @@ function bold(list,i){ return list.map(function(f,j){ f=esc(f); return j===i?'<b
 /* mieć по-русски естественнее через «у меня есть»: Mamy czas → У нас есть время */
 var HAVE={'я':'у меня','ты':'у тебя','он':'у него','она':'у неё','мы':'у нас','вы':'у вас','они':'у них'};
 function qVerb(t){
-  var v=rnd(LEX.verbs.filter(function(x){ return t==='imper'?x.imper:t==='futp'?x.perf:true; }));
+  var v=rnd(LEX.verbs.filter(function(x){ return !x.nodrill&&(t==='imper'?x.imper:t==='futp'?x.perf:true); }));
   var obj=v.obj?' '+v.obj:'', q={topic:TTOPIC[t],topics:[TTOPIC[t]],color:'verb',label:TNAME[t],hint:v.inf,verb:true};
   if(t==='pres'||t==='futi'||t==='futp'){
     var p=rnd(P6), i=p.i;
@@ -991,7 +1094,7 @@ function renderRef(v){
   if(REF===null||LEX===null){ v.innerHTML='<p class="hint" style="margin-top:20px">Загружаю…</p>'; loadGrammar(); return; }
   if(drill&&!refShow){ renderDrill(v); return; }
   var h=refBack?'<div class="backbar"><button class="btn" data-act="back">'+(refBack==='drill'?'← Вернуться к тренировке':'← Вернуться к карточке')+'</button></div>':'';
-  h+=drillsHTML();
+  h+=courseHTML()+poemHTML()+drillsHTML();
   if(REF===false) h+='<p class="empty">Справка не загрузилась. Открой эту вкладку один раз с интернетом, дальше она будет работать и офлайн.</p>';
   else h+='<div class="ref">'+REF+'</div>';
   v.innerHTML=h;
@@ -1025,7 +1128,8 @@ function renderStats(v){
     (e.x||[]).forEach(function(p){bump(p[0],!!p[1]);});
   });
   var streak=0, d0=days[td]?td:td-1; while(days[d0]){streak++;d0--;}
-  var h='<h2>Сегодня</h2><p>Ответов: <b>'+today+'</b>. Дней подряд: <b>'+streak+'</b>.</p>';
+  var h='<h2>Сегодня</h2><p>Ответов: <b>'+today+'</b>. Дней подряд: <b>'+streak+'</b>.</p>'+
+        (lessons().length?'<p>Курс: урок <b>'+S.course.open+'</b> из '+lessons().length+' — '+esc(lessonTitle(S.course.open))+'.</p>':'');
   if(r30.n) h+='<p>Не провалено в повторениях за 30 дней: <b>'+Math.round(100*r30.ok/r30.n)+'%</b> из '+r30.n+'.</p>';
   var segs=[['Новые',cnt.nw,null],['Обучение',cnt.lrn,'var(--c-dat)'],['Молодые',cnt.young,'var(--c-acc)'],['Зрелые',cnt.mature,'var(--c-gen)']];
   var sty=function(s){return s[2]?'background:'+s[2]:'background:var(--muted);opacity:.35';};
@@ -1057,7 +1161,7 @@ function renderStats(v){
       var st=S.drills[D.id], p=Math.round(100*st.ok/Math.max(1,st.n)), col=D.kind==='verb'?'verb':(D.cs&&D.cs.length===1?D.cs[0]:'none');
       h+='<div class="acc" style="--cc:var(--c-'+col+')"><div class="top"><span>'+esc(D.name)+'</span><span>последний раз '+st.last+' · всего '+p+'% из '+st.n+'</span></div><div class="bar"><i style="width:'+p+'%"></i></div></div>';
     });
-  } else h+='<p class="hint">Здесь появятся результаты тренировок из вкладки «Грамматика».</p>';
+  } else h+='<p class="hint">Здесь появятся результаты тренировок из вкладки «Уроки».</p>';
   v.innerHTML=h;
 }
 
@@ -1071,7 +1175,7 @@ function noteLI(it,isLocal){
   var id=noteId(it), hid=!!S.hidden[id], btn;
   if(isLocal) btn='<button class="link" data-act="delnote" data-id="'+id+'">'+(confirmKey===id?'Точно удалить?':'Удалить')+'</button>';
   else btn='<button class="link" data-act="'+(hid?'unhide':'hidenote')+'" data-id="'+id+'">'+(hid?'Вернуть':'Скрыть')+'</button>';
-  return '<li'+(hid?' class="off"':'')+'><div class="nt">'+esc(itemPlain(it))+'</div><div class="meta"><span>'+TYPES[it.type]+' · ур. '+it.level+'</span>'+topicDots(it)+
+  return '<li'+(hid?' class="off"':'')+'><div class="nt">'+esc(itemPlain(it))+'</div><div class="meta"><span>'+(it.lesson?'урок '+it.lesson+' · ':'')+TYPES[it.type]+' · ур. '+it.level+'</span>'+topicDots(it)+
          (hid?'<span>скрыта</span>':'')+btn+'</div></li>';
 }
 function packCounts(items){
@@ -1223,6 +1327,13 @@ var handlers={
     if(refBack==='drill'){ refShow=false; refBack=false; }
     else { tab='study'; refBack=false; }
     render(); window.scrollTo(0,0);
+  },
+  lseen:function(t){ S.course.seen[t.dataset.n]=Date.now(); saveLocal(); render(); window.scrollTo(0,0); },
+  lopen:function(){ if(openNext()){ cur=null; render(); window.scrollTo(0,0); } },
+  ptr:function(t){
+    S.cfg.poemTr=!S.cfg.poemTr; saveLocal();
+    var el=$('#poem'); if(el) el.classList.toggle('tron',S.cfg.poemTr);
+    t.textContent=S.cfg.poemTr?'Скрыть перевод':'Показать перевод';
   },
   dstart:function(t){ startDrill(t.dataset.id); },
   dagain:function(){ startDrill(drill.id); },

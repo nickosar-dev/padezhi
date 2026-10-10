@@ -19,7 +19,9 @@ INDEX = PACKS / "index.json"
 CLOZE = re.compile(r"\{\{c(\d+)::(.*?)(?:::(.*?))?\}\}", re.S)
 ALLOWED_TAGS = re.compile(r"</?(?:br|i|b)\s*/?>", re.I)
 CASES = {"nom", "gen", "dat", "acc", "instr", "loc", "voc"}
-TOPICS = CASES | {"decl", "pres", "past", "fut", "imper", "cond", "aspect", "verb", "prep", "pron", "adj", "mos"}
+TOPICS = CASES | {"decl", "pres", "past", "fut", "imper", "cond", "aspect", "verb", "prep", "pron", "adj", "mos", "lex"}
+COURSE = PACKS / "course.json"
+LESSONS = set()
 TYPES = {"cloze", "choice", "table"}
 
 
@@ -65,6 +67,8 @@ def check_item(where, it):
         return [f"{where}: неизвестный type «{t}»"], [], 0
     if it.get("level", 2) not in (1, 2, 3):
         errors.append(f"{where}: level должен быть 1, 2 или 3")
+    if "lesson" in it and it["lesson"] not in LESSONS:
+        errors.append(f"{where}: урока {it['lesson']} нет в course.json")
     for topic in it.get("topics", []):
         if topic not in TOPICS:
             errors.append(f"{where}: неизвестная тема «{topic}»")
@@ -221,14 +225,32 @@ def check_lexicon():
     return errors
 
 
+def check_course():
+    if not COURSE.exists():
+        return None, []
+    course = json.loads(COURSE.read_text(encoding="utf-8"))
+    errors = []
+    for i, L in enumerate(course.get("lessons", []), 1):
+        if L.get("n") != i:
+            errors.append(f"course.json: уроки должны идти по порядку с 1, а {i}-й — номер {L.get('n')}")
+        for f in ("title", "intro"):
+            if not L.get(f):
+                errors.append(f"course.json: у урока {i} нет {f}")
+        LESSONS.add(L.get("n"))
+    print(f"course.json: {len(LESSONS)} уроков")
+    return {"file": "packs/course.json", "hash": hashlib.sha1(COURSE.read_bytes()).hexdigest()[:10]}, errors
+
+
 def main():
     lex_errors = check_lexicon()
+    course, course_errors = check_course()
+    lex_errors += course_errors
     old = []
     if INDEX.exists():
         old = [p["id"] for p in json.loads(INDEX.read_text(encoding="utf-8")).get("packs", [])]
     files = {}
     for p in sorted(PACKS.glob("*.json")) + sorted(PACKS.glob("*.txt")):
-        if p.name == INDEX.name:
+        if p.name in (INDEX.name, COURSE.name):
             continue
         if p.stem in files:
             print(f"ОШИБКА: два пакета с именем {p.stem}: {files[p.stem].name} и {p.name}")
@@ -260,10 +282,10 @@ def main():
         print("index.json не обновлён.")
         sys.exit(1)
 
-    INDEX.write_text(json.dumps({
-        "built": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "packs": packs,
-    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    index = {"built": datetime.now(timezone.utc).isoformat(timespec="seconds"), "packs": packs}
+    if course:
+        index["course"] = course
+    INDEX.write_text(json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"index.json: {len(packs)} пакетов")
 
 
