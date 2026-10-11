@@ -241,6 +241,28 @@ def check_course():
     return {"file": "packs/course.json", "hash": hashlib.sha1(COURSE.read_bytes()).hexdigest()[:10]}, errors
 
 
+APP_FILES = ["index.html", "grammar.html", "lexicon.json", "sw.js", "manifest.webmanifest"]
+APP_RE = re.compile(r"var APP_VERSION='[^']*'")
+
+
+def app_version():
+    """Хеш файлов приложения. Пишется в index.html (APP_VERSION) и в index.json (app):
+    если они расходятся, приложение на телефоне понимает, что держит старую копию, и обновляется."""
+    h = hashlib.sha1()
+    for name in APP_FILES:
+        data = (ROOT / name).read_text(encoding="utf-8")
+        if name == "index.html":
+            data = APP_RE.sub("var APP_VERSION=''", data)
+        h.update(data.encode("utf-8"))
+    v = h.hexdigest()[:10]
+    page = ROOT / "index.html"
+    text = page.read_text(encoding="utf-8")
+    new = APP_RE.sub(f"var APP_VERSION='{v}'", text, count=1)
+    if new != text:
+        page.write_text(new, encoding="utf-8")
+    return v
+
+
 def main():
     lex_errors = check_lexicon()
     course, course_errors = check_course()
@@ -282,7 +304,7 @@ def main():
         print("index.json не обновлён.")
         sys.exit(1)
 
-    index = {"built": datetime.now(timezone.utc).isoformat(timespec="seconds"), "packs": packs}
+    index = {"built": datetime.now(timezone.utc).isoformat(timespec="seconds"), "app": app_version(), "packs": packs}
     if course:
         index["course"] = course
     INDEX.write_text(json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

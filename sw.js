@@ -1,10 +1,10 @@
-/* Офлайн-режим: файлы приложения берём из сети (не дольше 4 с), копию кладём в кэш.
+/* Офлайн-режим: файлы приложения берём из сети (не дольше 10 с), копию кладём в кэш.
    Нет сети — отдаём последнюю копию. Поэтому новая версия приложения подхватывается
    сама, как только телефон в сети. Колоду (packs/) не кэшируем: приложение хранит её
    у себя и само честно пишет, что сервер недоступен. */
 var CACHE='padezhi';
 var SHELL=['./','index.html','grammar.html','lexicon.json','manifest.webmanifest','icon-192.png','icon-512.png'];
-var TIMEOUT=4000;
+var TIMEOUT=10000;  /* на медленном мобильном интернете 4 с не хватало, и показывалась старая копия */
 
 self.addEventListener('install',function(e){
   e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(SHELL);}).then(function(){return self.skipWaiting();}));

@@ -231,6 +231,8 @@ textarea{resize:vertical;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
 
 /* ---------- constants ---------- */
 var MIN=60000, DAY=86400000, KEY='pl-trainer-v2', CKEY='pl-trainer-content-v1', LOG_MAX=2000;
+/* версию проставляет build_packs.py; та же версия лежит в packs/index.json (его офлайн-кэш не трогает) */
+var APP_VERSION='36f3309308', BOOT_AT=Date.now(), appUpdate='';
 var DEF={newPerDay:7,steps:[1,10],relearnSteps:[10],gradIvl:1,easyIvl:4,startEase:2.3,
          ivlMod:0.8,maxIvl:90,mode:'type',lenient:false,levels:[1,2,3],trOn:false};
 /* Грамматические темы карточек: цвет, строка в статистике и раздел справки. */
@@ -647,6 +649,10 @@ function refreshPacks(manual){
   fetch('packs/index.json?t='+Date.now(),{cache:'no-store'}).then(function(r){
     if(!r.ok) throw new Error('HTTP '+r.status); return r.json();
   }).then(function(idx){
+    if(idx&&idx.app&&APP_VERSION!=='dev'&&idx.app!==APP_VERSION){
+      /* на старте обновляемся сразу, посреди занятия — только по кнопке */
+      if(Date.now()-BOOT_AT<15000) updateApp(idx.app); else { appUpdate=idx.app; softRender(); }
+    }
     var prev={}, ci=idx&&idx.course;
     C.packs.forEach(function(p){prev[p.id]=p;});
     var course=(ci&&!(C.course&&C.course.hash===ci.hash))?
@@ -763,8 +769,23 @@ function pickNext(){
 function startCard(id){ if(confirmKey==='hide') confirmKey=null; cur={id:id,phase:'ask',t0:Date.now(),vals:[],results:null,sug:null,tr:false,order:null,pick:null,x:null}; }
 
 /* ---------- study screen ---------- */
+/* Офлайн-кэш может держать старую копию приложения, если сеть медленная.
+   Чистим его и перезагружаемся: тогда страница возьмётся с сервера. Один раз за сеанс на версию. */
+/* перерисовать, только если это не сотрёт начатый ответ */
+function softRender(){
+  var typed=[].some.call(document.querySelectorAll('.blank-input,textarea'),function(i){return i.value;});
+  if(!typed) render();
+}
+function updateApp(v,force){
+  try{ if(!force&&sessionStorage.getItem('pt-upd')===v){ appUpdate=v; softRender(); return; } sessionStorage.setItem('pt-upd',v); }catch(e){}
+  var reload=function(){ location.reload(); };
+  (window.caches?caches.delete('padezhi'):Promise.resolve()).then(function(){
+    return navigator.serviceWorker&&navigator.serviceWorker.getRegistration?navigator.serviceWorker.getRegistration().then(function(r){ return r&&r.update(); }):null;
+  }).catch(function(){}).then(reload,reload);
+}
 function bannersHTML(){
   var h='';
+  if(appUpdate) h+='<div class="banner">Есть новая версия приложения.<br><button class="btn" data-act="appupd">Обновить</button></div>';
   if(saveFailed) h+='<div class="banner warn">Не получается сохранить прогресс в памяти браузера. Сохрани резервную копию в настройках.</div>';
   if(notice) h+='<div class="banner">'+esc(notice)+'</div>';
   if(installEvt) h+='<div class="banner">Можно установить «Падежи» как приложение: иконка на экране, работает без интернета.<br><button class="btn" data-act="install">Установить</button></div>';
@@ -1328,6 +1349,7 @@ var handlers={
     else { tab='study'; refBack=false; }
     render(); window.scrollTo(0,0);
   },
+  appupd:function(){ if(appUpdate) updateApp(appUpdate,true); },
   lseen:function(t){ S.course.seen[t.dataset.n]=Date.now(); saveLocal(); render(); window.scrollTo(0,0); },
   lopen:function(){ if(openNext()){ cur=null; render(); window.scrollTo(0,0); } },
   ptr:function(t){
