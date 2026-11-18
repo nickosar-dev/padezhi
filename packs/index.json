@@ -1,14 +1,14 @@
 {
-  "built": "2026-10-11T18:55:24+00:00",
-  "app": "36f3309308",
+  "built": "2026-11-18T19:28:50+00:00",
+  "app": "7cefb93809",
   "packs": [
     {
       "id": "norwid-kurs",
       "file": "packs/norwid-kurs.json",
       "title": "Курс · уроки по Норвиду",
-      "notes": 265,
-      "cards": 265,
-      "hash": "aa380b670b"
+      "notes": 334,
+      "cards": 334,
+      "hash": "98bc5577a4"
     },
     {
       "id": "norwid-moja-piosnka",
@@ -21,6 +21,6 @@
   ],
   "course": {
     "file": "packs/course.json",
-    "hash": "73b402a5f7"
+    "hash": "c8f40a9453"
   }
 }

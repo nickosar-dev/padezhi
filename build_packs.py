@@ -19,7 +19,7 @@ INDEX = PACKS / "index.json"
 CLOZE = re.compile(r"\{\{c(\d+)::(.*?)(?:::(.*?))?\}\}", re.S)
 ALLOWED_TAGS = re.compile(r"</?(?:br|i|b)\s*/?>", re.I)
 CASES = {"nom", "gen", "dat", "acc", "instr", "loc", "voc"}
-TOPICS = CASES | {"decl", "pres", "past", "fut", "imper", "cond", "aspect", "verb", "prep", "pron", "adj", "mos", "lex"}
+TOPICS = CASES | {"decl", "pres", "past", "fut", "imper", "cond", "aspect", "verb", "prep", "pron", "adj", "mos", "lex", "ctype", "calt", "cguess"}
 COURSE = PACKS / "course.json"
 LESSONS = set()
 TYPES = {"cloze", "choice", "table"}
@@ -163,6 +163,51 @@ def check_txt(path, seen):
     return title, n, cards, errors, warnings
 
 
+def check_conjugation(w, v):
+    """Сверка форм настоящего времени с общими правилами: по ним учится пользователь.
+    «ты» без -sz → «он»; «он» + my / cie → «мы» / «вы»; «я» с -ę → -ą даёт «они»."""
+    errors = []
+    t, P = v.get("t"), v.get("pres") or []
+    if t not in ("A", "I", "E", "U", "X"):
+        return [f"lexicon.json {w}: t должен быть A, I, E, U или X"]
+    if len(P) != 6:
+        return []
+    ja, ty = P[0], P[1]
+    ends = {"A": ("am", "asz"), "E": ("ę", "esz"), "U": ("uję", "ujesz"), "X": ("em", None)}
+    if t == "I":
+        if not (ja.endswith("ę") and (ty.endswith("isz") or ty.endswith("ysz"))):
+            errors.append(f"lexicon.json {w}: тип I — это -ę|-ię и -isz|-ysz, а тут {ja}, {ty}")
+    elif t == "X":
+        if not ja.endswith("em"):
+            errors.append(f"lexicon.json {w}: тип X — «я» на -em, а тут {ja}")
+    else:
+        e1, e2 = ends[t]
+        if not (ja.endswith(e1) and ty.endswith(e2)):
+            errors.append(f"lexicon.json {w}: тип {t} — это -{e1}, -{e2}, а тут {ja}, {ty}")
+    if v.get("irr") == "all":
+        return errors
+    if not ty.endswith("sz"):
+        return errors + [f"lexicon.json {w}: форма «ты» должна кончаться на -sz: {ty}"]
+    on = ty[:-2]
+    for i, (name, want) in enumerate((("on", on), ("my", on + "my"), ("wy", on + "cie")), 2):
+        if P[i] != want:
+            errors.append(f"lexicon.json {w}: «{name}» должно быть {want}, а в словаре {P[i]}")
+    if v.get("irr") != "oni":
+        if ja.endswith("ę"):
+            want = ja[:-1] + "ą"
+        elif ja.endswith("am"):
+            want = ja[:-2] + "ają"
+        else:
+            want = None
+        if want and P[5] != want:
+            errors.append(f"lexicon.json {w}: «oni» должно быть {want}, а в словаре {P[5]}")
+    if v.get("alt"):
+        wr = v.get("wrongJa") or []
+        if not 2 <= len(wr) <= 3 or ja in wr or len(set(wr)) != len(wr):
+            errors.append(f"lexicon.json {w}: wrongJa — 2–3 разных неверных варианта, без {ja}")
+    return errors
+
+
 def check_lexicon():
     """lexicon.json — словарь тренировки во вкладке «Грамматика»."""
     path = ROOT / "lexicon.json"
@@ -210,13 +255,15 @@ def check_lexicon():
         w = f"verbs/{v.get('inf')}"
         need(w + ".pres", v.get("pres"), 6)
         need(w + ".rpres", v.get("rpres"), 6)
-        need(w + ".past", v.get("past"), 4)
-        need(w + ".rpast", v.get("rpast"), 4)
+        if not v.get("presOnly"):
+            need(w + ".past", v.get("past"), 4)
+            need(w + ".rpast", v.get("rpast"), 4)
         if v.get("imper") is not None:
             need(w + ".imper", v.get("imper"), 3)
             need(w + ".rimper", v.get("rimper"), 3)
-        if not str(v.get("past", [""])[0]).endswith("em"):
+        if not v.get("presOnly") and not str(v.get("past", [""])[0]).endswith("em"):
             errors.append(f"lexicon.json {w}: past[0] — форма «ja, м.р.» на -em")
+        errors += check_conjugation(w, v)
         if v.get("perf"):
             need(w + ".perf.fut", v["perf"].get("fut"), 6)
             need(w + ".perf.rfut", v["perf"].get("rfut"), 6)

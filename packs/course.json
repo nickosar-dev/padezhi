@@ -27,21 +27,21 @@
   },
   {
    "n": 5,
-   "title": "Настоящее время: -am, -asz",
-   "ref": "ref-pres",
-   "intro": "<p>У глагола шесть форм, и окончание само говорит, кто действует. Первый тип — на <b>-am, -asz</b>:</p>\n<p>mieć (иметь): <b>mam, masz, ma, mamy, macie, mają</b>.</p>\n<p>Так же: mieszkać (жить — от этого глагола слово mieszkanie), kochać (любить).</p>\n<p>У Норвида: «Do tych, co <b>mają</b> tak za tak» — к тем, кто считает «да» за «да». <i>Mieć coś za coś</i> — считать что-то чем-то.</p>"
+   "title": "Настоящее время: ключ — «ты»; тип -am, -asz",
+   "ref": "ref-conj",
+   "intro": "<p>У глагола шесть форм, но учить все шесть не нужно. Достаточно двух: <b>«я» и «ты»</b>. Остальные получаются по правилам:</p>\n<ul><li><b>«ты» без -sz = «он»</b>: czytasz → czyta;</li>\n<li>«он» + <b>my</b> = «мы» (czytamy), «он» + <b>cie</b> = «вы» (czytacie);</li>\n<li><b>«они» = «я», где -ę меняется на -ą</b>, а -am на <b>-ają</b>: czytam → czytają.</li></ul>\n<p>Первый тип — на <b>-am, -asz</b>: czytać (читать): czytam, czytasz, czyta, czytamy, czytacie, czytają. Так же: mieć (mam, masz, ma, mamy, macie, mają), mieszkać (жить; от него — mieszkanie), kochać, pytać, słuchać, czekać, szukać, wracać.</p>\n<p>У Норвида: «Do tych, co <b>mają</b> tak za tak» — к тем, кто считает «да» за «да». <i>Mieć coś za coś</i> — считать что-то чем-то.</p>"
   },
   {
    "n": 6,
-   "title": "Настоящее время: -ę, -isz",
-   "ref": "ref-pres",
-   "intro": "<p>Второй тип — на <b>-ę, -isz</b>: podnosić (поднимать): <b>podnoszę, podnosisz, podnosi, podnosimy, podnosicie, podnoszą</b>.</p>\n<ul><li>После cz, sz, ż, rz вместо i пишется y: służ<b>y</b>sz, leż<b>y</b>sz.</li>\n<li>В формах ja и oni часто чередование: podno<b>sz</b>ę, podno<b>sz</b>ą (s → sz), mu<b>sz</b>ę, mu<b>sz</b>ą.</li>\n<li>stać (стоять) — особый: stoję, stoisz, stoi, stoimy, stoicie, stoją.</li></ul>\n<p>Из стиха: «<b>Podnoszą</b> z ziemi», «wszystkim <b>służą</b>», «gdzie <b>leży</b> mieszkanie», «któż o mnie <b>stoi</b>», «tak być <b>musi</b>».</p>"
+   "title": "Настоящее время: тип -ę, -isz и чередование основы",
+   "ref": "ref-altv",
+   "intro": "<p>Второй тип — на <b>-ę, -isz</b>: robić (делать): robię, robisz, robi, robimy, robicie, robią. Ключ тот же: «ты» без -sz даёт «он», +my «мы», +cie «вы», а «они» — это «я» с -ą.</p>\n<ul><li>Инфинитив на <b>-ić, -yć, -eć</b> → «ты» на <b>-isz</b>: mówić — mówisz, widzieć — widzisz. После sz, ż, cz, rz пишется <b>-ysz</b>: służysz, leżysz, słyszysz.</li>\n<li><b>Чередование.</b> Слабая согласная в формах «я» и «они» твердеет: s → sz (podnosić → <b>podnoszę</b>, <b>podnoszą</b>), z → ż (wozić → wożę), ci → c (płacić → płacę). В остальных четырёх формах она остаётся как в инфинитиве: podnos<b>isz</b>, podnos<b>i</b>, podnos<b>imy</b>, podnos<b>icie</b>.</li>\n<li>stać (стоять) особый: stoję, stoisz, stoi, stoimy, stoicie, stoją.</li></ul>\n<p>Из стиха: «<b>Podnoszą</b> z ziemi», «wszystkim <b>służą</b>», «gdzie <b>leży</b> mieszkanie», «któż o mnie <b>stoi</b>», «tak być <b>musi</b>».</p>"
   },
   {
    "n": 7,
-   "title": "Настоящее время: -ę, -esz и -em; отрицание",
-   "ref": "ref-pres",
-   "intro": "<p>Третий тип — на <b>-ę, -esz</b>: psuć (портить): <b>psuję, psujesz, psuje, psujemy, psujecie, psują</b>.</p>\n<p>И особые на <b>-em</b>: wiedzieć (знать): <b>wiem, wiesz, wie, wiemy, wiecie, wiedzą</b> — у oni своя форма.</p>\n<p><b>Отрицание</b> — nie перед глаголом, как в русском: <i>nie wiem</i> — не знаю, <i>nie mam</i> — не имею. У Норвида: «już <b>nie wiem</b>, gdzie leży mieszkanie».</p>"
+   "title": "Настоящее время: -esz, -ujesz и особые; отрицание",
+   "ref": "ref-conj",
+   "intro": "<p>Третий тип — на <b>-ę, -esz</b>: pisać (писать): piszę, piszesz, pisze, piszemy, piszecie, piszą. Здесь основа другая <b>во всех формах</b> (s → sz). Так же: płakać → płaczę, skakać → skaczę.</p>\n<p>Как отличить <b>czytać</b> (czytasz) от <b>pisać</b> (piszesz), если оба на -ać? Смотри на форму «я»: czyta<b>m</b> — основа не менялась, значит -asz; pisz<b>ę</b> — основа поменялась, значит -esz.</p>\n<ul><li><b>-ować, -uć</b>: pracować → pracuję, pracujesz; psuć → psuję, psujesz.</li>\n<li><b>Исключения на -eć</b> (не -isz, а -esz): wiedzieć (wiem, wiesz), umieć, rozumieć. У них «они» тоже особое: wiedzą, umieją.</li></ul>\n<p><b>Отрицание</b> — nie перед глаголом, как в русском: <i>nie wiem</i> — не знаю. У Норвида: «już <b>nie wiem</b>, gdzie leży mieszkanie».</p>"
   },
   {
    "n": 8,

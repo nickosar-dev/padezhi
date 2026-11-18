@@ -258,10 +258,12 @@ meanings(4, [
 ])
 
 # 5 ---------------------------------------------------------------
-lesson(5, "Настоящее время: -am, -asz", "ref-pres", """
-<p>У глагола шесть форм, и окончание само говорит, кто действует. Первый тип — на <b>-am, -asz</b>:</p>
-<p>mieć (иметь): <b>mam, masz, ma, mamy, macie, mają</b>.</p>
-<p>Так же: mieszkać (жить — от этого глагола слово mieszkanie), kochać (любить).</p>
+lesson(5, "Настоящее время: ключ — «ты»; тип -am, -asz", "ref-conj", """
+<p>У глагола шесть форм, но учить все шесть не нужно. Достаточно двух: <b>«я» и «ты»</b>. Остальные получаются по правилам:</p>
+<ul><li><b>«ты» без -sz = «он»</b>: czytasz → czyta;</li>
+<li>«он» + <b>my</b> = «мы» (czytamy), «он» + <b>cie</b> = «вы» (czytacie);</li>
+<li><b>«они» = «я», где -ę меняется на -ą</b>, а -am на <b>-ają</b>: czytam → czytają.</li></ul>
+<p>Первый тип — на <b>-am, -asz</b>: czytać (читать): czytam, czytasz, czyta, czytamy, czytacie, czytają. Так же: mieć (mam, masz, ma, mamy, macie, mają), mieszkać (жить; от него — mieszkanie), kochać, pytać, słuchać, czekać, szukać, wracać.</p>
 <p>У Норвида: «Do tych, co <b>mają</b> tak za tak» — к тем, кто считает «да» за «да». <i>Mieć coś za coś</i> — считать что-то чем-то.</p>
 """)
 meanings(5, [("mieć", "иметь", "«co mają tak za tak» — кто считает «да» за «да»"),
@@ -280,11 +282,11 @@ for b, ans, a, inf, ru in [
     cl(5, b + B(ans, inf) + a, ru, "%s: %s." % (inf, ", ".join(VERB[inf]["pres"])), ["pres"])
 
 # 6 ---------------------------------------------------------------
-lesson(6, "Настоящее время: -ę, -isz", "ref-pres", """
-<p>Второй тип — на <b>-ę, -isz</b>: podnosić (поднимать): <b>podnoszę, podnosisz, podnosi, podnosimy, podnosicie, podnoszą</b>.</p>
-<ul><li>После cz, sz, ż, rz вместо i пишется y: służ<b>y</b>sz, leż<b>y</b>sz.</li>
-<li>В формах ja и oni часто чередование: podno<b>sz</b>ę, podno<b>sz</b>ą (s → sz), mu<b>sz</b>ę, mu<b>sz</b>ą.</li>
-<li>stać (стоять) — особый: stoję, stoisz, stoi, stoimy, stoicie, stoją.</li></ul>
+lesson(6, "Настоящее время: тип -ę, -isz и чередование основы", "ref-altv", """
+<p>Второй тип — на <b>-ę, -isz</b>: robić (делать): robię, robisz, robi, robimy, robicie, robią. Ключ тот же: «ты» без -sz даёт «он», +my «мы», +cie «вы», а «они» — это «я» с -ą.</p>
+<ul><li>Инфинитив на <b>-ić, -yć, -eć</b> → «ты» на <b>-isz</b>: mówić — mówisz, widzieć — widzisz. После sz, ż, cz, rz пишется <b>-ysz</b>: służysz, leżysz, słyszysz.</li>
+<li><b>Чередование.</b> Слабая согласная в формах «я» и «они» твердеет: s → sz (podnosić → <b>podnoszę</b>, <b>podnoszą</b>), z → ż (wozić → wożę), ci → c (płacić → płacę). В остальных четырёх формах она остаётся как в инфинитиве: podnos<b>isz</b>, podnos<b>i</b>, podnos<b>imy</b>, podnos<b>icie</b>.</li>
+<li>stać (стоять) особый: stoję, stoisz, stoi, stoimy, stoicie, stoją.</li></ul>
 <p>Из стиха: «<b>Podnoszą</b> z ziemi», «wszystkim <b>służą</b>», «gdzie <b>leży</b> mieszkanie», «któż o mnie <b>stoi</b>», «tak być <b>musi</b>».</p>
 """)
 meanings(6, [("podnosić", "поднимать", "«Podnoszą z ziemi» — поднимают с земли"),
@@ -307,10 +309,12 @@ tb(6, "Проспрягай в настоящем времени: <b>stać</b>",
    "Основа меняется: stać → stoję, stoisz…", ["pres"])
 
 # 7 ---------------------------------------------------------------
-lesson(7, "Настоящее время: -ę, -esz и -em; отрицание", "ref-pres", """
-<p>Третий тип — на <b>-ę, -esz</b>: psuć (портить): <b>psuję, psujesz, psuje, psujemy, psujecie, psują</b>.</p>
-<p>И особые на <b>-em</b>: wiedzieć (знать): <b>wiem, wiesz, wie, wiemy, wiecie, wiedzą</b> — у oni своя форма.</p>
-<p><b>Отрицание</b> — nie перед глаголом, как в русском: <i>nie wiem</i> — не знаю, <i>nie mam</i> — не имею. У Норвида: «już <b>nie wiem</b>, gdzie leży mieszkanie».</p>
+lesson(7, "Настоящее время: -esz, -ujesz и особые; отрицание", "ref-conj", """
+<p>Третий тип — на <b>-ę, -esz</b>: pisać (писать): piszę, piszesz, pisze, piszemy, piszecie, piszą. Здесь основа другая <b>во всех формах</b> (s → sz). Так же: płakać → płaczę, skakać → skaczę.</p>
+<p>Как отличить <b>czytać</b> (czytasz) от <b>pisać</b> (piszesz), если оба на -ać? Смотри на форму «я»: czyta<b>m</b> — основа не менялась, значит -asz; pisz<b>ę</b> — основа поменялась, значит -esz.</p>
+<ul><li><b>-ować, -uć</b>: pracować → pracuję, pracujesz; psuć → psuję, psujesz.</li>
+<li><b>Исключения на -eć</b> (не -isz, а -esz): wiedzieć (wiem, wiesz), umieć, rozumieć. У них «они» тоже особое: wiedzą, umieją.</li></ul>
+<p><b>Отрицание</b> — nie перед глаголом, как в русском: <i>nie wiem</i> — не знаю. У Норвида: «już <b>nie wiem</b>, gdzie leży mieszkanie».</p>
 """)
 meanings(7, [("psuć", "портить", "сов. вид popsuć; у Норвида старое «popsować» — разорить (гнездо)"),
              ("wiedzieć", "знать", "«już nie wiem» — уже не знаю")], topics=("lex",))
@@ -326,6 +330,117 @@ tb(7, "Проспрягай в настоящем времени: <b>psuć</b>",
    "Тип -ę, -esz: psuję, psujesz…", ["pres"])
 ch(7, "«Я не знаю»<br>Как по-польски?", ["Nie wiem", "Wiem nie", "Nie wiedzę"], "Nie wiem",
    "nie ставится перед глаголом: nie wiem. Форма «я знаю» — wiem.", topics=["pres"])
+
+# ---------------------------------------------------------------- спряжение: окончание «ты», чередование основы, формы по «я» и «ты»
+CRULE = {
+    "A": "Инфинитив на -ać и «я» на -am → «ты» на <b>-asz</b>.",
+    "I": "Инфинитив на -ić, -yć или -eć → «ты» на <b>-isz</b> (после sz, ż, cz, rz — <b>-ysz</b>).",
+    "E": "«Я» на -ę, основа меняется → «ты» на <b>-esz</b>.",
+    "U": "Инфинитив на -ować или -uć → «я» на -uję, «ты» на <b>-ujesz</b>.",
+}
+
+
+def ty_end(ty):
+    for e in ("ujesz", "isz", "ysz", "asz"):
+        if ty.endswith(e):
+            return "isz" if e == "ysz" else e
+    return "esz"
+
+
+def ty_stem(ty):
+    for e in ("ujesz", "isz", "ysz", "asz", "esz"):
+        if ty.endswith(e):
+            return ty[: -len(e)]
+    return ty
+
+
+def with_end(stem, e):
+    if e == "isz" and stem.endswith(("sz", "ż", "cz", "rz", "dż")):
+        return stem + "ysz"
+    return stem + e
+
+
+def para(v):
+    return "%s: %s." % (v["inf"], ", ".join(v["pres"]))
+
+
+def ctype(L, inf):
+    v = VERB[inf]
+    ty = v["pres"][1]
+    e, st = ty_end(ty), ty_stem(ty)
+    wrong = [with_end(st, x) for x in ("asz", "esz", "isz", "ujesz") if x != e]
+    ch(L, "<b>%s</b> (%s)<br>Как будет «ты» (ty)?" % (inf, v["ru"]), [ty] + wrong, ty,
+       note=CRULE[v["t"]] + "<br>" + para(v), tr="ты " + v["rpres"][1], topics=["ctype", "pres"])
+
+
+def alt_mark(v):
+    a, b = v["alt"].split("→")
+    i = v["inf"].rfind(a)
+    pre, ja = v["inf"][:i], v["pres"][0]
+    assert i >= 0 and ja.startswith(pre + b), v["inf"]
+    return "<b>%s</b> → <b>%s</b>: %s<b>%s</b>%s → %s<b>%s</b>%s" % (
+        a, b, pre, a, v["inf"][i + len(a):], pre, b, ja[len(pre) + len(b):])
+
+
+def altcard(L, inf):
+    v = VERB[inf]
+    ja = v["pres"][0]
+    where = ("Меняется только в формах «я» и «они»." if v["t"] == "I"
+             else "У глаголов на -ać основа другая во всех формах.")
+    ch(L, "<b>%s</b> (%s)<br>Как будет «я» (ja)?" % (inf, v["ru"]), [ja] + v["wrongJa"], ja,
+       note=alt_mark(v) + ". " + where + "<br>" + para(v), tr="я " + v["rpres"][0], topics=["calt", "pres"])
+
+
+def guess(L, inf, persons=("on", "my", "wy", "oni")):
+    v = VERB[inf]
+    P = v["pres"]
+    idx = {"on": 2, "my": 3, "wy": 4, "oni": 5}
+    ru = {"on": "он", "my": "мы", "wy": "вы", "oni": "они"}
+    for p in persons:
+        i = idx[p]
+        if p == "oni":
+            rule = ("«Я» на -am → «они» на -ają: %s → <b>%s</b>." if v["t"] == "A"
+                    else "«Я» без -ę плюс -ą: %s → <b>%s</b>.") % (P[0], P[5])
+        else:
+            rule = "«Ты» без -sz даёт «он»: %s → %s; «он» + my → «мы»: %s; «он» + cie → «вы»: %s." % (P[1], P[2], P[3], P[4])
+        cl(L, "%s, %s → (%s) %s" % (P[0], P[1], p, B(P[i], inf)), "%s %s." % (ru[p], v["rpres"][i]),
+           rule + "<br>" + para(v), ["cguess", "pres"])
+
+
+# урок 5: тип -am, -asz
+for inf in ("czytać", "pytać", "słuchać", "czekać", "szukać", "wracać"):
+    ctype(5, inf)
+for inf in ("czytać", "mieszkać"):
+    guess(5, inf)
+
+# урок 6: тип -isz и чередование
+for inf in ("robić", "mówić", "widzieć", "służyć", "tęsknić", "leżeć", "chwalić", "lubić", "patrzeć", "siedzieć", "słyszeć"):
+    ctype(6, inf)
+for inf in ("podnosić", "prosić", "nosić", "musieć", "wozić", "płacić"):
+    altcard(6, inf)
+for inf in ("podnosić", "służyć", "robić"):
+    guess(6, inf)
+
+# урок 7: тип -esz, -ujesz, исключения
+for inf in ("pisać", "płakać", "skakać", "pracować", "psuć", "dziękować", "kupować", "czuć"):
+    ctype(7, inf)
+for inf in ("pisać", "płakać", "skakać"):
+    altcard(7, inf)
+for inf in ("pisać", "pracować"):
+    guess(7, inf)
+for inf, opts in (("wiedzieć", ["wiesz", "wiedzisz", "wiedziesz", "wiedzasz"]),
+                  ("umieć", ["umiesz", "umisz", "umiasz", "umiujesz"]),
+                  ("rozumieć", ["rozumiesz", "rozumisz", "rozumiasz", "rozumiujesz"])):
+    v = VERB[inf]
+    ch(7, "<b>widzieć</b> — widzisz, <b>leżeć</b> — leżysz. А <b>%s</b> (%s)?<br>Как будет «ты» (ty)?" % (inf, v["ru"]), opts, v["pres"][1],
+       note="Три исключения среди глаголов на -eć: wiedzieć, umieć, rozumieć — у них «ты» на <b>-esz</b>. «Они» тоже особое: wiedzą, umieją, rozumieją.<br>" + para(v),
+       tr="ты " + v["rpres"][1], topics=["ctype", "pres"])
+for inf, stem in (("pracować", "prac"), ("dziękować", "dzięk"), ("kupować", "kup"), ("czuć", "cz")):
+    v = VERB[inf]
+    ja = v["pres"][0]
+    ch(7, "<b>%s</b> (%s)<br>Как будет «я» (ja)?" % (inf, v["ru"]), [ja, stem + "am", stem + "ę", stem + "em"], ja,
+       note="Инфинитив на -ować или -uć → «я» на <b>-uję</b>, «ты» на -ujesz.<br>" + para(v),
+       tr="я " + v["rpres"][0], topics=["ctype", "pres"])
 
 # 8 ---------------------------------------------------------------
 lesson(8, "Падежи. Biernik: женский и средний род", "ref-acc", """

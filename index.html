@@ -232,7 +232,7 @@ textarea{resize:vertical;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
 /* ---------- constants ---------- */
 var MIN=60000, DAY=86400000, KEY='pl-trainer-v2', CKEY='pl-trainer-content-v1', LOG_MAX=2000;
 /* версию проставляет build_packs.py; та же версия лежит в packs/index.json (его офлайн-кэш не трогает) */
-var APP_VERSION='36f3309308', BOOT_AT=Date.now(), appUpdate='';
+var APP_VERSION='7cefb93809', BOOT_AT=Date.now(), appUpdate='';
 var DEF={newPerDay:7,steps:[1,10],relearnSteps:[10],gradIvl:1,easyIvl:4,startEase:2.3,
          ivlMod:0.8,maxIvl:90,mode:'type',lenient:false,levels:[1,2,3],trOn:false};
 /* Грамматические темы карточек: цвет, строка в статистике и раздел справки. */
@@ -256,7 +256,10 @@ var TOPICS={
   pron:{ru:'Местоимения',g:'other',ref:'ref-pron'},
   adj:{ru:'Прилагательные',g:'other',ref:'ref-adj'},
   mos:{ru:'Мужско-личная форма',g:'other',ref:'ref-mos'},
-  lex:{ru:'Значения слов',g:'other'}
+  lex:{ru:'Значения слов',g:'other'},
+  ctype:{ru:'Спряжение: окончание по инфинитиву',g:'verb',ref:'ref-conj',link:'Как узнать тип'},
+  calt:{ru:'Спряжение: чередование основы',g:'verb',ref:'ref-altv',link:'Чередование'},
+  cguess:{ru:'Спряжение: формы по «я» и «ты»',g:'verb',ref:'ref-conj',link:'Как узнать тип'}
 };
 var COLOR_CASES=['gen','acc','dat','instr','loc','voc'];
 var GROUPS=[['case','Падежи'],['verb','Глагол'],['other','Другое']];
@@ -278,6 +281,10 @@ var DRILLS=[
   {id:'cases',g:'Склонение',name:'Все падежи',sub:'вперемешку',kind:'case',cs:['gen','dat','acc','instr','loc','voc']},
   {id:'pron',g:'Склонение',name:'Местоимения',sub:'ja, ty, on… по падежам',kind:'pron'},
   {id:'prep',g:'Предлоги',name:'Предлог + падеж',sub:'do, na, w, z, pod…',kind:'prep'},
+  {id:'ctype',g:'Спряжение',name:'Окончание по инфинитиву',sub:'mówić → mówisz? -isz / -esz / -asz',kind:'conj',c:'ctype'},
+  {id:'calt',g:'Спряжение',name:'Чередование основы',sub:'podnosić → podnoszę',kind:'conj',c:'calt'},
+  {id:'cguess',g:'Спряжение',name:'Угадай остальные формы',sub:'по «я» и «ты»',kind:'conj',c:'cguess'},
+  {id:'cmix',g:'Спряжение',name:'Всё вместе',sub:'три упражнения вперемешку',kind:'conj',c:'cmix'},
   {id:'pres',g:'Глагол',name:'Настоящее время',sub:'czytam, czytasz…',kind:'verb',t:['pres']},
   {id:'past',g:'Глагол',name:'Прошедшее время',sub:'czytałem, czytała…',kind:'verb',t:['past']},
   {id:'fut',g:'Глагол',name:'Будущее время',sub:'będę czytać, przeczytam',kind:'verb',t:['futi','futp']},
@@ -983,7 +990,7 @@ function bold(list,i){ return list.map(function(f,j){ f=esc(f); return j===i?'<b
 /* mieć по-русски естественнее через «у меня есть»: Mamy czas → У нас есть время */
 var HAVE={'я':'у меня','ты':'у тебя','он':'у него','она':'у неё','мы':'у нас','вы':'у вас','они':'у них'};
 function qVerb(t){
-  var v=rnd(LEX.verbs.filter(function(x){ return !x.nodrill&&(t==='imper'?x.imper:t==='futp'?x.perf:true); }));
+  var v=rnd(LEX.verbs.filter(function(x){ return !x.nodrill&&(!x.presOnly||t==='pres')&&(t==='imper'?x.imper:t==='futp'?x.perf:true); }));
   var obj=v.obj?' '+v.obj:'', q={topic:TTOPIC[t],topics:[TTOPIC[t]],color:'verb',label:TNAME[t],hint:v.inf,verb:true};
   if(t==='pres'||t==='futi'||t==='futp'){
     var p=rnd(P6), i=p.i;
@@ -1026,7 +1033,67 @@ function qVerb(t){
   }
   return q;
 }
+/* ---------- спряжение: окончание по инфинитиву · чередование основы · формы по «я» и «ты» ---------- */
+var CRULE={
+  A:'Инфинитив на -ać и «я» на -am → «ты» на <b>-asz</b>.',
+  I:'Инфинитив на -ić, -yć или -eć → «ты» на <b>-isz</b> (после sz, ż, cz, rz — <b>-ysz</b>).',
+  E:'«Я» на -ę, основа меняется → «ты» на <b>-esz</b>.',
+  U:'Инфинитив на -ować или -uć → «я» на -uję, «ты» на <b>-ujesz</b>.'
+};
+function tyEnd(ty){ return /ujesz$/.test(ty)?'ujesz':/(isz|ysz)$/.test(ty)?'isz':/asz$/.test(ty)?'asz':'esz'; }
+function tyStem(ty){ return ty.replace(/(ujesz|isz|ysz|asz|esz)$/,''); }
+function withEnd(stem,e){ return stem+(e==='isz'&&/(sz|ż|cz|rz|dż)$/.test(stem)?'ysz':e); }
+function paradigm(v,i){ return bold(v.pres,i); }
+function conjVerbs(f){ return LEX.verbs.filter(function(x){ return x.t&&x.pres&&f(x); }); }
+function qCType(){
+  var v=rnd(conjVerbs(function(x){return !x.noctype&&!x.nodrill;})), ty=v.pres[1], e=tyEnd(ty), st=tyStem(ty);
+  var wr=['asz','esz','isz','ujesz'].filter(function(x){return x!==e;}).map(function(x){return withEnd(st,x);});
+  var opts=shuffle([ty].concat(wr));
+  return {key:'ct|'+v.inf,before:v.inf+' → (ty) ',after:'',ans:ty,options:opts,
+    qhtml:'<b>'+esc(v.inf)+'</b> ('+esc(v.ru)+')<br>Как будет «ты» (ty)?',label:'Окончание «ты» по инфинитиву',ru:'ты '+v.rpres[1],
+    note:(CRULE[v.t]||'')+'<br>'+paradigm(v,1),topic:'ctype',topics:['ctype','pres'],color:'verb'};
+}
+function altMark(v){
+  var a=v.alt.split('→'), i=v.inf.lastIndexOf(a[0]), ja=v.pres[0], pre=v.inf.slice(0,i);
+  if(i<0||ja.indexOf(pre+a[1])!==0) return '';
+  return '<b>'+esc(a[0])+'</b> → <b>'+esc(a[1])+'</b>: '+esc(pre)+'<b>'+esc(a[0])+'</b>'+esc(v.inf.slice(i+a[0].length))+' → '+
+    esc(pre)+'<b>'+esc(a[1])+'</b>'+esc(ja.slice(pre.length+a[1].length));
+}
+function altNote(v,i){
+  var where=v.t==='I'?'Меняется только в формах «я» и «они»; в остальных остаётся как в инфинитиве.':'У глаголов на -ać (тип -esz) основа другая во всех формах.';
+  return altMark(v)+'. '+where+'<br>'+paradigm(v,i);
+}
+function qCAlt(){
+  var typed=Math.random()<0.5, vs=conjVerbs(function(x){return x.alt&&x.wrongJa&&(typed?!x.nodrill:true);}), v=rnd(vs);
+  if(!typed){
+    return {key:'ca|'+v.inf,before:v.inf+' → (ja) ',after:'',ans:v.pres[0],options:shuffle([v.pres[0]].concat(v.wrongJa)),
+      qhtml:'<b>'+esc(v.inf)+'</b> ('+esc(v.ru)+')<br>Как будет «я» (ja)?',label:'Чередование основы: «я»',ru:'я '+(v.rpres[0]||''),
+      note:altNote(v,0),topic:'calt',topics:['calt','pres'],color:'verb'};
+  }
+  var i=rnd([0,5]), p=i===0?'ja':'oni', r=i===0?'я':'они', obj=v.obj?' '+v.obj:'';
+  return {key:'ct|'+v.inf+'|'+p,before:'('+p+') ',after:obj+'.',ans:v.pres[i],hint:v.inf,verb:true,
+    label:'Чередование основы: «'+p+'»',ru:words(r,v.rpres[i],v.robj)+'.',
+    note:altNote(v,i),topic:'calt',topics:['calt','pres'],color:'verb'};
+}
+var GP4=[{p:'on',r:'он',i:2},{p:'my',r:'мы',i:3},{p:'wy',r:'вы',i:4},{p:'oni',r:'они',i:5}];
+function qCGuess(){
+  var v=rnd(conjVerbs(function(x){return x.irr!=='all'&&!x.rhave&&!x.nodrill&&x.rpres&&x.rpres[0];}));
+  var g=rnd(GP4.filter(function(x){return !(x.i===5&&v.irr==='oni');})), i=g.i, ja=v.pres[0], ty=v.pres[1], on=v.pres[2];
+  var rule=i===5?(v.t==='A'?'«я» на -am → «они» на -ają: '+esc(ja)+' → <b>'+esc(v.pres[5])+'</b>':'«я» без -ę плюс -ą: '+esc(ja)+' → <b>'+esc(v.pres[5])+'</b>')
+    :'«ты» без -sz даёт «он»: '+esc(ty)+' → '+esc(on)+'; «он» + my → «мы»: '+esc(v.pres[3])+'; «он» + cie → «вы»: '+esc(v.pres[4]);
+  return {key:'cg|'+v.inf+'|'+g.p,before:ja+', '+ty+' → ('+g.p+') ',after:'',ans:v.pres[i],hint:v.inf,verb:true,
+    label:'Угадай по двум формам',ru:words(g.r,v.rpres[i],v.robj)+'.',
+    note:rule+'.<br>'+paradigm(v,i),topic:'cguess',topics:['cguess','pres'],color:'verb'};
+}
+function qConj(c){
+  if(c==='cmix') c=rnd(['ctype','calt','cguess','pres']);
+  if(c==='ctype') return qCType();
+  if(c==='calt') return qCAlt();
+  if(c==='cguess') return qCGuess();
+  return qVerb('pres');
+}
 function genQ(D){
+  if(D.kind==='conj') return qConj(D.c);
   if(D.kind==='case') return qCase(rnd(D.cs));
   if(D.kind==='pron') return qPron();
   if(D.kind==='prep') return qPrep();
@@ -1035,7 +1102,7 @@ function genQ(D){
 function startDrill(id){
   var D=DBY[id], qs=[], seen={};
   for(var k=0;qs.length<DRILL_LEN&&k<300;k++){ var q=genQ(D); if(!seen[q.key]){ seen[q.key]=1; qs.push(q); } }
-  drill={id:id,qs:qs,i:0,phase:'ask',vals:[],res:null,ok:0,wrong:[],done:false,added:0};
+  drill={id:id,qs:qs,i:0,phase:'ask',vals:[],res:null,ok:0,wrong:[],done:false,added:0,pick:null};
   refShow=false; refBack=false; render(); window.scrollTo(0,0);
 }
 function dCheck(giveUp){
@@ -1043,8 +1110,15 @@ function dCheck(giveUp){
   var q=drill.qs[drill.i], inp=$('.blank-input'), raw=inp?inp.value:'', u=raw;
   if(!giveUp&&!u.trim()){ if(inp) inp.focus(); return; }
   if(q.verb) u=u.replace(/^\s*(ja|ty|on|ona|ono|my|wy|oni|one)\s+/i,'');
-  var r=giveUp?'bad':cmp(u,q.ans,'');
-  drill.vals=[raw]; drill.res=[r]; drill.phase='answer';
+  drill.vals=[raw]; dRecord(q,giveUp?'bad':cmp(u,q.ans,''));
+}
+function dPick(i){
+  if(!drill||drill.phase!=='ask') return;
+  var q=drill.qs[drill.i]; drill.pick=i; drill.vals=[q.options[i]];
+  dRecord(q,q.options[i]===q.ans?'ok':'bad');
+}
+function dRecord(q,r){
+  drill.res=[r]; drill.phase='answer';
   if(r==='bad') drill.wrong.push(q); else drill.ok++;
   var st=S.dstat[q.topic]||(S.dstat[q.topic]={n:0,ok:0}); st.n++; if(r!=='bad') st.ok++;
   if(drill.i===drill.qs.length-1){
@@ -1055,12 +1129,14 @@ function dCheck(giveUp){
 }
 function dNext(){
   if(!drill||drill.phase!=='answer') return;
-  if(drill.i<drill.qs.length-1){ drill.i++; drill.phase='ask'; drill.vals=[]; drill.res=null; }
+  if(drill.i<drill.qs.length-1){ drill.i++; drill.phase='ask'; drill.vals=[]; drill.res=null; drill.pick=null; }
   else drill.done=true;
   render(); window.scrollTo(0,0);
 }
 /* ошибки тренировки → обычные карточки «Мои заметки» в повторениях */
 function drillItem(q){
+  if(q.options) return {type:'choice',level:1,q:q.qhtml,tr:q.ru,options:q.options.slice(),answer:q.ans,
+    note:q.label+'. '+plain(q.note),topics:q.topics,tags:['drill']};
   return {type:'cloze',level:2,text:q.before+'{{c1::'+q.ans+'::'+q.hint+'}}'+q.after,tr:q.ru,
           note:q.label+'. '+plain(q.note),topics:q.topics,tags:['drill']};
 }
@@ -1085,11 +1161,15 @@ function renderDrill(v){
   h+='<div class="dprog"><i style="width:'+Math.round(100*d.i/n)+'%"></i></div>'+
      '<div class="counts"><span>Задание <b>'+(d.i+1)+'</b> из '+n+'</span><span>Верно <b>'+d.ok+'</b></span></div>'+
      '<section class="q" style="--cc:var(--c-'+q.color+')"><div class="src">'+esc(q.label)+'</div>'+
-     '<div class="sent">'+esc(q.before)+blankHTML(0,q.ans,q.hint,o)+esc(q.after)+'</div>'+
+     (q.options?'<div class="sent small">'+sanitize(q.qhtml)+'</div>':'<div class="sent">'+esc(q.before)+blankHTML(0,q.ans,q.hint,o)+esc(q.after)+'</div>')+
      '<div class="tr" id="trx"'+(ask&&!S.cfg.trOn?' hidden':'')+'>'+esc(q.ru)+'</div></section>';
+  if(q.options) h+='<div class="opts">'+q.options.map(function(o,i){
+    var cls='btn opt'; if(!ask){ if(o===q.ans) cls+=' ok'; else if(i===d.pick) cls+=' bad'; }
+    return '<button class="'+cls+'" data-act="dpick" data-i="'+i+'"'+(ask?'':' disabled')+'><span class="num">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';
+  }).join('')+'</div>';
   if(ask){
     h+='<button class="pill" data-act="dtr">'+(S.cfg.trOn?'Скрыть перевод':'Показать перевод')+'</button>'+
-       '<div class="actions"><button class="btn primary" data-act="dcheck">Проверить</button><button class="btn" data-act="dgiveup">Не знаю</button></div>'+keysHTML();
+       (q.options?'':'<div class="actions"><button class="btn primary" data-act="dcheck">Проверить</button><button class="btn" data-act="dgiveup">Не знаю</button></div>'+keysHTML());
   } else {
     var r=d.res[0];
     h+='<p class="verdict '+(r==='bad'?'no':'yes')+'">'+(r==='ok'?'Верно':r==='accent'?'Верно, но без диакритики: правильно подчёркнуто точками':'Правильно: <b>'+esc(q.ans)+'</b>')+'</p>'+
@@ -1097,13 +1177,13 @@ function renderDrill(v){
        '<div class="actions"><button class="btn primary" data-act="dnext">'+(d.i<n-1?'Дальше':'Итоги')+'</button></div>';
   }
   v.innerHTML=h;
-  if(ask){ var f=v.querySelector('.blank-input'); if(f){ lastBlank=f; try{f.focus({preventScroll:true});}catch(e){f.focus();} } }
+  if(ask&&!q.options){ var f=v.querySelector('.blank-input'); if(f){ lastBlank=f; try{f.focus({preventScroll:true});}catch(e){f.focus();} } }
 }
 function drillsHTML(){
   if(LEX===false) return '<p class="hint" style="margin-top:20px">Тренировка не загрузилась. Открой эту вкладку один раз с интернетом.</p>';
   var h='<h2>Тренировка</h2><p class="hint">'+DRILL_LEN+' коротких заданий по теме: поставь слово в нужную форму. Перевод строчки открывается кнопкой. Ошибки в конце можно отправить в повторения.</p>';
   if(drill&&!drill.done) h+='<div class="banner">Есть незаконченная тренировка «'+esc(DBY[drill.id].name)+'». <button class="link" data-act="dresume">Продолжить</button></div>';
-  ['Склонение','Предлоги','Глагол'].forEach(function(g){
+  ['Склонение','Предлоги','Спряжение','Глагол'].forEach(function(g){
     h+='<h3>'+g+'</h3><div class="dgrid">'+DRILLS.filter(function(D){return D.g===g;}).map(function(D){
       var st=S.drills[D.id];
       return '<button class="btn dbtn" data-act="dstart" data-id="'+D.id+'"><b>'+esc(D.name)+'</b><small>'+esc(D.sub)+(st?' · последний раз '+st.last:'')+'</small></button>';
@@ -1179,7 +1259,7 @@ function renderStats(v){
   h+='<h2>Тренировка</h2>';
   if(dr.length){
     dr.forEach(function(D){
-      var st=S.drills[D.id], p=Math.round(100*st.ok/Math.max(1,st.n)), col=D.kind==='verb'?'verb':(D.cs&&D.cs.length===1?D.cs[0]:'none');
+      var st=S.drills[D.id], p=Math.round(100*st.ok/Math.max(1,st.n)), col=(D.kind==='verb'||D.kind==='conj')?'verb':(D.cs&&D.cs.length===1?D.cs[0]:'none');
       h+='<div class="acc" style="--cc:var(--c-'+col+')"><div class="top"><span>'+esc(D.name)+'</span><span>последний раз '+st.last+' · всего '+p+'% из '+st.n+'</span></div><div class="bar"><i style="width:'+p+'%"></i></div></div>';
     });
   } else h+='<p class="hint">Здесь появятся результаты тренировок из вкладки «Уроки».</p>';
@@ -1362,6 +1442,7 @@ var handlers={
   dresume:function(){ refShow=false; refBack=false; render(); window.scrollTo(0,0); },
   dexit:function(){ drill=null; refShow=false; refBack=false; render(); window.scrollTo(0,0); },
   dcheck:function(){ dCheck(false); },
+  dpick:function(t){ dPick(+t.dataset.i); },
   dgiveup:function(){ dCheck(true); },
   dnext:dNext,
   dtr:function(t){
@@ -1466,7 +1547,8 @@ function init(){
   document.addEventListener('keydown',function(e){
     if(e.repeat||e.ctrlKey||e.metaKey||e.altKey) return;
     if(tab==='ref'&&drill&&!refShow&&!drill.done){
-      var dt=e.target;
+      var dt=e.target, dq=drill.qs[drill.i];
+      if(dq&&dq.options&&drill.phase==='ask'&&/^[1-6]$/.test(e.key)){ e.preventDefault(); if(+e.key<=dq.options.length) dPick(+e.key-1); return; }
       if(e.key!=='Enter') return;
       if(dt.classList&&dt.classList.contains('blank-input')){ e.preventDefault(); dCheck(false); }
       else if(drill.phase==='answer'&&dt.tagName!=='BUTTON'){ e.preventDefault(); dNext(); }
